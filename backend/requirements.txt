@@ -1,4 +1,3 @@
 fastapi[standard]
 python-dotenv
 google-genai
-pathlib
