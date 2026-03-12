@@ -1,0 +1,12 @@
+{
+  "exampleConversation": [
+    {
+      "role": "user",
+      "content": "Hello, this is an example user message."
+    },
+    {
+      "role": "model",
+      "content": "Hello! This is an example model response."
+    }
+  ]
+}
