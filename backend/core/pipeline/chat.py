@@ -163,6 +163,22 @@ def generate_message(message: str, character_name: str) -> list[dict]:
     raw_response   = _call_api(contents, system_prompt)
     parsed         = parse_response(raw_response, character_name)
 
+    # Guard against malformed API responses that pass through parse_response
+    # as arbitrary JSON (e.g. an empty list, or a list whose first element is
+    # not a dict, or a dict that is missing the required "text" key).
+    # Without this check, parsed[0]["text"] below would raise an IndexError,
+    # TypeError, or KeyError respectively.
+    valid_parsed = (
+        isinstance(parsed, list)       # must be a list …
+        and len(parsed) > 0            # … that is non-empty …
+        and isinstance(parsed[0], dict)  # … whose first item is a dict …
+        and "text" in parsed[0]        # … with the required "text" key.
+    )
+    if not valid_parsed:
+        # The structure is unexpected; fall back to the raw API text so we can
+        # still save something meaningful to history and return a response.
+        parsed = [_make_fallback(character_name, raw_response)]
+
     _append_to_history(history, Role.MODEL, parsed[0]["text"])
     persist_history(character_name, history)
 
