@@ -1,57 +1,10 @@
 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
   <div class="carousel-inner">
-      
-    <div class="carousel-item active">
-        <div class="card">
-            <div class="img-box">
-                <img src="https://placehold.co/200" class="card-img-top" alt="...">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Card 1</h5>
-                <p class="card-text">Texto do primeiro card.</p>
-                <a href="#" class="btn btn-primary">Go</a>
-            </div>
+    @for(card of cards(); track $index) {
+        <div class="carousel-item" [class.active]="$index === 0">
+            <app-card [cardConfig]="card"></app-card>
         </div>
-    </div>
-
-    <div class="carousel-item">
-      <div class="card">
-            <div class="img-box">
-                <img src="https://placehold.co/300" class="card-img-top" alt="...">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Card 2</h5>
-                <p class="card-text">Texto do segundo card.</p>
-                <a href="#" class="btn btn-primary">Go</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="carousel-item">
-        <div class="card">
-            <div class="img-box">
-                <img src="https://placehold.co/400" class="card-img-top" alt="...">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Card 3</h5>
-                <p class="card-text">Texto do terceiro card.</p>
-                <a href="#" class="btn btn-primary">Go</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="carousel-item">
-        <div class="card">
-            <div class="img-box">
-                <img src="https://placehold.co/500" class="card-img-top" alt="...">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Card 4</h5>
-                <p class="card-text">Texto do quarto card.</p>
-                <a href="#" class="btn btn-primary">Go</a>
-            </div>
-        </div>
-    </div>
+    }
 
   </div>
   
