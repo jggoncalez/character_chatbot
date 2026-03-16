@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ConversationService } from './services/conversation-service';
 
 @Component({
   selector: 'app-conversation',
@@ -6,4 +7,7 @@ import { Component } from '@angular/core';
   templateUrl: './conversation.html',
   styleUrl: './conversation.scss',
 })
-export class Conversation {}
+export class Conversation {
+  conversationService = inject(ConversationService);
+  inputs = this.conversationService.read();
+}

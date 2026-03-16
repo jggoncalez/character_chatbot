@@ -1,22 +1,7 @@
 <div class="container-fluid vh-100 d-flex p-0 text-light custom-bg-main">
     
     <div class="custom-sidebar d-flex flex-column p-3">
-        <!-- TO-DO: Fazer o componente sideBarChat -->
-        <!-- <div class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover">
-            <span>📝</span>
-            <span>Novo chat</span>
-        </div>
-        <div class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover">
-            <span>👥</span>
-            <span>Favoritos</span>
-        </div>
-        
-        <hr class="border-secondary opacity-25 my-3">
-        
-        <div class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover">
-            <span>💬</span>
-            <span>Conversas</span>
-        </div> -->
+        <!-- TO-DO: Fazer o componente sideBar receber o "algum indentificador" para reconhecer o agente que está respondendo o usuario -->
     </div>
 
     <div class="flex-grow-1 d-flex flex-column">
@@ -30,38 +15,14 @@
         </div>
 
         <div class="chat-history flex-grow-1 overflow-auto p-4 d-flex flex-column gap-4">
-            <!-- TO-DO: Fazer o componente chat-->
-            <!-- <div class="d-flex justify-content-end">
-                <div class="custom-user-msg p-3 rounded-4 custom-rounded-user text-break" style="max-width: 70%;">
-                    Olá Steve, como faço para conseguir diamantes?
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-start">
-                <div class="py-3 text-break custom-agent-msg rounded-4 custom-rounded-agent" style="max-width: 70%;">
-                    Steve limpa o suor da testa com uma picareta de ferro ⛏️ e guarda um bloco de paralelepípedo no inventário.<br><br>
-                    👋 Opa, e aí! 😃 Procurando o brilho azul, hein? 💎✨ Te entendo, nada supera o sentimento de achar aquela veia de diamante...<br><br>
-                    Boa sorte, aventureiro! 🏃‍♂️💨 Que seus bolsos fiquem mais cheios que baú de aldeão! 📦💎
-                    
-                    <div class="d-flex justify-content-between mt-4 text-secondary" style="font-size: 0.8rem;">
-                        <div class="d-flex flex-column gap-1">
-                            <span>Reação</span>
-                            <span>😀 🤍 😞 😠 ➕</span>
-                        </div>
-                        <div class="d-flex flex-column gap-1 text-end">
-                            <span>Avaliação</span>
-                            <span>👍 👎 🔄 📋</span>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
+            <!-- TO-DO: Fazer o componente chat receber os input e separa-los dentro do component-->
+            <app-conversation></app-conversation>
         </div>
 
         <div class="p-4 pt-0">
             <div class="custom-input-box d-flex align-items-center rounded-4 p-2 px-3">
                 <button class="btn btn-link text-light text-decoration-none fs-5 p-1">➕</button>
-                <input type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreve aqui sua mensagem para ${chatConfig().name}`">
+                <input (click)="onInput()"  type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreve aqui sua mensagem para ${chatConfig().name}`">
                 <div class="d-flex gap-2">
                     <button class="btn btn-link text-light text-decoration-none fs-5 p-1">🎨</button>
                     <button class="btn btn-link text-light text-decoration-none fs-5 p-1">🎤</button>
