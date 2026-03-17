@@ -15,17 +15,15 @@
         </div>
 
         <div class="chat-history flex-grow-1 overflow-auto p-4 d-flex flex-column gap-4">
-            <!-- TO-DO: Fazer o componente chat receber os input e separa-los dentro do component-->
             <app-conversation></app-conversation>
         </div>
 
         <div class="p-4 pt-0">
             <div class="custom-input-box d-flex align-items-center rounded-4 p-2 px-3">
                 <button class="btn btn-link text-light text-decoration-none fs-5 p-1">➕</button>
-                <input (click)="onInput()"  type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreve aqui sua mensagem para ${chatConfig().name}`">
+                <input [formField]="fieldForm.prompt" type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreve aqui sua mensagem para ${chatConfig().name}`">
                 <div class="d-flex gap-2">
-                    <button class="btn btn-link text-light text-decoration-none fs-5 p-1">🎨</button>
-                    <button class="btn btn-link text-light text-decoration-none fs-5 p-1">🎤</button>
+                    <button class="btn btn-link text-light text-decoration-none fs-5 p-1" (click)="onClick()">🎨</button>
                 </div>
             </div>
         </div>

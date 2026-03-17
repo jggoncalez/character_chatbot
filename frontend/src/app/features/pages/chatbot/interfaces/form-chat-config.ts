@@ -1,3 +1,3 @@
 export interface IFormChatConfig {
-    input : string
+    prompt : string
 }

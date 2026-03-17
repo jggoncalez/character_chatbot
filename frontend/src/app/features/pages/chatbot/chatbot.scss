@@ -1,4 +1,3 @@
-
 .custom-bg-main {
     background-color: #1a0b2e;
 }
@@ -8,38 +7,12 @@
     width: 260px; 
 }
 
-.custom-hover {
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.custom-hover:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-
-.custom-user-msg {
-    background-color: #271349;
-}
-.custom-rounded-user {
-    border-bottom-right-radius: 0 !important; 
-}
-
 .custom-input-box {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .custom-input-box input::placeholder {
     color: #888888;
 }
-
-.custom-agent-msg {
-    padding: 20px;
-    background-color: #35284d;
-}
-
-.custom-rounded-agent {
-    border-bottom-left-radius: 0 !important; 
-}
-
 .chat-history::-webkit-scrollbar {
     width: 8px;
 }
