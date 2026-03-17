@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, inject, input } from '@angular/core';
-import { ICardConfig } from '../card/interfaces/card-config';
 import { Card } from '../card/card';
+import { IChatConfig } from '../../../features/pages/chatbot/interfaces/chat-config';
 
 @Component({
   selector: 'app-carousel',
@@ -10,7 +10,7 @@ import { Card } from '../card/card';
 })
 export class Carousel implements AfterViewInit {
   private element = inject(ElementRef);
-  cards = input<ICardConfig[]>([]);
+  cards = input<IChatConfig[]>([]);
 
   ngAfterViewInit() {
     setTimeout(() => {

@@ -1,10 +1,10 @@
 <div class="card">
     <div class="img-box">
-        <img [src]="cardConfig()?.wayAssetImg" class="card-img-top" alt="...">
+        <img [src]="cardConfig()?.wayImg" class="card-img-top" alt="...">
     </div>
     <div class="card-body">
-        <h5 class="card-title">{{cardConfig()?.name}}</h5>
+        <h5 class="card-title">{{cardConfig()?.agent}}</h5>
         <p class="card-text">{{cardConfig()?.describe}}</p>
-        <a [href]="cardConfig()?.wayCharcAi" class="btn btn-primary">Chat</a>
+        <a (click)="onClick()" class="btn btn-primary">Chat</a>
     </div>
 </div>

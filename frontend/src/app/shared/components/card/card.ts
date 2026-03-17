@@ -1,5 +1,8 @@
-import { Component, input } from '@angular/core';
-import { ICardConfig } from './interfaces/card-config';
+import { Component, inject, input } from '@angular/core';
+import { IChatConfig } from '../../../features/pages/chatbot/interfaces/chat-config';
+import { Router } from '@angular/router';
+import { ChatbotService } from '../../../features/pages/chatbot/services/chatbot-service';
+
 
 @Component({
   selector: 'app-card',
@@ -8,5 +11,14 @@ import { ICardConfig } from './interfaces/card-config';
   styleUrl: './card.scss',
 })
 export class Card {
-  cardConfig = input<ICardConfig>();
+  chatbotService = inject(ChatbotService);
+  route = inject(Router);
+  cardConfig = input<IChatConfig>();
+
+  onClick() {
+    this.chatbotService.update(this.cardConfig());
+    setTimeout(() => {
+      this.route.navigate(['chat'])
+    },1000);
+  }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Carousel } from '../../../shared/components/carousel/carousel';
-import { ICardConfig } from '../../../shared/components/card/interfaces/card-config';
+import { IChatConfig } from '../chatbot/interfaces/chat-config';
+
 
 @Component({
   selector: 'app-home-page',
@@ -9,30 +10,26 @@ import { ICardConfig } from '../../../shared/components/card/interfaces/card-con
   styleUrl: './home-page.scss',
 })
 export class HomePage {
-  cards : ICardConfig[] = [
+  cards : IChatConfig[] = [
     {
-      wayAssetImg : "https://placehold.co/300",
-      name : "card 1",
-      describe : "lorem",
-      wayCharcAi : ""
+      wayImg : "https://placehold.co/400",
+      agent : "card 2",
+      describe : "lorem"
     },
     {
-      wayAssetImg : "https://placehold.co/400",
-      name : "card 2",
-      describe : "lorem",
-      wayCharcAi : ""
+      wayImg : "https://placehold.co/300",
+      agent : "Steve",
+      describe : "Em Busca de Diamantes"
     },
     {
-      wayAssetImg : "https://placehold.co/500",
-      name : "card 3",
-      describe : "lorem",
-      wayCharcAi : ""
+      wayImg : "https://placehold.co/500",
+      agent : "card 3",
+      describe : "lorem"
     },
     {
-      wayAssetImg : "https://placehold.co/600",
-      name : "card 4",
-      describe : "lorem",
-      wayCharcAi : ""
+      wayImg : "https://placehold.co/600",
+      agent : "card 4",
+      describe : "lorem"
     }
   ]
 }

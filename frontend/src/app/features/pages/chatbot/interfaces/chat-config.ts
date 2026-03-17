@@ -5,9 +5,8 @@ type StyleTheme = {
 }
 
 export interface IChatConfig {
-    name : string,
+    agent : string,
     describe : string,
-    styleTheme : StyleTheme,
+    styleTheme? : StyleTheme,
     wayImg : string
 }
-// Apenas para exemplo, pode ser alterado após a integração do backEnd

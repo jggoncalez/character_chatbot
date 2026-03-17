@@ -2,6 +2,7 @@
     
     <div class="custom-sidebar d-flex flex-column p-3">
         <!-- TO-DO: Fazer o componente sideBar receber o "algum indentificador" para reconhecer o agente que está respondendo o usuario -->
+        <app-side-bar></app-side-bar>
     </div>
 
     <div class="flex-grow-1 d-flex flex-column">
@@ -9,7 +10,7 @@
         <div class="d-flex align-items-center p-4 gap-3">
             <img [src]="chatConfig().wayImg" alt="Steve" class="rounded" width="60" height="60">
             <div>
-                <h1 class="h4 mb-1 tracking-wide">{{chatConfig().name}}</h1>
+                <h1 class="h4 mb-1 tracking-wide">{{chatConfig().agent}}</h1>
                 <p class="text-secondary mb-0 small">{{chatConfig().describe}}</p>
             </div>
         </div>
@@ -21,7 +22,7 @@
         <div class="p-4 pt-0">
             <div class="custom-input-box d-flex align-items-center rounded-4 p-2 px-3">
                 <button class="btn btn-link text-light text-decoration-none fs-5 p-1">➕</button>
-                <input [formField]="fieldForm.prompt" type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreve aqui sua mensagem para ${chatConfig().name}`">
+                <input [formField]="fieldForm.prompt" type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreve aqui sua mensagem para ${chatConfig().agent}`">
                 <div class="d-flex gap-2">
                     <button class="btn btn-link text-light text-decoration-none fs-5 p-1" (click)="onClick()">🎨</button>
                 </div>

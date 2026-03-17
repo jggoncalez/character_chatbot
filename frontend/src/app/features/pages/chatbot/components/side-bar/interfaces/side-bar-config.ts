@@ -1,7 +1,8 @@
-import { IChatConfig } from "../../../interfaces/chat-config";
+import { IHistoryConfig } from "./history-config";
+
 
 export interface ISideBarConfig {
-    agentId : string,
-    favorites : IChatConfig[],
-    historyChats : IChatConfig[]
+    agent : string,
+    favorites : IHistoryConfig[],
+    historyChats : IHistoryConfig[]
 }
