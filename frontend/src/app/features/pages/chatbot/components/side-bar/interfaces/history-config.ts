@@ -1,7 +1,7 @@
 import { IChatConfig } from "../../../interfaces/chat-config";
-import { IMessageConfig } from "./message-config";
+import { IMessage } from "./message-config";
 
 export interface IHistoryConfig {
-    messages: IMessageConfig,
+    messages: IMessage[],
     config: IChatConfig
 }

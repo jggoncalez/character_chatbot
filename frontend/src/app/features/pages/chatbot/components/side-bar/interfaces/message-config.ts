@@ -1,4 +1,4 @@
-export interface IMessageConfig {
-    user : string[],
-    agent : string[]
+export interface IMessage {
+    sender : 'user' | 'agent',
+    content : string
 }

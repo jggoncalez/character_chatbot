@@ -16,9 +16,13 @@ export class Card {
   cardConfig = input<IChatConfig>();
 
   onClick() {
-    this.chatbotService.update(this.cardConfig());
-    setTimeout(() => {
-      this.route.navigate(['chat'])
-    },1000);
+    if(this.cardConfig()) {
+      this.chatbotService.setConfig(this.cardConfig()!);
+      setTimeout(() => {
+        this.route.navigate(['chat'])
+      },1000);
+    } else {
+      return;
+    }
   }
 }

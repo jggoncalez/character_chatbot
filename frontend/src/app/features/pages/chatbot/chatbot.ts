@@ -22,10 +22,13 @@ export class Chatbot {
   });
   fieldForm :FieldTree<IFormChatConfig> = form(this.formModel);
 
-  chatConfig : WritableSignal<IChatConfig> = signal<IChatConfig>(this.chatbotService.read())
+  chatConfig : WritableSignal<IChatConfig> = signal<IChatConfig>(this.chatbotService.getConfig())
 
   onClick() {
-    // TO-DO: Melhorar a forma que o input é enviado, além de adicionar retrições caso o joão deseja
-    this.conversationService.set(this.fieldForm.prompt().value())
+    const textoDigitado = this.fieldForm.prompt().value();
+
+    this.conversationService.set(textoDigitado,this.chatConfig());
+
+    this.formModel.update(valores => ({ ...valores, prompt: '' }));
   }
 }
