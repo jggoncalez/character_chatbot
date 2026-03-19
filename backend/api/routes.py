@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List
+from fastapi.concurrency import run_in_threadpool
 from core.pipeline.chat import generate_message, load_history, CHARACTERS_DIR
 import logging
 
@@ -20,7 +21,9 @@ class ChatResponse(BaseModel):
 @router.get("/characters")
 async def get_characters():
     try:
-        characters = [f.stem.capitalize() for f in CHARACTERS_DIR.glob("*.json")]
+        characters = await run_in_threadpool(
+            lambda: [f.stem.capitalize() for f in CHARACTERS_DIR.glob("*.json")]
+        )
         return {"characters": characters}
     except Exception as e:
         logger.exception("Failed to retrieve characters")
@@ -29,7 +32,9 @@ async def get_characters():
 @router.post("/chat", response_model=List[ChatResponse])
 async def chat(request: ChatRequest):
     try:
-        responses = generate_message(request.message, request.character_name)
+        responses = await run_in_threadpool(
+            generate_message, request.message, request.character_name
+        )
         return responses
     except FileNotFoundError as e:
         logger.exception(
@@ -43,7 +48,7 @@ async def chat(request: ChatRequest):
 @router.get("/history/{character_name}")
 async def get_character_history(character_name: str):
     try:
-        history = load_history(character_name)
+        history = await run_in_threadpool(load_history, character_name)
         return {"character": character_name, "history": history}
     except Exception as e:
         logger.exception("Failed to load history for character: %s", character_name)
