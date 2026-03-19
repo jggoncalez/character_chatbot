@@ -1,0 +1,23 @@
+
+@media screen and (min-width: 576px) {
+    .carousel-item.active, 
+    .carousel-item-next, 
+    .carousel-item-prev {
+        display: flex !important;
+    }
+    
+    .carousel-item {
+        display: none;
+    }
+
+    .carousel-item app-card {
+        flex: 0 0 calc((100% / 3) - 3em); 
+        margin: 0 1.5em;
+        display: block; 
+    }
+}
+
+.carousel-inner {
+    padding: 1em;
+}
+

@@ -1,0 +1,24 @@
+<div id="carouselExampleFade" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    @for(card of cards(); track $index) {
+      <div class="carousel-item" [class.active]="$index === 0">
+        <div class="cards-container d-flex">
+          
+          <app-card [cardConfig]="card" class="carousel-card"></app-card>
+          
+          <app-card [cardConfig]="getCardAt($index + 1)" class="carousel-card"></app-card>
+          
+          <app-card [cardConfig]="getCardAt($index + 2)" class="carousel-card"></app-card>
+          
+        </div>
+      </div>
+    }
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>

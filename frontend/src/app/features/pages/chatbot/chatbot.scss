@@ -1,0 +1,28 @@
+.custom-bg-main {
+    background-color: #1a0b2e;
+}
+
+.custom-sidebar {
+    background-color: #120524;
+    width: 260px; 
+}
+
+.custom-input-box {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.custom-input-box input::placeholder {
+    color: #888888;
+}
+.chat-history::-webkit-scrollbar {
+    width: 8px;
+}
+.chat-history::-webkit-scrollbar-track {
+    background: transparent;
+}
+.chat-history::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+.chat-history::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

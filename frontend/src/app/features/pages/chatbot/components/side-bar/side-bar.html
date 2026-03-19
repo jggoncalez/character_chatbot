@@ -1,0 +1,24 @@
+<div class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover">
+  <button class="btn btn-light" (click)="novoChat()">📝 Novo chat</button>
+</div>
+<div class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover">
+  <button class="btn btn-light">👥 Favoritos</button>
+</div>
+
+<hr class="border-secondary opacity-25 my-3">
+
+@for (entry of history(); track entry.id) {
+  <div 
+    class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover"
+    (click)="conversationService.currentChat.set(entry)">
+    <span>💬</span>
+    <div class="d-flex flex-column">
+      <span>{{ entry.config.agent }}</span>
+      <small class="text-secondary">{{ entry.createdAt | date:'HH:mm' }}</small>
+    </div>
+  </div>
+}
+
+@if (history().length === 0) {
+  <small class="text-secondary p-2">Nenhuma conversa ainda</small>
+}

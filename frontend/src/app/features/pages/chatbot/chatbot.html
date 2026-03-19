@@ -1,0 +1,33 @@
+<div class="container-fluid vh-100 d-flex p-0 text-light custom-bg-main">
+    
+    <div class="custom-sidebar d-flex flex-column p-3">
+        <!-- TO-DO: Fazer o componente sideBar receber o "algum indentificador" para reconhecer o agente que está respondendo o usuario -->
+        <app-side-bar></app-side-bar>
+    </div>
+
+    <div class="flex-grow-1 d-flex flex-column">
+        
+        <div class="d-flex align-items-center p-4 gap-3">
+            <img [src]="chatConfig().wayImg" alt="Steve" class="rounded" width="60" height="60">
+            <div>
+                <h1 class="h4 mb-1 tracking-wide">{{chatConfig().agent}}</h1>
+                <p class="text-secondary mb-0 small">{{chatConfig().describe}}</p>
+            </div>
+        </div>
+
+        <div class="chat-history flex-grow-1 overflow-auto p-4 d-flex flex-column gap-4">
+            <app-conversation></app-conversation>
+        </div>
+
+        <div class="p-4 pt-0">
+            <div class="custom-input-box d-flex align-items-center rounded-4 p-2 px-3">
+                <input [formField]="fieldForm.prompt" type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreve aqui sua mensagem para ${chatConfig().agent}`">
+                <div class="d-flex gap-2">
+                        <button class="btn btn-link text-light text-decoration-none fs-5 p-1" (click)="onClick()" [disabled]="!fieldForm.prompt().valid()"><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#FFFFFF"><path d="M673-446.67H160v-66.66h513l-240-240L480-800l320 320-320 320-47-46.67 240-240Z"/></svg></button>
+                
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
