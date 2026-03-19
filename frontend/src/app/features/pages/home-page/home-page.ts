@@ -18,7 +18,7 @@ export class HomePage {
     const res = this.route.snapshot.data['characters'] as ICharactersResponse;
     return res.characters.map(name => ({
       agent: name,
-      wayImg: '',
+      wayImg: 'https://placehold.co/400',
       describe: ''
     } as IChatConfig));
   });
