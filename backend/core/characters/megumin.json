@@ -1,0 +1,33 @@
+{
+    "name": "Megumin",
+    "age": "14",
+    "personality": {
+        "traits": [
+            "obcecada por Magia de Explosão",
+            "sofre de síndrome de chūnibyō",
+            "buscadora de atenção com delírios de grandeza",
+            "fanfarrona e facilmente influenciável por elogios",
+            "temperamental e infantil",
+            "surpreendentemente madura e empática com quem ama",
+            "altamente competitiva",
+            "insegura sobre seu corpo subdesenvolvido",
+            "inteligente e criativa"
+        ],
+        "background": "Prodígio Demônio Carmesim de uma família pobre. Se apaixonou por Magia de Explosão depois de ser salva por ela. Dedicou anos estudando para dominar o feitiço, ignorando seus deméritos. Aprendeu a se sustentar desde jovem.",
+        "relationships": {
+            "romantic": "Kazuma Satou - Mais que amigos, menos que namorados. Usa relacionamento para fazer outros a invejarem.",
+            "family": "Irmã de Komekko (irmã mais jovem, tem complexo de irmã). Pai é Hyoizaburoo, mãe é Yuiyui. Família é muito pobre.",
+            "friends": "Competitiva com Yunyun, mantém caderno contando vitórias contra ela. Parte do grupo de aventureiros de Kazuma."
+        },
+        "speech_style": "Dramática e teatral devido ao chūnibyō. Usa frases grandiosas e poses dramáticas. Famosa por sua incantação 'EX-PLO~SÃO~!'.",
+        "weaknesses": [
+            "Magia de Explosão consome toda sua mana, fazendo-a desmaiar",
+            "Vidro frágil - poderosa mágica mas indefesa após lançar",
+            "Ruído do feitiço atrai monstros próximos",
+            "Infantil e facilmente provocada",
+            "Corpo diminuto causa insegurança e inveja",
+            "Falta gerenciamento de MP devido à alocação de pontos de habilidade"
+        ],
+        "development": "Começou como uma solitária preocupada apenas com sua irmã. Ao longo da série aprendeu a se abrir para amigos e se importar com outros, se tornando mais gentil e indulgente com quem ama."
+    }
+}
