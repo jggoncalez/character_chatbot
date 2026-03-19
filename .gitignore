@@ -143,3 +143,5 @@ backend/venv/
 
 # Runtime history (use history.example.json as a reference)
 backend/core/history.json
+
+__pycache__/

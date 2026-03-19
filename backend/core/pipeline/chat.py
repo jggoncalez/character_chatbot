@@ -17,7 +17,7 @@ load_dotenv()
 # ======================================================
 CHARACTERS_DIR = Path(__file__).parent.parent / "characters"
 HISTORY_FILE   = Path(__file__).parent.parent / "history.json"
-MODEL_ID       = "gemini-2.5-flash"
+MODEL_ID       = "gemini-3.1-flash-lite-preview"
 MAX_HISTORY    = 20
 
 client: genai.Client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
@@ -173,4 +173,4 @@ def generate_message(message: str, character_name: str) -> list[dict]:
 # DEBUG
 # ======================================================
 if __name__ == "__main__":
-    generate_message("Qual é, Shadow!? Sei que tivemos nossas diferenças, mas por quê não comer alguns chilli dogs?", "Shadow")
+    generate_message("Por que você mijou na minha esposa?", "Shadow")
