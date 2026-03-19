@@ -3,14 +3,14 @@ import json
 
 BASE_URL = "http://127.0.0.1:8000"
 
-def test_characters():
+def run_characters():
     print("\n1. Testando GET /characters...")
     response = requests.get(f"{BASE_URL}/characters")
     print(f"Status: {response.status_code}")
     print(f"Resposta: {response.json()}")
     return response.json().get("characters", [])
 
-def test_chat(character: str):
+def run_chat(character: str):
     print(f"\n2. Testando POST /chat com personagem '{character}'...")
     payload = {
         "message": "Olá, tudo bem?",
@@ -20,17 +20,17 @@ def test_chat(character: str):
     print(f"Status: {response.status_code}")
     print(json.dumps(response.json(), indent=2, ensure_ascii=False))
 
-def test_history(character: str):
+def run_history(character: str):
     print(f"\n3. Testando GET /history/{character}...")
     response = requests.get(f"{BASE_URL}/history/{character}")
     print(f"Status: {response.status_code}")
     print(f"Histórico recebido para '{character}'")
 
-def test_api():
+def run_api():
     print("Iniciando testes da API...")
 
     try:
-        characters = test_characters()
+        characters = run_characters()
     except Exception as e:
         print(f"Erro em /characters: {e}")
         return
@@ -42,14 +42,14 @@ def test_api():
     character = characters[0]
 
     try:
-        test_chat(character)
+        run_chat(character)
     except Exception as e:
         print(f"Erro em /chat: {e}")
 
     try:
-        test_history(character)
+        run_history(character)
     except Exception as e:
         print(f"Erro em /history: {e}")
 
 if __name__ == "__main__":
-    test_api()
+    run_api()
