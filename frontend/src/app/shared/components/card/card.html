@@ -5,6 +5,6 @@
     <div class="card-body">
         <h5 class="card-title">{{cardConfig()?.agent}}</h5>
         <p class="card-text">{{cardConfig()?.describe}}</p>
-        <a (click)="onClick()" class="btn btn-primary">Chat</a>
+        <a (click)="onClick(cardConfig()!)" class="btn btn-primary">Chat</a>
     </div>
 </div>

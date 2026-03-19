@@ -9,5 +9,5 @@ import { ConversationService } from './services/conversation-service';
 })
 export class Conversation {
   conversationService = inject(ConversationService);
-  inputs = this.conversationService.get();
+  inputs = this.conversationService.get(); 
 }

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Carousel } from '../../../shared/components/carousel/carousel';
+import { ActivatedRoute } from '@angular/router';
+import { ICharactersResponse } from '../../../shared/interfaces/characters-response';
 import { IChatConfig } from '../chatbot/interfaces/chat-config';
 
 
@@ -10,26 +12,14 @@ import { IChatConfig } from '../chatbot/interfaces/chat-config';
   styleUrl: './home-page.scss',
 })
 export class HomePage {
-  cards : IChatConfig[] = [
-    {
-      wayImg : "https://placehold.co/400",
-      agent : "card 2",
-      describe : "lorem"
-    },
-    {
-      wayImg : "https://placehold.co/300",
-      agent : "Steve",
-      describe : "Em Busca de Diamantes"
-    },
-    {
-      wayImg : "https://placehold.co/500",
-      agent : "card 3",
-      describe : "lorem"
-    },
-    {
-      wayImg : "https://placehold.co/600",
-      agent : "card 4",
-      describe : "lorem"
-    }
-  ]
+  private route = inject(ActivatedRoute);
+
+  cards = computed(() => {
+    const res = this.route.snapshot.data['characters'] as ICharactersResponse;
+    return res.characters.map(name => ({
+      agent: name,
+      wayImg: '',
+      describe: ''
+    } as IChatConfig));
+  });
 }

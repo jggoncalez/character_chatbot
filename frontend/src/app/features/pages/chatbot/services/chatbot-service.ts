@@ -9,14 +9,12 @@ import { IMessage } from '../components/side-bar/interfaces/message-config';
 })
 export class ChatbotService {
   private messages = signal<IMessage[]>([]);
-  private chatConfig : WritableSignal<IChatConfig> = signal<IChatConfig>({
-    agent : '',
-    describe : '',
-    wayImg : ''
-  });
+  private _chatConfig = signal<IChatConfig>({ agent: '', describe: '', wayImg: '' });
+  
+  public chatConfig = this._chatConfig.asReadonly();
 
-  setConfig(config : IChatConfig) {
-    this.chatConfig.set(config);
+  setConfig(config: IChatConfig) {
+    this._chatConfig.set(config);
   }
   getConfig() {
     return this.chatConfig();

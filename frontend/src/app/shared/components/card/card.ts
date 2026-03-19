@@ -2,6 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { IChatConfig } from '../../../features/pages/chatbot/interfaces/chat-config';
 import { Router } from '@angular/router';
 import { ChatbotService } from '../../../features/pages/chatbot/services/chatbot-service';
+import { ConversationService } from '../../../features/pages/chatbot/components/conversation/services/conversation-service';
 
 
 @Component({
@@ -11,18 +12,12 @@ import { ChatbotService } from '../../../features/pages/chatbot/services/chatbot
   styleUrl: './card.scss',
 })
 export class Card {
-  chatbotService = inject(ChatbotService);
-  route = inject(Router);
+  conversationService = inject(ConversationService);
+  router = inject(Router);
   cardConfig = input<IChatConfig>();
 
-  onClick() {
-    if(this.cardConfig()) {
-      this.chatbotService.setConfig(this.cardConfig()!);
-      setTimeout(() => {
-        this.route.navigate(['chat'])
-      },1000);
-    } else {
-      return;
-    }
+  onClick(config: IChatConfig) {
+    this.conversationService.startChat(config);
+    this.router.navigate(['chat']);
   }
 }
