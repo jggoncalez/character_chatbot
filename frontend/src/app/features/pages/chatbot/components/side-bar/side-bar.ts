@@ -28,4 +28,9 @@ export class SideBar {
       this.router.navigate(['']);
     }
   }
+
+  voltar() {
+    this.conversationService.currentChat.set(null);
+    this.router.navigate(['']);
+  }
 }

@@ -5,43 +5,43 @@
 </div>
 <div class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover">
   <button class="btn text-light border-0 w-100 text-start" 
-          [style.backgroundColor]="theme()?.secundaryColor">👥 Favoritos</button>
+          [style.backgroundColor]="theme()?.secundaryColor"
+          (click)="voltar()">Voltar</button>
 </div>
 
 <hr class="opacity-25 my-3" [style.borderColor]="theme()?.primaryColor">
 
 @for (group of conversationService.sideBarHistory(); track group.agent) {
-  
-  <div class="agent-group mb-3">
-    <button class="btn text-light border-0 w-100 text-start fw-bold d-flex justify-content-between align-items-center p-2 rounded custom-hover"
-            [style.backgroundColor]="theme()?.secundaryColor">
-      <span>{{ group.agent }}</span>
-      <span class="badge rounded-pill" [style.backgroundColor]="theme()?.primaryColor">
-        {{ group.historyChats.length }}
-      </span>
-    </button>
+  @if(group.agent == this.conversationService.currentChat()?.config?.agent) {
+    <div class="agent-group mb-3">
+      <button class="btn text-light border-0 w-100 text-start fw-bold d-flex justify-content-between align-items-center p-2 rounded custom-hover"
+              [style.backgroundColor]="theme()?.secundaryColor">
+        <span class="badge rounded-pill" [style.backgroundColor]="theme()?.primaryColor">
+          {{ group.historyChats.length }}
+        </span>
+      </button>
 
-    <div class="chat-list d-flex flex-column gap-1 mt-1 ms-3 border-start border-secondary ps-2">
-      
-      @for (chat of group.historyChats; track chat.id) {
-        <div 
-          class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover"
-          style="cursor: pointer;"
-          (click)="conversationService.currentChat.set(chat)">
-          
-          <span>💬</span>
-          <div class="d-flex flex-column overflow-hidden">
-            <span class="text-truncate" style="font-size: 0.9em;">
-              {{ chat.messages.length > 0 ? chat.messages[0].content : 'Nova conversa...' }}
-            </span>
-            <small [style.color]="theme()?.primaryColor">{{ chat.createdAt | date:'HH:mm' }}</small>
+      <div class="chat-list d-flex flex-column gap-1 mt-1 ms-3 border-start border-secondary ps-2">
+        
+        @for (chat of group.historyChats; track chat.id) {
+          <div 
+            class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover"
+            style="cursor: pointer;"
+            (click)="conversationService.currentChat.set(chat)">
+
+            <div class="d-flex flex-column overflow-hidden">
+              <span class="text-truncate" style="font-size: 0.9em;">
+                {{ chat.messages.length > 0 ? chat.messages[0].content : 'Nova conversa...' }}
+              </span>
+              <small [style.color]="theme()?.primaryColor">{{ chat.createdAt | date:'HH:mm' }}</small>
+            </div>
+
           </div>
-
-        </div>
-      }
-      
+        }
+        
+      </div>
     </div>
-  </div>
+  }
 }
 
 @if (conversationService.sideBarHistory().length === 0) {

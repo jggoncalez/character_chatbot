@@ -1,5 +1,4 @@
 <div class="modal fade" id="modalPesquisa" tabindex="-1" aria-labelledby="modalPesquisaLabel" aria-hidden="true">
-  
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,14 +11,12 @@
                     <input type="text" class="form-control" placeholder="Digite o nome do personagem..." aria-label="Pesquisa">
                 </div>
 
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <!-- TO-DO: Como demonstrar os demais personagens -->
+                <div class="cards-container">
+                    @for(card of cards(); track $index) {
+                        <app-card [cardConfig]="card"></app-card>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-  <button type="button" class="btn btn-primary">Pesquisar</button>
-</div> -->

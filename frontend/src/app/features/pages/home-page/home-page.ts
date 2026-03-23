@@ -3,9 +3,9 @@ import { Carousel } from '../../../shared/components/carousel/carousel';
 import { ActivatedRoute } from '@angular/router';
 import { ICharactersResponse } from '../../../shared/interfaces/characters-response';
 import { IChatConfig } from '../chatbot/interfaces/chat-config';
-import { getWayImgCharacters } from './features/way-img-characters';
-import { getDescribeCharacters } from './features/describe-characters';
-import { getStyleCharacters } from './features/style-characters';
+import { getWayImgCharacters } from '../../../shared/functions/way-img-characters';
+import { getDescribeCharacters } from '../../../shared/functions/describe-characters';
+import { getStyleCharacters } from '../../../shared/functions/style-characters';
 
 
 @Component({
