@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ConversationService } from '../conversation/services/conversation-service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { StyleTheme } from '../../interfaces/chat-config';
 
 
 
@@ -15,9 +16,16 @@ export class SideBar {
   conversationService = inject(ConversationService);
   router = inject(Router);
   history = this.conversationService.getHistory();
+  theme = input<StyleTheme>();
 
   novoChat() {
-    this.conversationService.currentChat.set(null);
-    this.router.navigate(['']);
+    const current = this.conversationService.currentChat();
+
+    if (current) {
+      this.conversationService.createNewEmptyChat(current.config);
+    } else {
+      this.conversationService.currentChat.set(null);
+      this.router.navigate(['']);
+    }
   }
 }

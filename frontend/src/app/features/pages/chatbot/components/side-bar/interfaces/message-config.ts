@@ -1,4 +1,5 @@
 export interface IMessage {
     sender : 'user' | 'agent',
-    content : string
+    content : string,
+    state? : 'happy' | 'sad' | 'angry' | 'neutral' | 'hushed'
 }

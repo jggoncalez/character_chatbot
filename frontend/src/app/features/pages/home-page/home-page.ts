@@ -3,6 +3,9 @@ import { Carousel } from '../../../shared/components/carousel/carousel';
 import { ActivatedRoute } from '@angular/router';
 import { ICharactersResponse } from '../../../shared/interfaces/characters-response';
 import { IChatConfig } from '../chatbot/interfaces/chat-config';
+import { getWayImgCharacters } from './features/way-img-characters';
+import { getDescribeCharacters } from './features/describe-characters';
+import { getStyleCharacters } from './features/style-characters';
 
 
 @Component({
@@ -18,8 +21,9 @@ export class HomePage {
     const res = this.route.snapshot.data['characters'] as ICharactersResponse;
     return res.characters.map(name => ({
       agent: name,
-      wayImg: 'https://placehold.co/400',
-      describe: ''
+      wayImg: getWayImgCharacters(name),
+      describe: getDescribeCharacters(name),
+      styleTheme : getStyleCharacters(name)
     } as IChatConfig));
   });
 }

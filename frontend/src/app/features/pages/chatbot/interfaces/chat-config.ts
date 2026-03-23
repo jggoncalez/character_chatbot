@@ -1,4 +1,4 @@
-type StyleTheme = {
+export type StyleTheme = {
     primaryColor : string,
     secundaryColor : string,
     configColor : string

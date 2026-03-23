@@ -1,4 +1,6 @@
+import { IHistoryMessages } from "./history-messages";
+
 export interface IHistoryResponse {
   character: string;
-  history: { role: 'user' | 'model'; content: string }[];
+  history: IHistoryMessages[];
 }

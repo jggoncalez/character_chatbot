@@ -4,7 +4,6 @@ import { FieldTree, form, FormField, min, minLength, required, } from '@angular/
 import { IFormChatConfig } from './interfaces/form-chat-config';
 import { ConversationService } from './components/conversation/services/conversation-service';
 import { SideBar } from './components/side-bar/side-bar';
-import { ChatbotService } from './services/chatbot-service';
 
 
 @Component({
@@ -15,7 +14,6 @@ import { ChatbotService } from './services/chatbot-service';
 })
 export class Chatbot {
   conversationService = inject(ConversationService);
-  chatbotService = inject(ChatbotService);
   formModel : WritableSignal<IFormChatConfig> = signal<IFormChatConfig>({
     prompt : ''
   });
@@ -25,7 +23,7 @@ export class Chatbot {
     }
   );
 
-  chatConfig = computed(() => this.chatbotService.chatConfig());
+  chatConfig = computed(() => this.conversationService.currentChat()?.config);
 
   onClick() {
 
