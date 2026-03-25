@@ -15,6 +15,6 @@ export class Carousel {
     const allCards = this.cards();
     if (allCards.length === 0) return {} as IChatConfig;
     
-    return allCards[index % allCards.length];
+    return allCards[index % 4];
   }
 }

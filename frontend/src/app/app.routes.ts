@@ -31,5 +31,9 @@ export const routes: Routes = [
             return of(conversationService.currentChat());
             }
         }
+    },
+    {
+        path: 'about-us',
+        loadComponent: () => import('./features/pages/about-us/about-us').then(m => m.AboutUs)
     }
 ];

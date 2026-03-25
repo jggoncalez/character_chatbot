@@ -11,7 +11,7 @@
                     <input type="text" class="form-control" placeholder="Digite o nome do personagem..." aria-label="Pesquisa">
                 </div>
 
-                <div class="cards-container">
+                <div class="cards-container container-personagens">
                     @for(card of cards(); track $index) {
                         <app-card [cardConfig]="card"></app-card>
                     }

@@ -18,7 +18,8 @@
     grid-template-columns: repeat(1, 1fr);
   }
 
-  .card {
+  /* MUDAMOS DE .card PARA .agent-card */
+  .agent-card {
     position: relative;
     display: block;
     aspect-ratio: 3 / 4;
@@ -53,7 +54,8 @@
       }
     }
 
-    .card-body {
+    /* MUDAMOS DE .card-body PARA .agent-card-body */
+    .agent-card-body {
       position: absolute;
       inset: 0;
       display: flex;
@@ -80,14 +82,15 @@
         scale: 1;
       }
 
-      .card-body {
+      .agent-card-body {
         opacity: 1;
         transform: translateY(0);
       }
     }
 
+
     @media (max-width: 480px) {
-      .card-body {
+      .agent-card-body {
         padding: 10px;
       }
 

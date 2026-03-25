@@ -29,7 +29,7 @@ export class Modal {
         } as IChatConfig))
       )
     ),
-    { initialValue: [] as IChatConfig[] }  // evita undefined antes do dado chegar
+    { initialValue: [] as IChatConfig[] }  
   );
 }
 

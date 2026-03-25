@@ -1,0 +1,92 @@
+<div class="container py-4">
+    <header class="bg-light p-5 rounded-4 shadow-sm mb-5 text-center">
+        <h1 class="display-5 fw-bold text-dark mb-3">
+            Sobre o <span class="text-primary">[nome_projeto]</span>
+        </h1>
+        <p class="lead text-secondary mb-0">
+            Conheça as mentes por trás desta Inteligência Artificial.
+        </p>
+    </header>
+
+    <main class="bg-white pb-5">
+        <section class="mb-5">
+            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
+                <h2 class="h3 fw-semibold text-dark mb-0">A Equipe</h2>
+            </div>
+            
+            <div class="row g-4">
+                @for(people of team ; track $index) {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="p-4 bg-light rounded-4 shadow-sm text-center h-100 border border-white">
+                            <img [src]="people.wayImg" 
+                                alt="Foto do integrante" 
+                                class="rounded-circle shadow-sm mb-3">
+                            
+                            <h3 class="h5 fw-bold text-dark mb-1">{{people.fullName}}</h3>
+                            <p class="text-primary fw-semibold small mb-3">{{people.role}}</p>
+                            
+                            <p class="text-secondary small mb-4">
+                                {{people.describe}}
+                            </p>
+
+                            <div class="d-flex justify-content-center gap-2">
+                                @if(people.links.github) {
+                                    <a [href]="people.links.github" target="_blank" class="btn btn-sm rounded-circle" title="GitHub">
+                                        <img src="assets/icons/github.png" 
+                                            alt="Ícone GitHub" 
+                                            width="30" 
+                                            height="30">
+                                    </a>
+                                }
+                                @if(people.links.linkedin) {
+                                    <a [href]="people.links.linkedin" target="_blank" class="btn btn-sm rounded-circle" title="LinkedIn">
+                                        <img src="assets/icons/linkedin.png"
+                                            alt="Ícone LinkedIn" 
+                                            width="30" 
+                                            height="30">
+                                    </a>
+                                }   
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <section>
+            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
+                <h2 class="h3 fw-semibold text-dark mb-0">Links Úteis</h2>
+            </div>
+            
+            <div class="d-flex flex-wrap gap-3">
+
+                @for(link of links; track $index) {
+                    <a [href]="link.way" class="text-decoration-none d-flex align-items-center bg-light p-3 rounded-4 shadow-sm border border-white hover-zoom text-dark">
+                        <i class="bi bi-github fs-4 text-dark me-3"></i>
+                        <div>
+                            <span class="d-block fw-bold">{{link.name}}</span>
+                            <span class="text-secondary small">{{link.describe}}</span>
+                        </div>
+                    </a>
+                }
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-4 mt-5 border-top">
+        <div class="col-md-6 d-flex align-items-center">
+            <span class="text-secondary text-sm">
+                &copy; 2026 [nome_projeto] I.A. Todos os direitos reservados.
+            </span>
+        </div>
+
+        <ul class="nav col-md-6 justify-content-end list-unstyled d-flex">
+            <li class="ms-3">
+                <a [href]="'/'" class="btn btn-outline-dark btn-sm rounded-pill px-4">
+                    <i class="bi bi-arrow-left me-1"></i> Voltar ao Início
+                </a>
+            </li>
+        </ul>
+    </footer>
+</div>
