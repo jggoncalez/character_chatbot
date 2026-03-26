@@ -1,4 +1,5 @@
 @for(input of inputs()?.messages; track $index) {
+    
     <div class="d-flex justify-content-end">
         @if(input.sender == 'user') {
             <div class="p-3 rounded-4 custom-rounded-user text-break text-light" 
@@ -16,5 +17,19 @@
                 {{input.content}}
             </div>
         }
+    </div>
+}
+
+@if(this.conversationService.isThinking()) {
+    <div class="d-flex justify-content-start mt-2">
+        <div class="p-3 rounded-4 custom-rounded-agent text-light d-flex align-items-center" 
+            [style.backgroundColor]="theme()?.secundaryColor" 
+            style="max-width: 70%; min-height: 48px;">
+            <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
     </div>
 }

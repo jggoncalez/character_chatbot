@@ -9,6 +9,6 @@ export const getDescribeCharacters = (agent : string) => {
         case "Goku":
             return "Saiyajin enviado à Terra com missão de destruição, mas um acidente de infância apagou sua memória. Criado por seu avô adotivo Gohan com pureza de coração. Treinou desde criança com mestres marciais. Tornou-se o maior defensor da Terra e líder informal dos Guerreiros Z."
         default:
-            return "https://placehold.co/400"
+            return "lorem"
     }
 }

@@ -1,23 +1,29 @@
-
 @media screen and (min-width: 576px) {
-    .carousel-item.active, 
-    .carousel-item-next, 
-    .carousel-item-prev {
-        display: flex !important;
-    }
-    
-    .carousel-item {
-        display: none;
-    }
+  .carousel-item.active,
+  .carousel-item-next,
+  .carousel-item-prev {
+    display: flex !important;
+  }
 
-    .carousel-item app-card {
-        flex: 0 0 calc((100% / 3) - 3em); 
-        margin: 0 1.5em;
-        display: block; 
-    }
+  .carousel-item {
+    display: none;
+  }
+
+  .carousel-item app-card {
+    flex: 0 0 calc((100% / 3) - 2em);
+    margin: 0 1em;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .carousel-item app-card {
+    flex: 0 0 70%;
+    margin: 0 auto;
+    display: block;
+  }
 }
 
 .carousel-inner {
-    padding: 1em;
+  padding: 1em;
 }
-

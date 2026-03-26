@@ -14,26 +14,27 @@ export class AboutUs {
       fullName : "Victor Hugo Camargo",
       role : "Frontend",
       describe : "Desenvolvedor do frontend, utilizando o framework Angular",
-      wayImg : "https://placehold.co/100",
+      wayImg : "https://github.com/VictorHCamargo.png",
       links : {
         github : "https://github.com/VictorHCamargo",
-        linkedin : "https://www.linkedin.com/in/victor-hugo-camargo-242926356/"
+        linkedin : "https://www.linkedin.com/in/victor-hugo-camargo1/"
       }
     },
     {
       fullName : "João Gabriel Gonçalves",
       role : "Backend e Api",
       describe : "Desenvolvedor do backend e responsavel pelo desenvolvimento da Api",
-      wayImg : "https://placehold.co/100",
+      wayImg : "https://github.com/jggoncalez.png",
       links : {
-        github : "https://github.com/jggoncalez"
+        github : "https://github.com/jggoncalez",
+        linkedin : "https://www.linkedin.com/in/jggoncalez/"
       }
     },
     {
       fullName : "Kayque Costa",
       role : "Design",
       describe : "Responsavel pelo desevolvimento dos design do chatbot",
-      wayImg : "https://placehold.co/100",
+      wayImg : "https://github.com/Kayque48.png",
       links : {
         github : "https://github.com/Kayque48"
       }
@@ -42,7 +43,7 @@ export class AboutUs {
       fullName : "Gabriel Ferreira",
       role : "Backend e Api",
       describe : "Esteve presente no desenvolvimento do backend e da Api",
-      wayImg : "https://placehold.co/100",
+      wayImg : "https://github.com/escritor2.png",
       links : {
         github :"https://github.com/escritor2"
       }

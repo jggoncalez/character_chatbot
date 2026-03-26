@@ -15,6 +15,7 @@ import { getStyleCharacters } from '../../../shared/functions/style-characters';
   styleUrl: './home-page.scss',
 })
 export class HomePage {
+  
   private route = inject(ActivatedRoute);
 
   cards = computed(() => {

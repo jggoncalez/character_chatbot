@@ -1,16 +1,19 @@
 <div class="container-fluid vh-100 d-flex p-0 text-light" [style.backgroundColor]="chatConfig()?.styleTheme?.configColor">
-    
-    <div class="custom-sidebar d-flex flex-column p-3" [style.backgroundColor]="chatConfig()?.styleTheme?.secundaryColor">
-        <app-side-bar [theme]="chatConfig()?.styleTheme"></app-side-bar>
-    </div>
-
     <div class="flex-grow-1 d-flex flex-column">
         
         <div class="d-flex align-items-center p-4 gap-3">
+            <button class="btn btn-hover text-light border-0 text-start" 
+            [style.backgroundColor]="chatConfig()?.styleTheme?.primaryColor"
+            (click)="voltar()">Voltar</button>
             <img [src]="chatConfig()?.wayImg" alt="Steve" class="rounded" width="60" height="60">
-            <div>
-                <h1 class="h4 mb-1 tracking-wide">{{chatConfig()?.agent}}</h1>
-                <p class="text-secondary mb-0 small">{{chatConfig()?.describe}}</p>
+            <div
+            class="agent-header-info"
+            [class.expanded]="isExpanded"
+            (click)="toggleExpand()"
+            >
+                <h1 class="h4 mb-1 tracking-wide agent-name">{{ chatConfig()?.agent }}</h1>
+                <p class="text-secondary mb-0 small agent-describe">{{ chatConfig()?.describe }}</p>
+                <span class="expand-indicator" aria-hidden="true"></span>
             </div>
         </div>
 

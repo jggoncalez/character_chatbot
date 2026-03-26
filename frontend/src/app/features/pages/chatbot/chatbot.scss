@@ -26,3 +26,67 @@
 .chat-history::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
 }
+
+.agent-header-info {
+  position: relative;
+  cursor: default;
+  @media (max-width: 768px) {
+    cursor: pointer;
+    padding-right: 20px; 
+    -webkit-tap-highlight-color: transparent;
+
+    .agent-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      transition: white-space 0.1s;
+    }
+
+    .agent-describe {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: all 0.3s ease;
+    }
+
+    .expand-indicator {
+      display: block;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%) rotate(0deg);
+      transition: transform 0.3s ease;
+
+      &::after {
+        content: "›";
+        font-size: 1.1rem;
+        color: var(--bs-secondary-color, #adb5bd);
+        line-height: 1;
+      }
+    }
+    &.expanded {
+      .agent-name {
+        white-space: normal;
+        overflow: visible;
+      }
+
+      .agent-describe {
+        -webkit-line-clamp: unset;
+        overflow: visible;
+      }
+
+      .expand-indicator {
+        transform: translateY(-50%) rotate(90deg);
+      }
+    }
+  }
+
+  @media (min-width: 769px) {
+    .expand-indicator {
+      display: none;
+    }
+  }
+}
