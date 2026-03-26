@@ -1,10 +1,10 @@
 <div class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover">
-  <button class="btn text-light border-0 w-100 text-start" 
+  <button class="btn btn-hover text-light border-0 w-100 text-start" 
           [style.backgroundColor]="theme()?.primaryColor" 
           (click)="novoChat()">📝 Novo chat</button>
 </div>
 <div class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover">
-  <button class="btn text-light border-0 w-100 text-start" 
+  <button class="btn btn-hover text-light border-0 w-100 text-start" 
           [style.backgroundColor]="theme()?.secundaryColor"
           (click)="voltar()">Voltar</button>
 </div>
@@ -25,7 +25,7 @@
         
         @for (chat of group.historyChats; track chat.id) {
           <div 
-            class="menu-item d-flex align-items-center gap-2 p-2 rounded custom-hover"
+            class="menu-item btn-hover d-flex align-items-center gap-2 p-2 rounded custom-hover"
             style="cursor: pointer;"
             (click)="conversationService.currentChat.set(chat)">
 

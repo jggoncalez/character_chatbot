@@ -17,7 +17,7 @@
             <div class="row g-4">
                 @for(people of team ; track $index) {
                     <div class="col-md-6 col-lg-4">
-                        <div class="p-4 bg-light rounded-4 shadow-sm text-center h-100 border border-white">
+                        <div class="p-4 bg-light rounded-4 shadow-sm text-center h-100 border border-white btn-hover">
                             <img [src]="people.wayImg" 
                                 alt="Foto do integrante" 
                                 class="rounded-circle shadow-sm mb-3">
@@ -61,7 +61,7 @@
             <div class="d-flex flex-wrap gap-3">
 
                 @for(link of links; track $index) {
-                    <a [href]="link.way" class="text-decoration-none d-flex align-items-center bg-light p-3 rounded-4 shadow-sm border border-white hover-zoom text-dark">
+                    <a [href]="link.way" class="text-decoration-none btn-hover d-flex align-items-center bg-light p-3 rounded-4 shadow-sm border border-white hover-zoom text-dark">
                         <i class="bi bi-github fs-4 text-dark me-3"></i>
                         <div>
                             <span class="d-block fw-bold">{{link.name}}</span>

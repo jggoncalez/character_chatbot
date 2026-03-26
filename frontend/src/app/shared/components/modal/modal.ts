@@ -1,4 +1,4 @@
-import { Component, computed, inject, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
 import { ApiService } from '../../services/api-service';
 import { IChatConfig } from '../../../features/pages/chatbot/interfaces/chat-config';
 import { getWayImgCharacters } from '../../functions/way-img-characters';

@@ -1,10 +1,9 @@
-<div class="agent-card">
+<div class="agent-card" (click)="onClick(cardConfig()!)" data-bs-dismiss="modal" aria-label="Close" >
     <div class="img-box">
         <img [src]="cardConfig()?.wayImg" class="card-img-top" alt="...">
     </div>
     <div class="agent-card-body">
         <h5 class="agent-card-title">{{cardConfig()?.agent}}</h5>
         <p class="agent-card-text">{{cardConfig()?.describe}}</p>
-        <a (click)="onClick(cardConfig()!)" class="btn btn-primary">Chat</a>
     </div>
 </div>

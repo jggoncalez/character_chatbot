@@ -20,7 +20,7 @@
 
         <div class="p-4 pt-0">
             <div class="custom-input-box d-flex align-items-center rounded-4 p-2 px-3" [style.backgroundColor]="chatConfig()?.styleTheme?.secundaryColor">
-                <input [formField]="fieldForm.prompt" type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreva aqui sua mensagem para ${chatConfig()?.agent}`">
+                <input [formField]="fieldForm.prompt" type="text" class="form-control bg-transparent border-0 text-light shadow-none" [placeholder]="`Escreva aqui sua mensagem para ${chatConfig()?.agent}`" (keydown.enter)="onClick()">
                 <div class="d-flex gap-2">
                     <button class="btn btn-link text-decoration-none fs-5 p-1" (click)="onClick()" [disabled]="!fieldForm.prompt().valid()">
                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" [attr.fill]="chatConfig()?.styleTheme?.primaryColor">

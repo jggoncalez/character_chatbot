@@ -2,15 +2,11 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalPesquisaLabel">Buscar Personagens</h5>
+                <h5 class="modal-title" id="modalPesquisaLabel">Todos os Personagens</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
             <div class="modal-body">
-                <div class="input-group input-group-lg mb-4">
-                    <input type="text" class="form-control" placeholder="Digite o nome do personagem..." aria-label="Pesquisa">
-                </div>
-
                 <div class="cards-container container-personagens">
                     @for(card of cards(); track $index) {
                         <app-card [cardConfig]="card"></app-card>

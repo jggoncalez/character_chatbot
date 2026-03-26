@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, input } from '@angular/core';
+import { AfterViewInit, Component, computed, ElementRef, inject, input } from '@angular/core';
 import { Card } from '../card/card';
 import { IChatConfig } from '../../../features/pages/chatbot/interfaces/chat-config';
 
@@ -11,10 +11,14 @@ import { IChatConfig } from '../../../features/pages/chatbot/interfaces/chat-con
 export class Carousel {
   cards = input<IChatConfig[]>([]);
 
+  cardsCarousel = computed(() => {
+    return this.cards().slice(0,4);
+  })
+
   getCardAt(index: number): IChatConfig {
-    const allCards = this.cards();
+    const allCards = this.cardsCarousel();
     if (allCards.length === 0) return {} as IChatConfig;
     
-    return allCards[index % 4];
+    return allCards[index % allCards.length];
   }
 }

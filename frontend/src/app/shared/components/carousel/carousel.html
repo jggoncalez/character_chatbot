@@ -1,6 +1,6 @@
 <div id="carouselExampleFade" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
-    @for(card of cards(); track $index) {
+    @for(card of cardsCarousel(); track $index) {
       <div class="carousel-item" [class.active]="$index === 0">
         <div class="cards-container d-flex">
           
