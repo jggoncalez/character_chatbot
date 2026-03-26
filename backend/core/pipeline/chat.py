@@ -90,10 +90,15 @@ def _build_system_prompt(character_name: str, character: dict) -> str:
         "REGRAS ABSOLUTAS:\n"
         "- Responda SOMENTE com JSON válido, nada mais.\n"
         "- Sem texto antes ou depois do JSON.\n"
-        "- Mensagens até 20 palavras, português do Brasil, sem emojis.\n"
+        "- Português do Brasil, sem emojis, sem formatação.\n"
+        "- Padrão: máximo 20 palavras por mensagem.\n"
+        "- EXCEÇÃO: Se ensinar algo ou passo a passo, máximo 100 palavras totais.\n"
+        "- EXCEÇÃO: Se responder pergunta complexa, máximo 50 palavras.\n"
+        "- Sempre priorize concisão e clareza.\n"
         f'FORMATO OBRIGATÓRIO (copie exatamente):\n'
         f'[{{"character": "{character_name}", "text": "sua resposta aqui", "state": "neutral"}}]\n'
-        f"Estados válidos: {valid_states}"
+        f"Estados válidos: {valid_states}\n"
+        "Respeite rigorosamente o limite de palavras especificado para cada contexto."
     )
 
 
@@ -137,16 +142,19 @@ def _build_contents(history: list) -> list[types.Content]:
     ]
 
 
-def _call_api(contents: list[types.Content], system_prompt: str) -> str:
-    response = client.models.generate_content(
-        model=MODEL_ID,
-        config=types.GenerateContentConfig(
-            system_instruction=system_prompt,
-            temperature=0.7,
-        ),
-        contents=contents,
-    )
-    return response.text or ""
+def _call_api(contents: list[types.Content], system_prompt: str, character_name: str) -> str:
+    try:
+        response = client.models.generate_content(
+            model=MODEL_ID,
+            config=types.GenerateContentConfig(
+                system_instruction=system_prompt,
+                temperature=0.7,
+            ),
+            contents=contents,
+        )
+        return response.text or ""
+    except Exception as e:
+        return json.dumps([{"character": "{character_name}", "text": "Desculpe, ocorreu um erro ao processar sua mensagem.","state": "hushed"}])
 
 
 # ======================================================
@@ -160,7 +168,7 @@ def generate_message(message: str, character_name: str) -> list[dict]:
 
     contents       = _build_contents(history)
     system_prompt  = _build_system_prompt(character_name, character)
-    raw_response   = _call_api(contents, system_prompt)
+    raw_response   = _call_api(contents, system_prompt, character_name)
     parsed         = parse_response(raw_response, character_name)
 
     _append_to_history(history, Role.MODEL, parsed[0]["text"])
@@ -173,4 +181,4 @@ def generate_message(message: str, character_name: str) -> list[dict]:
 # DEBUG
 # ======================================================
 if __name__ == "__main__":
-    generate_message("Por que você mijou na minha esposa?", "Shadow")
+    generate_message("Pode me dar o passo a passo?", "pixxie")
