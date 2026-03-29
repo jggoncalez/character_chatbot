@@ -16,7 +16,7 @@ load_dotenv()
 # CONSTANTES
 # ======================================================
 CHARACTERS_DIR = Path(__file__).parent.parent / "characters"
-HISTORY_FILE   = Path(__file__).parent.parent / "history.json"
+HISTORY_FILE   = Path(__file__).parent / "history.json"
 MODEL_ID       = "gemini-3.1-flash-lite-preview"
 MAX_HISTORY    = 20
 
