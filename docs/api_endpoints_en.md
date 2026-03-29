@@ -89,6 +89,34 @@ Sends a message to a character and receives a response from Gemini. Conversation
 | 404 | Character not found | Character file doesn't exist |
 | 500 | Internal error | Gemini API failure or processing error |
 
+### GET /character/{character_name}/details
+
+Returns the complete character configuration JSON.
+
+**Path Parameters:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `character_name` | string | Yes | Character name (case-insensitive) |
+
+**Response:** `200 OK`
+
+```json
+{
+    "name": "Shadow",
+    "personality": "Misterioso, frio e sarcástico...",
+    "speech_style": "Fala em terceira pessoa ocasionalmente.",
+    "background": "Guerreiro das sombras de outro mundo."
+}
+```
+
+**Errors:**
+
+| Code | Situation | Details |
+|------|-----------|---------|
+| 404 | Character not found | Character file doesn't exist |
+| 500 | Internal error | Failed to load character JSON |
+
 ### GET /history/{character_name}
 
 Returns the conversation history for a specific character. History is persisted and limited to the last 20 messages.
@@ -116,6 +144,30 @@ Returns the conversation history for a specific character. History is persisted 
 | Code | Situation | Details |
 |------|-----------|---------|
 | 500 | History load error | Failed to load character history |
+
+### DELETE /history/{character_name}/clear
+
+Clears the chat history for a specific character.
+
+**Path Parameters:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `character_name` | string | Yes | Character name (case-insensitive) |
+
+**Response:** `200 OK`
+
+```json
+{
+    "message": "Histórico de Shadow limpo com sucesso."
+}
+```
+
+**Errors:**
+
+| Code | Situation | Details |
+|------|-----------|---------|
+| 500 | Clear error | Failed to clear history file |
 
 ### GET /feed
 
