@@ -58,7 +58,10 @@ export class ConversationService {
         });
         this.isThinking.set(false);
       },
-      error: (error) => console.error('Erro ao enviar mensagem:', error)
+      error: (error) => {
+        console.error('Erro ao enviar mensagem:', error);
+        this.isThinking.set(false);
+      }
     });
   }
   clearChat() {
