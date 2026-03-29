@@ -1,9 +1,9 @@
 export const getWayImgCharacters = (agent : string) => {
     switch (agent) {
         case "Inuyasha":
-            return "/assets/characters/inuyasha.jpg";
+            return "/assets/characters/inuyasha.webp";
         case "Megumin":
-            return "/assets/characters/megumin.png";
+            return "/assets/characters/megumin.webp";
         case "Shadow":
             return "/assets/characters/shadow.webp";
         case "Goku":
