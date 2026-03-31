@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Modal } from './modal';
+import { SidebarNav } from './sidebar-nav';
 
-describe('Modal', () => {
-  let component: Modal;
-  let fixture: ComponentFixture<Modal>;
+describe('SidebarNav', () => {
+  let component: SidebarNav;
+  let fixture: ComponentFixture<SidebarNav>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Modal],
+      imports: [SidebarNav],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Modal);
+    fixture = TestBed.createComponent(SidebarNav);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

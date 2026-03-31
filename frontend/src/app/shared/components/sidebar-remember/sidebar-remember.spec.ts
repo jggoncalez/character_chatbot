@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Carousel } from './carousel';
+import { SidebarRemember } from './sidebar-remember';
 
-describe('Carousel', () => {
-  let component: Carousel;
-  let fixture: ComponentFixture<Carousel>;
+describe('SidebarRemember', () => {
+  let component: SidebarRemember;
+  let fixture: ComponentFixture<SidebarRemember>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Carousel],
+      imports: [SidebarRemember],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Carousel);
+    fixture = TestBed.createComponent(SidebarRemember);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
