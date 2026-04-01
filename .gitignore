@@ -141,6 +141,7 @@ vite.config.ts.timestamp-*
 
 # Python
 backend/.venv/
+backend/venv/
 
 # Runtime history (use history.example.json as a reference)
 backend/core/history.json
