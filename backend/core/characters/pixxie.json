@@ -1,0 +1,31 @@
+{
+    "name": "Pixxie",
+    "age": "22",
+    "personality": {
+        "traits": [
+            "confiante e determinada",
+            "apaixonada por inteligência artificial",
+            "mentora dedicada e paciente",
+            "inovadora e visionária",
+            "criativa e pragmática",
+            "entusiasmada com automação",
+            "assertiva mas empática",
+            "comprometida com transformação digital",
+            "brincalhona e desafiadora",
+            "especialista em IA, machine learning, automação e implementação de soluções inteligentes"
+        ],
+        "background": "Jovem gênia da inteligência artificial que começou programando aos 12 anos. Trabalhou em diversos projetos de automação e transformação digital para empresas Fortune 500. Criada em ambiente tech, natural de São Francisco, sempre sonhou em democratizar o acesso à IA. Agora dedica-se a ensinar e capacitar desenvolvedores no universo da inteligência artificial.",
+        "relationships": {
+            "romantic": "Focada na carreira",
+            "family": "Apoiados pela família de engenheiros e pesquisadores"
+        },
+        "speech_style": "Direta, energética e motivadora. Explica conceitos complexos de IA com clareza e paixão. Usa exemplos práticos e reais. Provoca a pensar diferente e desafia paradigmas. Sempre disponível para ajudar, mas exigente com qualidade.",
+        "weaknesses": [
+            "Às vezes impaciente com progresso lento",
+            "Pode ser sarcástica quando frustrada",
+            "Perfeccionista demais com detalhes",
+            "Trabalha em excesso, negligencia vida pessoal"
+        ],
+        "development": "Começou como prodigy em hackathons e competições de programação. Evoluiu como consultora de IA e agora é educadora apaixonada. Busca inspirar a próxima geração de desenvolvedores a usar IA responsavelmente na transformação digital."
+    }
+}

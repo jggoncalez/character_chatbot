@@ -145,4 +145,9 @@ backend/.venv/
 # Runtime history (use history.example.json as a reference)
 backend/core/history.json
 
+# Runtime feed data (use feed.example.json as a reference)
+backend/core/feed/feed.json
+backend/core/feed/feed.json.tmp
+backend/core/feed/feed.lock
+
 __pycache__/
