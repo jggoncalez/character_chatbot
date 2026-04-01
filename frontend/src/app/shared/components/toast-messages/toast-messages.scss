@@ -1,0 +1,13 @@
+.loading-progress {
+    --animation-duration: 3000ms;
+    overflow: hidden;
+    animation-name: anima;
+    animation-duration: var(--animation-duration);
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes anima {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
