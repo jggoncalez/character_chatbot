@@ -2,10 +2,10 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 from typing import List
 from fastapi.concurrency import run_in_threadpool
-from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR
-from core.feed.pipeline import refresh_feed, add_user_comment, load_feed
 from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR, load_character
-import logging, os, json
+from core.feed.pipeline import refresh_feed, add_user_comment, load_feed
+import logging
+import json
 
 logger = logging.getLogger(__name__)
 
