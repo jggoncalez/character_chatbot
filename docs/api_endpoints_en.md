@@ -159,7 +159,7 @@ Clears the chat history for a specific character.
 
 ```json
 {
-    "message": "Histórico de Shadow limpo com sucesso."
+    "message": "Chat history for Shadow cleared successfully."
 }
 ```
 
