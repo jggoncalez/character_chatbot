@@ -17,7 +17,7 @@ load_dotenv()
 # ======================================================
 CHARACTERS_DIR = Path(__file__).parent.parent / "characters"
 HISTORY_FILE   = Path(__file__).parent / "history.json"
-MODEL_ID       = "gemini-3.1-flash-lite-preview"
+MODEL_ID       = "gemini-2.5-flash-lite"
 MAX_HISTORY    = 20
 
 client: genai.Client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
@@ -90,7 +90,10 @@ def build_system_prompt(character_name: str, character: dict) -> str:
         "REGRAS ABSOLUTAS:\n"
         "- Responda SOMENTE com JSON válido, nada mais.\n"
         "- Sem texto antes ou depois do JSON.\n"
-        "- Português do Brasil, sem emojis, sem formatação.\n"
+        "- Português do Brasil UTF-8, sem emojis, sem formatação.\n"
+        "- OBRIGATÓRIO: Use português do Brasil CORRETO. "
+        "Acentos, cedilha e pontuação são OBRIGATÓRIOS. "
+        "Nunca escreva 'nao', sempre 'não'. Nunca 'voce', sempre 'você'.\n"
         "- Padrão: máximo 20 palavras por mensagem.\n"
         "- EXCEÇÃO: Se ensinar algo ou passo a passo, máximo 100 palavras totais.\n"
         "- EXCEÇÃO: Se responder pergunta complexa, máximo 50 palavras.\n"

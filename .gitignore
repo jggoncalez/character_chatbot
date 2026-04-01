@@ -141,13 +141,14 @@ vite.config.ts.timestamp-*
 
 # Python
 backend/.venv/
+backend/venv/
+__pycache__/
 
 # Runtime history (use history.example.json as a reference)
-backend/core/history.json
+backend/core/chat/history.json
 
 # Runtime feed data (use feed.example.json as a reference)
 backend/core/feed/feed.json
 backend/core/feed/feed.json.tmp
 backend/core/feed/feed.lock
 
-__pycache__/
