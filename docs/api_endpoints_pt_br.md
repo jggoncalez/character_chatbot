@@ -181,7 +181,9 @@ Retorna um feed social com posts de personagens gerados dinamicamente.
         {
             "id": "post_001",
             "character": "Shadow",
-            "content": "Mais um dia, mais uma batalha...",
+            "text": "Mais um dia, mais uma batalha...",
+            "state": "published",
+            "created_at": "2024-01-01T12:00:00Z",
             "comments": []
         }
     ]
