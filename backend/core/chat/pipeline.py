@@ -83,7 +83,7 @@ def load_character(name: str) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _build_system_prompt(character_name: str, character: dict) -> str:
+def build_system_prompt(character_name: str, character: dict) -> str:
     valid_states = ", ".join(s.value for s in State)
     return (
         f"Você é {character_name}.\nPerfil: {character}\n"
@@ -105,12 +105,16 @@ def _build_system_prompt(character_name: str, character: dict) -> str:
 # ======================================================
 # HELPERS — HISTÓRICO
 # ======================================================
+def normalize_character_name(character_name: str) -> str:
+    return character_name.lower().replace(" ", "_")
+
+
 def load_history(character_name: str) -> list:
     if not HISTORY_FILE.exists():
         return []
 
     data = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
-    return data.get(character_name, [])
+    return data.get(normalize_character_name(character_name), [])
 
 
 def _append_to_history(history: list, role: Role, content: str) -> None:
@@ -125,11 +129,30 @@ def persist_history(character_name: str, history: list) -> None:
     if HISTORY_FILE.exists():
         all_history = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
 
-    all_history[character_name] = history[-MAX_HISTORY:]
+    all_history[normalize_character_name(character_name)] = history[-MAX_HISTORY:]
     HISTORY_FILE.write_text(
         json.dumps(all_history, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
+
+
+def clear_history(character_name: str) -> bool:
+    """Remove o histórico de um personagem específico. Retorna True se havia histórico."""
+    if not HISTORY_FILE.exists():
+        return False
+
+    key = normalize_character_name(character_name)
+    all_history = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
+
+    if key not in all_history:
+        return False
+
+    del all_history[key]
+    HISTORY_FILE.write_text(
+        json.dumps(all_history, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    return True
 
 
 # ======================================================
@@ -142,7 +165,7 @@ def _build_contents(history: list) -> list[types.Content]:
     ]
 
 
-def _call_api(contents: list[types.Content], system_prompt: str, character_name: str) -> str:
+def call_api(contents: list[types.Content], system_prompt: str, character_name: str) -> str:
     try:
         response = client.models.generate_content(
             model=MODEL_ID,
@@ -167,8 +190,8 @@ def generate_message(message: str, character_name: str) -> list[dict]:
     _append_to_history(history, Role.USER, message)
 
     contents       = _build_contents(history)
-    system_prompt  = _build_system_prompt(character_name, character)
-    raw_response   = _call_api(contents, system_prompt, character_name)
+    system_prompt  = build_system_prompt(character_name, character)
+    raw_response   = call_api(contents, system_prompt, character_name)
     parsed         = parse_response(raw_response, character_name)
 
     _append_to_history(history, Role.MODEL, parsed[0]["text"])

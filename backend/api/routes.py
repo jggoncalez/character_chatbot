@@ -2,10 +2,9 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 from typing import List
 from fastapi.concurrency import run_in_threadpool
-from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR, load_character
+from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR, load_character, clear_history
 from core.feed.pipeline import refresh_feed, add_user_comment, load_feed
 import logging
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -117,24 +116,10 @@ async def get_character_details(character_name: str):
 async def clear_character_history(character_name: str):
     """Limpa o histórico de chat de um personagem específico."""
     try:
-        # O caminho do histórico geralmente segue o padrão do seu load_history
-        # Ajuste o caminho se o seu pipeline salvar em outro lugar
-        history_file = CHARACTERS_DIR.parent / "chat" / "history.json"
-        
-        if not history_file.exists():
-            return {"message": "Histórico já está vazio (arquivo não existe)."}
-
-        with open(history_file, "r+", encoding="utf-8") as f:
-            data = json.load(f)
-            # Remove a chave do personagem se ela existir
-            if character_name in data:
-                del data[character_name]
-                f.seek(0)
-                json.dump(data, f, indent=4)
-                f.truncate()
-                return {"message": f"Histórico de {character_name} limpo com sucesso."}
-            
+        found = await run_in_threadpool(clear_history, character_name)
+        if found:
+            return {"message": f"Histórico de {character_name} limpo com sucesso."}
         return {"message": f"Nenhum histórico encontrado para {character_name}."}
-    except Exception as e:
+    except Exception:
         logger.exception("Erro ao limpar histórico")
         raise HTTPException(status_code=500, detail="Erro ao processar limpeza de arquivo")
