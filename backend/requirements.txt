@@ -2,3 +2,4 @@ fastapi[standard]
 python-dotenv
 google-genai
 requests
+uvicorn[standard]

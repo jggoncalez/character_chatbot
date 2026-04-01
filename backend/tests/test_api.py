@@ -26,30 +26,99 @@ def run_history(character: str):
     print(f"Status: {response.status_code}")
     print(f"Histórico recebido para '{character}'")
 
+def run_feed():
+    print("\n4. Testando GET /feed...")
+    response = requests.get(f"{BASE_URL}/feed")
+    print(f"Status: {response.status_code}")
+    # Retornamos o JSON inteiro para poder extrair um post e testar o comentário depois
+    return response.json()
+
+def run_feed_cached():
+    print("\n5. Testando GET /feed/cached...")
+    response = requests.get(f"{BASE_URL}/feed/cached")
+    print(f"Status: {response.status_code}")
+
+def run_feed_comment(post_id: str):
+    print(f"\n6. Testando POST /feed/comment no post '{post_id}'...")
+    payload = {
+        "post_id": post_id,
+        "text": "Este é um comentário de teste gerado pelo script!"
+    }
+    response = requests.post(f"{BASE_URL}/feed/comment", json=payload)
+    print(f"Status: {response.status_code}")
+    print(json.dumps(response.json(), indent=2, ensure_ascii=False))
+
 def run_api():
     print("Iniciando testes da API...")
 
+    # --- TESTES DE PERSONAGENS E CHAT ---
     try:
         characters = run_characters()
     except Exception as e:
         print(f"Erro em /characters: {e}")
-        return
+        characters = []
 
-    if not characters:
-        print("Nenhum personagem encontrado.")
-        return
+    if characters:
+        character = characters[0]
+        try:
+            test_character_details(character)
+            test_clear_history(character)
+            run_chat(character)
+        except Exception as e:
+            print(f"Erro em /chat: {e}")
 
-    character = characters[0]
+        try:
+            run_history(character)
+        except Exception as e:
+            print(f"Erro em /history: {e}")
+    else:
+        print("Nenhum personagem encontrado. Pulando testes de /chat e /history.")
+
+    # --- TESTES DO FEED E COMENTÁRIOS ---
+    try:
+        feed_data = run_feed()
+        posts = feed_data.get("posts", [])
+    except Exception as e:
+        print(f"Erro em /feed: {e}")
+        posts = []
 
     try:
-        run_chat(character)
+        run_feed_cached()
     except Exception as e:
-        print(f"Erro em /chat: {e}")
+        print(f"Erro em /feed/cached: {e}")
+        
+    
 
-    try:
-        run_history(character)
-    except Exception as e:
-        print(f"Erro em /history: {e}")
+    # Tenta usar um post do feed para testar o comentário
+    if posts:
+        primeiro_post = posts[0]
+        # Tenta pegar a chave "id" ou "post_id" (dependendo de como seu backend retorna o ID do post)
+        post_id = primeiro_post.get("id") or primeiro_post.get("post_id")
+        
+        if post_id:
+            try:
+                run_feed_comment(str(post_id))
+            except Exception as e:
+                print(f"Erro em /feed/comment: {e}")
+        else:
+            print("\nNão foi possível extrair um 'id' ou 'post_id' do primeiro post retornado para testar o comentário.")
+    else:
+        print("\nNenhum post foi retornado do feed. Pulando o teste de /feed/comment.")
+
+def test_character_details(character: str):
+    print(f"\n7. Testando GET /character/{character}/details...")
+    response = requests.get(f"{BASE_URL}/character/{character}/details")
+    print(f"Status: {response.status_code}")
+    if response.status_code == 200:
+        print(f"Detalhes de '{character}' carregados com sucesso (JSON OK).")
+
+def test_clear_history(character: str):
+    print(f"\n8. Testando DELETE /history/{character}/clear...")
+    response = requests.delete(f"{BASE_URL}/history/{character}/clear")
+    print(f"Status: {response.status_code}")
+    print(f"Resposta: {response.json().get('message')}")
+
 
 if __name__ == "__main__":
     run_api()
+    
