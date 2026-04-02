@@ -1,7 +1,6 @@
 # core/audio_transcribe/pipeline.py
 
 import os
-from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -10,7 +9,7 @@ load_dotenv()
 
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
-TRANSCRIPTION_MODEL = "gemini-2.0-flash-lite"
+TRANSCRIPTION_MODEL = "gemini-2.5-flash-lite"
 
 SUPPORTED_TYPES = [
     "audio/webm",
@@ -19,7 +18,6 @@ SUPPORTED_TYPES = [
     "audio/wav",
     "audio/ogg"
 ]
-
 
 def transcribe_audio(audio_bytes: bytes, mime_type: str) -> str:
     clean_mime = mime_type.split(";")[0].strip()
@@ -38,5 +36,10 @@ def transcribe_audio(audio_bytes: bytes, mime_type: str) -> str:
             ])
         ]
     )
+
+    # ← temporário
+    print("RAW RESPONSE:", repr(response.text))
+    print("AUDIO SIZE:", len(audio_bytes))
+    print("MIME:", clean_mime)
 
     return response.text.strip() if response.text else ""

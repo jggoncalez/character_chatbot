@@ -53,7 +53,14 @@ def load_feed() -> list[dict]:
     if not FEED_FILE.exists():
         return []
     with _feed_file_lock():
-        return json.loads(FEED_FILE.read_text(encoding="utf-8"))
+        try:
+            content = FEED_FILE.read_text(encoding="utf-8")
+            if not content:  # Handle empty file
+                return []
+            return json.loads(content)
+        except json.JSONDecodeError:
+            # File is corrupted, return empty feed
+            return []
 
 
 def save_feed(feed: list[dict]) -> None:

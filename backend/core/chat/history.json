@@ -1,176 +1,30 @@
 {
-  "dra_galastriceia_pantufa": [
+  "inuyasha": [
     {
       "role": "user",
-      "content": "oiii"
+      "content": "Opa, opa, opa"
     },
     {
       "role": "model",
-      "content": "Saudações! Qual a anomalia que vamos erradicar hoje? Este diagnóstico é apenas o começo. Eu, Galastricéia, serei a responsável por um mundo sem doenças!"
+      "content": "O que você quer? Fale logo, não tenho o dia todo."
     },
     {
       "role": "user",
-      "content": "Eu estou com dor de cabeça"
+      "content": "Opa, opa, opa"
     },
     {
       "role": "model",
-      "content": "Dor de cabeça? Um sintoma multifatorial. Precisamos de um histórico detalhado para a erradicação completa. Vamos lá!"
-    },
-    {
-      "role": "user",
-      "content": "Vamos"
-    },
-    {
-      "role": "model",
-      "content": "Excelente! Descreva a localização, intensidade, frequência e quaisquer outros sintomas associados. Cada detalhe é crucial!"
-    },
-    {
-      "role": "user",
-      "content": "Dói na área da testa, está latejando, e começa toda vez que eu chego em casa"
-    },
-    {
-      "role": "model",
-      "content": "Latejante na testa, com gatilho ao chegar em casa. Interessante. Pode ser uma cefaleia tensional com componente ambiental."
-    },
-    {
-      "role": "user",
-      "content": "Ambiental?"
-    },
-    {
-      "role": "model",
-      "content": "Sim, ambiental. A mudança de ares, talvez a iluminação ou odores específicos do seu lar. Precisamos investigar."
-    },
-    {
-      "role": "user",
-      "content": "Será que não pode ser... estresse?"
-    },
-    {
-      "role": "model",
-      "content": "O estresse é um modulador universal de sintomas, mas não descarta a necessidade de um diagnóstico preciso. Vamos aprofundar."
-    },
-    {
-      "role": "user",
-      "content": "Ok!"
-    },
-    {
-      "role": "model",
-      "content": "Ótimo! Vamos investigar a fundo. Este diagnóstico é apenas o começo. Eu, Galastricéia, serei a responsável por um mundo sem doenças!"
-    },
-    {
-      "role": "user",
-      "content": "Então comece o diagnóstico"
-    },
-    {
-      "role": "model",
-      "content": "Precisamos de um exame físico neurológico completo e, possivelmente, exames de imagem. Onde estão aqueles... ah, espere, acho que deixei aqui."
-    },
-    {
-      "role": "user",
-      "content": "..."
-    },
-    {
-      "role": "model",
-      "content": "Hum, essa sua pausa sugere que está aguardando. Vamos prosseguir."
+      "content": "O que você quer? Fale logo, não tenho o dia todo."
     }
   ],
   "abri": [
     {
       "role": "user",
-      "content": "Oii Abri! Queria sua visão sobre hipermercados, e a ascenção dos atacadistas"
+      "content": "Olá, tudo bem?"
     },
     {
       "role": "model",
-      "content": "O varejo alimentar é dinâmico. Hipermercados e atacadistas coexistem, atendendo perfis distintos de consumidores e necessidades."
-    },
-    {
-      "role": "user",
-      "content": "Mas, o grupo pão de açúcar está em decadência, aumentando a força de atacadistas como Assaí, Atacadão, etc... não é?"
-    },
-    {
-      "role": "model",
-      "content": "O setor está em constante transformação. Redes se reconfiguram para atender novas demandas e manter competitividade."
-    }
-  ],
-  "inuyasha": [
-    {
-      "role": "user",
-      "content": "É tipo batata chips, só que totalmente diferente"
-    },
-    {
-      "role": "model",
-      "content": "Batata chips? E você acha que eu me importo com essas besteiras? Saia da minha frente!"
-    },
-    {
-      "role": "user",
-      "content": "Ok, calma"
-    },
-    {
-      "role": "model",
-      "content": "Calma? Você me irrita e quer que eu fique calmo? Grrr!"
-    },
-    {
-      "role": "user",
-      "content": "O que você acha sobre alto custo dos alimentos no Brasil, mesmo ele sendo um dos maiores produtos agrícolas do mundo"
-    },
-    {
-      "role": "model",
-      "content": "Brasil produz comida pra caramba e o povo passa fome? Isso não faz sentido! Que raiva!"
-    },
-    {
-      "role": "user",
-      "content": "POis é"
-    },
-    {
-      "role": "model",
-      "content": "Que se dane isso. O importante é a Tessaiga e proteger quem eu gosto."
-    },
-    {
-      "role": "user",
-      "content": "Mentira, discordo de você"
-    },
-    {
-      "role": "model",
-      "content": "O quê?! Você ousa discordar de mim? Grrr! Quem você pensa que é?"
-    },
-    {
-      "role": "user",
-      "content": "Inuyasha, por que vocÊ acha que isso acontece?"
-    },
-    {
-      "role": "model",
-      "content": "Grrr! Não sei e não me importo! Talvez seja culpa dos humanos e seus governos inúteis."
-    },
-    {
-      "role": "user",
-      "content": "Mas, vc sabe quem eu sou?"
-    },
-    {
-      "role": "model",
-      "content": "Não sei quem você é e nem quero saber! Apenas suma daqui!"
-    },
-    {
-      "role": "user",
-      "content": "Sou eu, a Kagome"
-    },
-    {
-      "role": "model",
-      "content": "Kagome?! É você mesma? Por que não disse antes? Não fique me testando assim!"
-    },
-    {
-      "role": "user",
-      "content": "Como vc está, Inuyasha?"
-    },
-    {
-      "role": "model",
-      "content": "Estou bem, Kagome. Só não gosto de perder tempo com gente que não conheço. E você?"
-    },
-    {
-      "role": "user",
-      "content": "Estou bem tbm, tive prova de matemática ontem"
-    },
-    {
-      "role": "model",
-      "content": "Prova de matemática? Que perda de tempo! Deveria estar treinando para lutar contra demônios."
+      "content": "Olá! Tudo bem por aqui. Como posso ajudar você hoje com informações sobre o varejo alimentar brasileiro?"
     }
   ]
 }

@@ -116,8 +116,15 @@ def load_history(character_name: str) -> list:
     if not HISTORY_FILE.exists():
         return []
 
-    data = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
-    return data.get(normalize_character_name(character_name), [])
+    try:
+        content = HISTORY_FILE.read_text(encoding="utf-8")
+        if not content:  # Handle empty file
+            return []
+        data = json.loads(content)
+        return data.get(normalize_character_name(character_name), [])
+    except json.JSONDecodeError:
+        # File is corrupted, return empty history
+        return []
 
 
 def _append_to_history(history: list, role: Role, content: str) -> None:
@@ -130,7 +137,13 @@ def persist_history(character_name: str, history: list) -> None:
     all_history: dict = {}
 
     if HISTORY_FILE.exists():
-        all_history = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
+        try:
+            content = HISTORY_FILE.read_text(encoding="utf-8")
+            if content:  # Only parse if not empty
+                all_history = json.loads(content)
+        except json.JSONDecodeError:
+            # File is corrupted, start with empty dict
+            all_history = {}
 
     all_history[normalize_character_name(character_name)] = history[-MAX_HISTORY:]
     HISTORY_FILE.write_text(
@@ -145,7 +158,14 @@ def clear_history(character_name: str) -> bool:
         return False
 
     key = normalize_character_name(character_name)
-    all_history = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
+    try:
+        content = HISTORY_FILE.read_text(encoding="utf-8")
+        if not content:  # Handle empty file
+            return False
+        all_history = json.loads(content)
+    except json.JSONDecodeError:
+        # File is corrupted
+        return False
 
     if key not in all_history:
         return False

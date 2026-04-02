@@ -135,42 +135,32 @@ async def clear_character_history(character_name: str):
         raise HTTPException(status_code=500, detail="Erro ao processar limpeza de arquivo")
     
 
-@router.post("/voice/transcribe")
+@router.post("/voice/{character_name}/transcribe")
 async def transcribe_voice(
+    character_name: str,
     audio: UploadFile = File(...),
-    character_name: str = "Inuyasha"
 ):
-    # valida tipo
-    mime = audio.content_type or "audio/webm"
-    if not any(mime.startswith(t) for t in SUPPORTED_TYPES):
-        raise HTTPException(
-            status_code=415,
-            detail=f"Tipo de áudio não suportado: {mime}"
-        )
-    
-    # limita tamanho — 1MB máximo
-    audio_bytes = await audio.read()
-    if len(audio_bytes) > 1_000_000:
-        raise HTTPException(
-            status_code=413,
-            detail="Áudio muito longo"
-        )
-    
-    text = await run_in_threadpool(
-        transcribe_audio, audio_bytes, mime
-    )
-    
-    if not text:
-        raise HTTPException(
-            status_code=422,
-            detail="Não foi possível transcrever"
-        )
-    
-    responses = await run_in_threadpool(
-        generate_message, text, character_name
-    )
-    
-    return {
-        "transcription": text,
-        "responses": responses
-    }
+    try:
+        mime = audio.content_type or "audio/webm"
+        if not any(mime.startswith(t) for t in SUPPORTED_TYPES):
+            raise HTTPException(status_code=415, detail=f"Tipo não suportado: {mime}")
+        
+        audio_bytes = await audio.read()
+        if len(audio_bytes) > 1_000_000:
+            raise HTTPException(status_code=413, detail="Áudio muito longo")
+        
+        text = await run_in_threadpool(transcribe_audio, audio_bytes, mime)
+        
+        if not text:
+            raise HTTPException(status_code=422, detail="Não foi possível transcrever")
+        
+        responses = await run_in_threadpool(generate_message, text, character_name)
+        
+        return {"transcription": text, "responses": responses}
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        # ← mostra o erro real temporariamente
+        logger.exception("Erro na transcrição")
+        raise HTTPException(status_code=500, detail=str(e))

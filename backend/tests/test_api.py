@@ -63,18 +63,18 @@ def test_clear_history(character: str):
     print(f"Resposta: {response.json().get('message')}")
     
 
-def test_transcribe():
-    audio_path = Path(__file__).resolve().parent / "teste.webm"
+def test_transcribe(character: str):
+    audio_path = Path(__file__).resolve().parent / "audio_teste.webm"
 
     if not audio_path.exists():
         print(f"Arquivo não encontrado: {audio_path}")
         return
 
     with audio_path.open("rb") as f:
+        audio_bytes = f.read()
         response = requests.post(
-            f"{BASE_URL}/voice/transcribe",
-            params={"character_name": "Inuyasha"},
-            files={"audio": ("teste.webm", f, "audio/webm")}
+            f"{BASE_URL}/voice/{character}/transcribe",
+            files={"audio": ("audio_teste.webm", audio_bytes, "audio/webm")}
         )
 
     print(f"Status: {response.status_code}")
@@ -99,6 +99,7 @@ def run_api():
             test_character_details(character)
             test_clear_history(character)
             run_chat(character)
+            test_transcribe(character)
         except Exception as e:
             print(f"Erro em /chat: {e}")
 
@@ -122,8 +123,6 @@ def run_api():
     except Exception as e:
         print(f"Erro em /feed/cached: {e}")
         
-    
-
     # Tenta usar um post do feed para testar o comentário
     if posts:
         primeiro_post = posts[0]
@@ -139,7 +138,10 @@ def run_api():
             print("\nNão foi possível extrair um 'id' ou 'post_id' do primeiro post retornado para testar o comentário.")
     else:
         print("\nNenhum post foi retornado do feed. Pulando o teste de /feed/comment.")
+        
+
+    
 
 if __name__ == "__main__":
-    test_transcribe()
+    run_api()
     
