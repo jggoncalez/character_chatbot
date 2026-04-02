@@ -83,25 +83,56 @@ def load_character(name: str) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+# def build_system_prompt(character_name: str, character: dict) -> str:
+#     valid_states = ", ".join(s.value for s in State)
+#     return (
+#         f"Você é {character_name}.\nPerfil: {character}\n"
+#         "REGRAS ABSOLUTAS:\n"
+#         "- Responda SOMENTE com JSON válido, nada mais.\n"
+#         "- Sem texto antes ou depois do JSON.\n"
+#         "- Português do Brasil UTF-8, sem emojis, sem formatação.\n"
+#         "- OBRIGATÓRIO: Use português do Brasil CORRETO. "
+#         "Acentos, cedilha e pontuação são OBRIGATÓRIOS. "
+#         "Nunca escreva 'nao', sempre 'não'. Nunca 'voce', sempre 'você'.\n"
+#         "- Padrão: máximo 20 palavras por mensagem.\n"
+#         "- EXCEÇÃO: Se ensinar algo ou passo a passo, máximo 100 palavras totais.\n"
+#         "- EXCEÇÃO: Se responder pergunta complexa, máximo 50 palavras.\n"
+#         "- Sempre priorize concisão e clareza.\n"
+#         f'FORMATO OBRIGATÓRIO (copie exatamente):\n'
+#         f'[{{"character": "{character_name}", "text": "sua resposta aqui", "state": "neutral"}}]\n'
+#         f"Estados válidos: {valid_states}\n"
+#         "Respeite rigorosamente o limite de palavras especificado para cada contexto."
+#     )
+
+def _to_compact(obj: object, indent: int = 0) -> str:
+    lines = []
+    pad = "  " * indent
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if isinstance(v, (dict, list)):
+                lines.append(f"{pad}{k}:")
+                lines.append(_to_compact(v, indent + 1))
+            else:
+                lines.append(f"{pad}{k}: {v}")
+    elif isinstance(obj, list):
+        for item in obj:
+            if isinstance(item, (dict, list)):
+                lines.append(f"{pad}-")
+                lines.append(_to_compact(item, indent + 1))
+            else:
+                lines.append(f"{pad}- {item}")
+    return "\n".join(lines)
+
+
 def build_system_prompt(character_name: str, character: dict) -> str:
-    valid_states = ", ".join(s.value for s in State)
+    valid_states = ",".join(s.value for s in State)
+    profile = _to_compact(character)
     return (
-        f"Você é {character_name}.\nPerfil: {character}\n"
-        "REGRAS ABSOLUTAS:\n"
-        "- Responda SOMENTE com JSON válido, nada mais.\n"
-        "- Sem texto antes ou depois do JSON.\n"
-        "- Português do Brasil UTF-8, sem emojis, sem formatação.\n"
-        "- OBRIGATÓRIO: Use português do Brasil CORRETO. "
-        "Acentos, cedilha e pontuação são OBRIGATÓRIOS. "
-        "Nunca escreva 'nao', sempre 'não'. Nunca 'voce', sempre 'você'.\n"
-        "- Padrão: máximo 20 palavras por mensagem.\n"
-        "- EXCEÇÃO: Se ensinar algo ou passo a passo, máximo 100 palavras totais.\n"
-        "- EXCEÇÃO: Se responder pergunta complexa, máximo 50 palavras.\n"
-        "- Sempre priorize concisão e clareza.\n"
-        f'FORMATO OBRIGATÓRIO (copie exatamente):\n'
-        f'[{{"character": "{character_name}", "text": "sua resposta aqui", "state": "neutral"}}]\n'
-        f"Estados válidos: {valid_states}\n"
-        "Respeite rigorosamente o limite de palavras especificado para cada contexto."
+        f"Você é {character_name}.\n{profile}\n"
+        "REGRAS: JSON válido apenas. PT-BR correto. "
+        "Máx 20 palavras; ensino/passo a passo máx 100; pergunta complexa máx 50.\n"
+        f'[{{"character":"{character_name}","text":"...","state":"neutral"}}]\n'
+        f"Estados:{valid_states}"
     )
 
 
