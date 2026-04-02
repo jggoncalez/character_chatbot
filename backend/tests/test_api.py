@@ -1,5 +1,6 @@
 import requests
 import json
+from pathlib import Path
 
 BASE_URL = "http://127.0.0.1:8000"
 
@@ -47,6 +48,40 @@ def run_feed_comment(post_id: str):
     response = requests.post(f"{BASE_URL}/feed/comment", json=payload)
     print(f"Status: {response.status_code}")
     print(json.dumps(response.json(), indent=2, ensure_ascii=False))
+
+def test_character_details(character: str):
+    print(f"\n7. Testando GET /character/{character}/details...")
+    response = requests.get(f"{BASE_URL}/character/{character}/details")
+    print(f"Status: {response.status_code}")
+    if response.status_code == 200:
+        print(f"Detalhes de '{character}' carregados com sucesso (JSON OK).")
+
+def test_clear_history(character: str):
+    print(f"\n8. Testando DELETE /history/{character}/clear...")
+    response = requests.delete(f"{BASE_URL}/history/{character}/clear")
+    print(f"Status: {response.status_code}")
+    print(f"Resposta: {response.json().get('message')}")
+    
+
+def test_transcribe():
+    audio_path = Path(__file__).resolve().parent / "teste.webm"
+
+    if not audio_path.exists():
+        print(f"Arquivo não encontrado: {audio_path}")
+        return
+
+    with audio_path.open("rb") as f:
+        response = requests.post(
+            f"{BASE_URL}/voice/transcribe",
+            params={"character_name": "Inuyasha"},
+            files={"audio": ("teste.webm", f, "audio/webm")}
+        )
+
+    print(f"Status: {response.status_code}")
+    try:
+        print(response.json())
+    except ValueError:
+        print(response.text)
 
 def run_api():
     print("Iniciando testes da API...")
@@ -105,20 +140,6 @@ def run_api():
     else:
         print("\nNenhum post foi retornado do feed. Pulando o teste de /feed/comment.")
 
-def test_character_details(character: str):
-    print(f"\n7. Testando GET /character/{character}/details...")
-    response = requests.get(f"{BASE_URL}/character/{character}/details")
-    print(f"Status: {response.status_code}")
-    if response.status_code == 200:
-        print(f"Detalhes de '{character}' carregados com sucesso (JSON OK).")
-
-def test_clear_history(character: str):
-    print(f"\n8. Testando DELETE /history/{character}/clear...")
-    response = requests.delete(f"{BASE_URL}/history/{character}/clear")
-    print(f"Status: {response.status_code}")
-    print(f"Resposta: {response.json().get('message')}")
-
-
 if __name__ == "__main__":
-    run_api()
+    test_transcribe()
     
