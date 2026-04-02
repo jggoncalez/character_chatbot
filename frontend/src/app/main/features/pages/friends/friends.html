@@ -1,0 +1,46 @@
+<div [class]="themeService.getCurrentTheme() === 'dark' ? 'bg-dark text-white' : 'bg-white text-dark'" 
+     class="container-fluid min-vh-100 p-4 trasition_bg">
+  
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <h1 class="fw-bold">Amigos IAs</h1>
+  </div>
+
+  <div class="row g-4">
+    @for(ia of ias; track $index) {
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm overflow-hidden" 
+                [class]="themeService.getCurrentTheme() === 'dark' ? 'bg-secondary bg-opacity-10 text-white dark-theme-card' : 'bg-light text-dark light-theme-card'">
+                
+                <div style="height: 120px; background: linear-gradient(90deg, #5dade2, #a569bd);"></div>
+
+                <div class="card-body text-center mt-n5" style="margin-top: -50px;">
+                    <div class="avatar-container rounded-circle bg-white d-flex align-items-center justify-content-center shadow mx-auto mb-3" 
+                        [style.border-color]="themeService.getCurrentTheme() === 'dark' ? '#1a1a1a' : '#fff'"
+                        style="width: 100px; height: 100px; border-style: solid; border-width: 4px; font-size: 2.5rem;">
+                        {{ ia.icon }}
+                    </div>
+
+                    <h3 class="card-title fw-bold mb-1">{{ ia.nome }}</h3>
+                    <p class="text-primary mb-2 small fw-semibold">{{ ia.cargo }}</p>
+                    
+                    <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                        <span class="badge rounded-pill bg-success" style="width: 10px; height: 10px; padding: 0;"> </span>
+                        <small class="text-muted">Online</small>
+                    </div>
+
+                    <p class="card-text px-3 mb-4 opacity-75 small">
+                        {{ ia.desc }}
+                    </p>
+
+                    <div class="d-flex gap-2 justify-content-center pb-2">
+                        <button class="btn btn-outline-secondary btn-sm px-3">Ver Perfil</button>
+                        <button class="btn btn-primary btn-sm px-3 d-flex align-items-center gap-2">
+                            Conversar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+  </div>
+</div>

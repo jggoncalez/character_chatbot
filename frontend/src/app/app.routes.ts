@@ -1,32 +1,36 @@
 import { inject } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import { EMPTY, of } from 'rxjs';
-import { ConversationService } from './features/pages/chatbot/components/conversation/services/conversation-service';
+import { Main } from './main/main';
+import { authGuard } from './main/shared/guards/auth.guard';
+
 
 export const routes: Routes = [
     {
-        path: '',
-        loadComponent: () => import('./features/pages/home-page/home-page').then(m => m.HomePage)
+        path : "",
+        component : Main,
+        canActivate : [authGuard],
+        children: [
+            {
+                path: "feed",
+                loadComponent : () => import("./main/features/pages/feed/feed").then(m=> m.Feed)
+            },
+            {
+                path: "friends",
+                loadComponent : () => import("./main/features/pages/friends/friends").then(m=> m.Friends)
+            },
+            {
+                path : "profile",
+                loadComponent : () => import("./main/features/pages/profile/profile").then(m => m.Profile)
+            },
+            {
+                path : "settings",
+                loadComponent : () => import("./main/features/pages/settings/settings").then(m => m.Settings)
+            }
+        ]
     },
     {
-        path: 'chat',
-        loadComponent: () => import('./features/pages/chatbot/chatbot').then(m => m.Chatbot),
-        resolve: {
-            config: () => {
-            const conversationService = inject(ConversationService);
-            const router = inject(Router);
-
-            if (!conversationService.currentChat()) {
-                router.navigate(['']);
-                return EMPTY;
-            }
-
-            return of(conversationService.currentChat());
-            }
-        }
-    },
-    {
-        path: 'about-us',
-        loadComponent: () => import('./features/pages/about-us/about-us').then(m => m.AboutUs)
+        path : "**",
+        redirectTo : ""
     }
 ];

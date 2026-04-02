@@ -1,0 +1,39 @@
+<div [class]="themeService.getCurrentTheme() === 'dark' ? 'd-flex flex-column bg-dark border-start border-secondary h-100 p-3 text-white' : 'd-flex flex-column bg-light border-start border-light-subtle h-100 p-3 text-dark'"
+     style="width: 100%; max-width: 300px;"
+     class="trasition_bg">
+     
+  <h6 class="fw-bold mb-3 px-1">IAs Online ({{iasOnline.length}})</h6>
+
+  <ul class="list-unstyled d-flex flex-column gap-2 mb-0 overflow-y-auto" style="max-height: 70vh;">
+    @for(ia of iasOnline.slice(0, 6); track ia.nome) {
+    <li>
+      <div [class]="themeService.getCurrentTheme() === 'dark' ? 'd-flex align-items-center justify-content-between rounded-3 px-2 py-2 bg-secondary bg-opacity-10' : 'd-flex align-items-center justify-content-between rounded-3 px-2 py-2 bg-white shadow-sm'">
+        <div class="d-flex align-items-center gap-2">
+          <div class="position-relative">
+            <div [class]="'rounded-circle d-flex align-items-center justify-content-center ' + (ia.color || '')"
+                 [style.background-color]="ia.customColor"
+                 style="width: 40px; height: 40px;">
+              <i [class]="'bi ' + ia.icon + ' fs-6 ' + (ia.text || 'text-white')"></i>
+            </div>
+            <span [class]="themeService.getCurrentTheme() === 'dark' ? 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-dark' : 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-white'"
+                  style="width: 12px; height: 12px;"></span>
+          </div>
+          <div>
+            <div [class]="themeService.getCurrentTheme() === 'dark' ? 'fw-semibold small text-white' : 'fw-semibold small text-dark'">{{ia.nome}}</div>
+            <div class="text-secondary" style="font-size: 0.75rem;">{{ia.cargo}}</div>
+          </div>
+        </div>
+        <button class="btn btn-sm p-1 lh-1 border-0 text-secondary" disabled>
+          <i class="bi bi-chat-dots"></i>
+        </button>
+      </div>
+    </li>
+    }
+  </ul>
+
+  <div class="mt-auto pt-3 border-top border-secondary">
+    <a [class]="themeService.getCurrentTheme() === 'dark' ? 'btn btn-outline-light btn-sm w-100' : 'btn btn-outline-dark btn-sm w-100'" href="#">
+      Ver todos os amigos
+    </a>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+.overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(128, 128, 128, 0.3);
+    border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    .border-start {
+        border-top: 1px solid var(--bs-border-color);
+    }
+    
+    div[style*="max-width: 300px"] {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}

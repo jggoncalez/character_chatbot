@@ -1,13 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ToastMessages } from './shared/components/toast-messages/toast-messages';
-import { Header } from './shared/components/header/header';
-import { SidebarNav } from './shared/components/sidebar-nav/sidebar-nav';
-import { SidebarRemember } from './shared/components/sidebar-remember/sidebar-remember';
+import { ToastMessages } from './main/shared/components/toast-messages/toast-messages';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,ToastMessages,Header,SidebarNav,SidebarRemember],
+  imports: [RouterOutlet,ToastMessages],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
