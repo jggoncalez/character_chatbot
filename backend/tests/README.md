@@ -164,8 +164,8 @@ def test_example(client, first_character):
 - File size: ~28KB
 
 ### History/Feed tests fail
-- Check that `history.json` is valid (not empty)
-- Check that `feed.json` is valid (not empty)
+- Empty or corrupted `history.json`/`feed.json` files should be treated as empty state
+- Check file permissions, file locks, or whether another process is modifying these files during tests
 
 ### Import errors
 - Ensure you're in the `backend/` directory
