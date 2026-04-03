@@ -121,6 +121,8 @@ def load_history(character_name: str) -> list:
         if not content:  # Handle empty file
             return []
         data = json.loads(content)
+        if not isinstance(data, dict):
+            return []
         return data.get(normalize_character_name(character_name), [])
     except json.JSONDecodeError:
         # File is corrupted, return empty history

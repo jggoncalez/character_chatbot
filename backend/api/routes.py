@@ -160,7 +160,9 @@ async def transcribe_voice(
 
     except HTTPException:
         raise
-    except Exception as e:
-        # ← mostra o erro real temporariamente
+    except FileNotFoundError:
+        logger.exception("Character data not found for name: %s", character_name)
+        raise HTTPException(status_code=404, detail="Character not found")
+    except Exception:
         logger.exception("Erro na transcrição")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Erro interno na transcrição")

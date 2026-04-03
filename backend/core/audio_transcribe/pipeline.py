@@ -1,11 +1,14 @@
 # core/audio_transcribe/pipeline.py
 
+import logging
 import os
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
@@ -37,9 +40,6 @@ def transcribe_audio(audio_bytes: bytes, mime_type: str) -> str:
         ]
     )
 
-    # ← temporário
-    print("RAW RESPONSE:", repr(response.text))
-    print("AUDIO SIZE:", len(audio_bytes))
-    print("MIME:", clean_mime)
+    logger.debug("Transcription MIME: %s, audio size: %d bytes", clean_mime, len(audio_bytes))
 
     return response.text.strip() if response.text else ""
