@@ -45,7 +45,7 @@ def run_tests(test_file=None, verbose=False, markers=None):
     ]
     
     if markers:
-        cmd.append(f"-m {markers}")
+        cmd += ["-m", markers]
     
     if test_file:
         cmd.append(str(test_file))
