@@ -1,10 +1,20 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from pydantic import BaseModel, Field
 from typing import List
 from fastapi.concurrency import run_in_threadpool
 from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR, load_character, clear_history
 from core.feed.pipeline import refresh_feed, add_user_comment, load_feed
+from core.audio_transcribe.pipeline import transcribe_audio
 import logging
+
+SUPPORTED_TYPES = [
+    "audio/webm",
+    "audio/webm;codecs=opus",
+    "audio/mp4",
+    "audio/wav",
+    "audio/ogg"
+]
+
 
 logger = logging.getLogger(__name__)
 
@@ -123,3 +133,36 @@ async def clear_character_history(character_name: str):
     except Exception:
         logger.exception("Erro ao limpar histórico")
         raise HTTPException(status_code=500, detail="Erro ao processar limpeza de arquivo")
+    
+
+@router.post("/voice/{character_name}/transcribe")
+async def transcribe_voice(
+    character_name: str,
+    audio: UploadFile = File(...),
+):
+    try:
+        mime = audio.content_type or "audio/webm"
+        if not any(mime.startswith(t) for t in SUPPORTED_TYPES):
+            raise HTTPException(status_code=415, detail=f"Tipo não suportado: {mime}")
+        
+        audio_bytes = await audio.read()
+        if len(audio_bytes) > 1_000_000:
+            raise HTTPException(status_code=413, detail="Áudio muito longo")
+        
+        text = await run_in_threadpool(transcribe_audio, audio_bytes, mime)
+        
+        if not text:
+            raise HTTPException(status_code=422, detail="Não foi possível transcrever")
+        
+        responses = await run_in_threadpool(generate_message, text, character_name)
+        
+        return {"transcription": text, "responses": responses}
+
+    except HTTPException:
+        raise
+    except FileNotFoundError:
+        logger.exception("Character data not found for name: %s", character_name)
+        raise HTTPException(status_code=404, detail="Character not found")
+    except Exception:
+        logger.exception("Erro na transcrição")
+        raise HTTPException(status_code=500, detail="Erro interno na transcrição")
