@@ -2,48 +2,19 @@
     [attr.data-bs-theme]="themeService.getCurrentTheme()"
     [class]="themeService.getCurrentTheme() === 'dark' ? 'bg-body-tertiary' : 'bg-body-light'">
   <ul class="nav flex-column gap-1 mt-2">
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 fw-semibold bg-primary bg-opacity-25"
-        [class]="themeService.getCurrentTheme() === 'dark' ? 'text-light' : 'text-dark'"
-         href="#">
-        <i class="bi bi-house-fill fs-5 text-primary"></i>
-        <span>Início</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
-        <i class="bi bi-people fs-5"></i>
-        <span>Amigos</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
-        <i class="bi bi-person fs-5"></i>
-        <span>Perfil</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
-        <i class="bi bi-graph-up-arrow fs-5"></i>
-        <span>Tendências</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
-        <i class="bi bi-bookmark fs-5"></i>
-        <span>Salvos</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
-        <i class="bi bi-gear fs-5"></i>
-        <span>Configurações</span>
-      </a>
-    </li>
+    @for(link of links; track $index) {
+      <li class="nav-item">
+        <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 bg-opacity-25"
+        [routerLink]="`/${link.path}`" routerLinkActive="fw-bold bg-primary" [class.text-body-secondary]="!routeLink.isActive" #routeLink="routerLinkActive"
+          [class]="themeService.getCurrentTheme() === 'dark' ? 'text-light' : 'text-dark'"
+          (click)="navigate(link.path)">
+          <i class="bi fs-5 " [class]="link.icon"></i>
+          <span>{{link.name}}</span>
+        </a>
+      </li>
+    }
+    
+    
 
   </ul>
 
@@ -61,3 +32,30 @@
   </div>
 
 </div>
+
+
+<!-- <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2" href="#"
+        [routerLink]="'/friends'" routerLinkActive="fw-bold bg-primary" [class.text-body-secondary]="!friends.isActive" #friends="routerLinkActive"
+      >
+        <i class="bi bi-people fs-5"></i>
+        <span>Amigos</span>
+      </a>
+    </li> -->
+
+    <!-- <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
+        <i class="bi bi-person fs-5"></i>
+        <span>Perfil</span>
+      </a>
+    </li>
+
+    
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
+        <i class="bi bi-gear fs-5"></i>
+        <span>Configurações</span>
+      </a>
+    </li> -->
