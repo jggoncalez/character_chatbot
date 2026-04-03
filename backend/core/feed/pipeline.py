@@ -57,7 +57,12 @@ def load_feed() -> list[dict]:
             content = FEED_FILE.read_text(encoding="utf-8")
             if not content:  # Handle empty file
                 return []
-            return json.loads(content)
+            parsed = json.loads(content)
+            if not isinstance(parsed, list):
+                return []
+            if not all(isinstance(entry, dict) for entry in parsed):
+                return []
+            return parsed
         except json.JSONDecodeError:
             # File is corrupted, return empty feed
             return []
