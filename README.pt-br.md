@@ -12,16 +12,41 @@ Chatbot de personagens de anime/jogos com personalidade definida por arquivos JS
 
 ```
 character_chatbot/
-├── backend/
-│   ├── core/
-│   │   ├── characters/        # Perfis dos personagens em JSON
-│   │   ├── pipeline/
-│   │   │   └── chat.py        # Pipeline principal de geração de mensagens
-│   │   └── history.json       # Histórico de conversas (gerado em runtime)
-│   ├── api/                   # Rotas da API (em desenvolvimento)
-│   ├── main.py                # Entry point FastAPI (em desenvolvimento)
-│   └── requirements.txt
-└── frontend/                  # Branch: feature/angular
+│   .gitignore               # Arquivos e pastas ignorados pelo Git
+│   LICENSE                  # Licença MIT do projeto
+│   README.md                # Documentação principal (inglês)
+│   README.pt-br.md          # Documentação em português
+│
+├───backend
+│   │   main.py              # Entry point da API FastAPI (CORS, rotas)
+│   │   requirements.txt     # Dependências Python
+│   │
+│   ├───api
+│   │       .gitkeep         # Mantém a pasta rastreada pelo Git
+│   │       routes.py        # Endpoints: GET /characters, POST /chat, GET /history
+│   │       __init__.py      # Marca o diretório como pacote Python
+│   │
+│   ├───core
+│   │   │   history.example.json     # Exemplo do formato do histórico de conversas
+│   │   │
+│   │   ├───characters
+│   │   │       goku.json        # Perfil de personalidade do Goku
+│   │   │       inuyasha.json    # Perfil de personalidade do Inuyasha
+│   │   │       megumin.json     # Perfil de personalidade da Megumin
+│   │   │       shadow.json      # Perfil de personalidade do Shadow
+│   │   │
+│   │   └───pipeline
+│   │           chat.py          # Pipeline principal: carrega personagem, chama Gemini, persiste histórico
+│   │           model_loader.py  # Utilitário para listar modelos disponíveis na API do Gemini
+│   │           __init__.py      # Marca o diretório como pacote Python
+│   │
+│   └───tests
+│           test_api.py      # Testes manuais dos endpoints via requests
+│
+├───docs
+│       api_endpoints.docx   # Documentação dos endpoints da API
+│
+└───frontend                 # Frontend Angular (branch: feature/angular)
 ```
 
 ---

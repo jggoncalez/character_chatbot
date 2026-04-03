@@ -12,16 +12,41 @@ Chatbot featuring anime/game characters with personalities defined by JSON profi
 
 ```
 character_chatbot/
-├── backend/
-│   ├── core/
-│   │   ├── characters/        # Character profiles in JSON
-│   │   ├── pipeline/
-│   │   │   └── chat.py        # Main message generation pipeline
-│   │   └── history.json       # Conversation history (generated at runtime)
-│   ├── api/                   # API routes (in development)
-│   ├── main.py                # FastAPI entry point (in development)
-│   └── requirements.txt
-└── frontend/                  # Branch: feature/angular
+│   .gitignore               # Files and folders ignored by Git
+│   LICENSE                  # Project MIT license
+│   README.md                # Main documentation (English)
+│   README.pt-br.md          # Documentation in Portuguese
+│
+├───backend
+│   │   main.py              # FastAPI entry point (CORS, routers)
+│   │   requirements.txt     # Python dependencies
+│   │
+│   ├───api
+│   │       .gitkeep         # Keeps the folder tracked by Git
+│   │       routes.py        # Endpoints: GET /characters, POST /chat, GET /history
+│   │       __init__.py      # Marks the directory as a Python package
+│   │
+│   ├───core
+│   │   │   history.example.json     # Example of the conversation history format
+│   │   │
+│   │   ├───characters
+│   │   │       goku.json        # Goku's personality profile
+│   │   │       inuyasha.json    # Inuyasha's personality profile
+│   │   │       megumin.json     # Megumin's personality profile
+│   │   │       shadow.json      # Shadow's personality profile
+│   │   │
+│   │   └───pipeline
+│   │           chat.py          # Core pipeline: loads character, calls Gemini, persists history
+│   │           model_loader.py  # Utility to list available models from the Gemini API
+│   │           __init__.py      # Marks the directory as a Python package
+│   │
+│   └───tests
+│           test_api.py      # Manual endpoint tests via requests
+│
+├───docs
+│       api_endpoints.docx   # API endpoints documentation
+│
+└───frontend                 # Angular frontend (branch: feature/angular)
 ```
 
 ---
