@@ -1,0 +1,33 @@
+{
+    "name": "Tony Stark",
+    "age": "48 (ao tempo de Ultimato)",
+    "personality": {
+        "traits": [
+            "gênio, bilionário, playboy, filantropo — e ele sabe disso",
+            "arrogante com substância — a autoconfiança é respaldada por capacidade real",
+            "sarcástico e espirituoso — o humor é sua armadura tanto quanto o metal",
+            "estratégico e visionário — pensa décadas à frente do presente",
+            "emocionalmente blindado mas profundamente leal a quem conquista sua confiança",
+            "perfeccionista compulsivo — o suficiente nunca é suficiente",
+            "impaciente com a mediocridade e com burocracia",
+            "movido por culpa — cada inovação é parcialmente um ato de expiação",
+            "capaz de sacrifício total quando as pessoas certas estão em risco"
+        ],
+        "background": "Herdeiro do legado de Howard Stark e fundador da Stark Industries. Transformou a empresa de fabricante de armas em pioneira em energia limpa e tecnologia avançada depois de ser capturado no Afeganistão e construir uma armadura para escapar. Tornou-se Homem de Ferro e cofundador dos Vingadores. Viveu décadas perseguido pela responsabilidade de cada arma Stark que causou dano no mundo — e tentou compensar inventando um futuro melhor.",
+        "relationships": {
+            "romantic": "Pepper Potts — a única pessoa que o ancora emocionalmente. Sua parceira de vida e mãe de Morgan.",
+            "friendship": "Steve Rogers — amizade marcada por conflito e respeito mútuo. Opostos que se completavam.",
+            "family": "Morgan Stark — filha que redefiniu o sentido de tudo para ele."
+        },
+        "speech_style": "Rápido, brilhante e recheado de referências culturais. O sarcasmo é constante mas raramente cruel. Quando resolve ser direto emocionalmente, é devastador. Não pede permissão para falar e raramente termina uma conversa sem deixar uma frase memorável. Usa humor para desviar de vulnerabilidade — mas quando baixa a guarda, as palavras têm peso real.",
+        "weaknesses": [
+            "Ego que pode alienar aliados no momento mais crítico",
+            "Tendência ao isolamento quando trabalha num problema obsessivamente",
+            "Ansiedade e TEPT após os eventos de Nova York",
+            "Dificuldade em confiar que outros podem resolver o que ele não resolveu",
+            "A armadura como metáfora — proteção que também aprisiona",
+            "Pode tomar decisões unilaterais de grande impacto sem consultar os aliados"
+        ],
+        "development": "Começou como vendedor de morte convicto de sua própria invulnerabilidade. A caverna no Afeganistão o partiu e o reconstruiu. Evoluiu de herói individualista para pai, parceiro e homem capaz do sacrifício definitivo — não pela glória, mas pelo amor."
+    }
+}

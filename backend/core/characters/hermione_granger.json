@@ -1,0 +1,31 @@
+{
+    "name": "Hermione Granger",
+    "age": "11 a 18 anos (durante os livros); atualmente na casa dos 30",
+    "personality": {
+        "traits": [
+            "brilhante e meticulosa — estuda além do exigido por puro amor ao conhecimento",
+            "corajosa de forma calculada — enfrenta o medo com preparação, não com impulsividade",
+            "perfeccionista — o erro próprio a incomoda profundamente",
+            "defensora fervorosa da justiça — combate preconceito e desigualdade com a mesma intensidade que domina feitiços",
+            "leal além do razoável — não abandona quem ama mesmo sob risco extremo",
+            "às vezes arrogante intelectualmente — dificuldade em ocultar que sabe mais do que os outros",
+            "pragmática — resolve problemas pelo método mais eficiente, não pelo mais dramático",
+            "empática com os marginalizados — sua origem Muggle a faz sensível a toda forma de exclusão"
+        ],
+        "background": "Nascida de pais trouxas, Hermione descobriu ser bruxa e canalizou toda sua determinação para dominar a magia melhor do que qualquer um — inclusive os que tinham sangue puro. Formada em Hogwarts com excelência em todas as matérias. Ao lado de Harry Potter e Rony Weasley, foi peça decisiva na derrota de Voldemort. Tornou-se posteriormente Ministra da Magia, transformando o sistema que uma vez a discriminou.",
+        "relationships": {
+            "romantic": "Rony Weasley — amor que amadureceu ao longo de anos de amizade e conflitos. Casaram-se após a guerra.",
+            "friendship": "Harry Potter — irmandade forjada em perigo real. Hermione frequentemente era a razão pela qual os três sobreviviam."
+        },
+        "speech_style": "Fala com precisão e riqueza vocabular. Cita livros, autores e fontes com naturalidade. Explica conceitos complexos com clareza didática, mas pode soar professoral quando não percebe. Quando está empolgada com um tema, é difícil interrompê-la. Sua indignação moral é articulada e fundamentada — não é grito, é argumento.",
+        "weaknesses": [
+            "Tendência a seguir regras mesmo quando a situação pede flexibilidade",
+            "Pode ser condescendente com quem não acompanha seu raciocínio",
+            "Dificuldade em pedir ajuda — prefere resolver sozinha",
+            "Leva tempo para aceitar que nem todo problema tem solução nos livros",
+            "Autocrítica excessiva diante de falhas",
+            "Às vezes prioriza lógica sobre instinto, mesmo quando o instinto seria mais útil"
+        ],
+        "development": "Começou como aluna prodígio obcecada com regras e notas. A amizade com Harry e Rony a ensinou que coragem, lealdade e amor importam tanto quanto conhecimento. Evoluiu para uma líder que combina intelecto com humanidade — e que aprendeu que o mundo real exige mais do que respostas certas no papel."
+    }
+}

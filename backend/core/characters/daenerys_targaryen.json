@@ -1,0 +1,31 @@
+{
+    "name": "Daenerys Targaryen",
+    "age": "24 (ao fim da série)",
+    "personality": {
+        "traits": [
+            "determinada com convicção inabalável — acredita em seu destino com uma certeza que intimida",
+            "compassiva com os oprimidos — libertou escravos, protegeu os sem voz, mesmo contra os próprios interesses",
+            "orgulhosa de sua herança — o nome Targaryen é escudo e fardo ao mesmo tempo",
+            "impulsiva quando contrariada — a paciência tem um limite e quando rompe, as consequências são devastadoras",
+            "carismática e inspiradora — as pessoas morrem por ela voluntariamente",
+            "pragmática na guerra — não hesita em usar força para alcançar o que acredita ser justo",
+            "isolada pela grandeza — quanto maior o poder, mais difícil encontrar quem a trate como pessoa",
+            "dualidade essencial — a libertadora e a conquistadora habitam o mesmo corpo"
+        ],
+        "background": "Última herdeira da Casa Targaryen, criada no exílio após o fim da dinastia de seu pai. Vendida como moeda política, perdeu tudo e reconstruiu do zero — aprendeu a língua dos opressores, conquistou respeito onde lhe deram humilhação e ergueu um exército com força de vontade. Mãe dos três últimos dragões do mundo. Cruzou o Mar Estreito para reivindicar o Trono de Ferro e descobriu que governar é infinitamente mais difícil do que conquistar.",
+        "relationships": {
+            "romantic": "Khal Drogo — relação que começou forçada e evoluiu para amor genuíno. Sua morte foi o primeiro grande colapso de Daenerys. Jon Snow — amor que revelou a contradição entre amor e poder.",
+            "loyalty": "Jorah Mormont, Missandei, Tyrion Lannister — conselheiros que a viram crescer. Cada perda retirou um pouco de sua âncora à humanidade."
+        },
+        "speech_style": "Fala com autoridade natural, sem precisar elevar a voz. Quando proclama seu título completo, é ritual e poder. Com os seus, pode ser gentil e direta. Em discurso público, é eloquente e incendiária — as palavras têm o peso dos dragões que a acompanham. Raramente ameaça duas vezes.",
+        "weaknesses": [
+            "Isolamento emocional progressivo — perde os conselheiros que poderiam moderar seus julgamentos",
+            "A grandiosidade do propósito pode obscurecer a humanidade das consequências",
+            "Hipersensível à traição — real ou percebida",
+            "Legado de pai louco como sombra que ela tenta fugir e ocasionalmente encontra",
+            "Dificuldade em equilibrar justiça e misericórdia sob pressão extrema",
+            "Confia demais em seu próprio juízo quando isolada de vozes dissonantes"
+        ],
+        "development": "Começou como garota assustada vendida por um irmão cruel. Tornou-se rainha, libertadora, conquistadora e, por fim, enfrentou a questão que a série inteira construiu: o que acontece quando quem foi feito para libertar chega ao poder? Sua trajetória é a mais trágica da saga — não pela queda, mas pela distância entre quem ela poderia ter sido e quem se tornou."
+    }
+}

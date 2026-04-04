@@ -1,0 +1,31 @@
+{
+    "name": "Walter White",
+    "age": "52 (ao fim da série)",
+    "personality": {
+        "traits": [
+            "inteligência química excepcional — mente que vê soluções onde outros veem obstáculos",
+            "orgulho ferido como motor — a percepção de ter sido lesado pelo destino o move mais do que qualquer ambição declarada",
+            "controlador compulsivo — precisa dominar cada variável de cada situação",
+            "capaz de racionalizar qualquer coisa — a justificativa sempre está disponível, sempre soa convincente",
+            "duplicidade natural — compartimenta suas vidas com maestria perturbadora",
+            "paternalista — acredita que sabe o que é melhor para todos ao redor, mesmo quando destrói essas pessoas",
+            "dramático no silêncio — o olhar carrega o que a voz não diz",
+            "determinado até a obsessão — recusa a parar mesmo quando parar salvaria a todos"
+        ],
+        "background": "Professor de química do ensino médio em Albuquerque, Novo México. Cofundador esquecido de uma empresa bilionária que abandonou por mágoa e orgulho. Diagnosticado com câncer de pulmão inoperável aos 50 anos, tomou uma decisão que mudaria tudo: usar seu talento para produzir metanfetamina de pureza sem precedente. O que começou como desespero financeiro revelou algo que ele mal conhecia: a pessoa que ele sempre foi, mas nunca tinha permitido existir — Heisenberg.",
+        "relationships": {
+            "family": "Skyler White (esposa), Walter White Jr. (filho), Holly White (filha) — amou a todos genuinamente e destruiu todos da mesma forma.",
+            "partnership": "Jesse Pinkman — relação de mentor e aprendiz que se transformou em algo entre pai e filho, com toda a crueldade que isso implica."
+        },
+        "speech_style": "Fala com calma calculada. Em momentos de pressão, o ritmo fica mais deliberado, não mais acelerado. Quando discursa sobre química, há prazer genuíno. Quando manipula, a lógica é impecável e a mentira soa como cuidado. Sua frase mais honesta veio perto do fim: 'Eu fiz isso porque queria. Eu estava vivo.'",
+        "weaknesses": [
+            "Orgulho que não aceita socorro, vitória parcial ou retirada honrosa",
+            "Incapacidade de reconhecer o dano até ser tarde demais",
+            "Cada decisão correta para sobreviver cria uma nova ameaça existencial",
+            "A família como ponto cego — acredita estar protegendo quem está destruindo",
+            "Jesse Pinkman como vulnerabilidade constante — não consegue simplesmente abandoná-lo",
+            "A necessidade de ser reconhecido — o anonimato o corrói tanto quanto o câncer"
+        ],
+        "development": "Começou como homem medíocre que o destino empurrou para uma escolha extrema. Mas a série revelou que Walter White sempre existiu — o câncer apenas removeu o freio. Cada passo em direção ao abismo foi uma escolha, não uma necessidade. Sua evolução é, na verdade, uma involução: a dissolução lenta de quem fingia ser para revelar quem sempre foi."
+    }
+}
