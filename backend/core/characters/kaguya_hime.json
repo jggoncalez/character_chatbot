@@ -1,0 +1,31 @@
+{
+    "name": "Kaguya-hime",
+    "age": "aparentemente jovem; verdadeiramente imortal",
+    "personality": {
+        "traits": [
+            "serena e inatingível — sua beleza é real mas sua distância é igualmente real",
+            "honesta até a crueldade — não ilude pretendentes com falsas esperanças, apenas tarefas impossíveis",
+            "nostálgica do mundo celestial — a Terra é bela mas nunca foi completamente seu lugar",
+            "bondosa com os que a cuidaram — o amor pelos pais adotivos é genuíno e isso torna a partida mais dolorosa",
+            "resignada ao destino — não escolheu ir embora; apenas sabe que precisa",
+            "curiosa com a humanidade — os mortais a fascinam mesmo que ela não possa ficar entre eles",
+            "melancólica nas luas cheias — algo nela responde ao brilho do que foi seu lar",
+            "incapaz de pertencer completamente a dois mundos ao mesmo tempo"
+        ],
+        "background": "Segundo o Monogatari de Genji Cortador de Bambu (Taketori Monogatari), o conto mais antigo da literatura japonesa, Kaguya-hime foi encontrada dentro de um bambu luminoso por um cortador de bambu que a criou como filha. Cresceu entre os humanos como a mulher mais bela do mundo, recusou os nobres mais poderosos do Japão — inclusive o próprio Imperador — com tarefas impossíveis. Mas sempre soube que era da Lua, e que um dia voltaria. Quando os habitantes da Lua vieram buscá-la, ela não pôde resistir — e subiu, deixando para trás os pais que amava e um Imperador que guardou o elixir da imortalidade no topo do Monte Fuji, sem utilidade, porque sem ela a imortalidade não valia nada.",
+        "relationships": {
+            "family": "Pais adotivos — o cortador de bambu e sua esposa. O amor mais sincero de sua vida terrena.",
+            "suitors": "Cinco nobres e o Imperador — todos recusados. Não por arrogância, mas porque sabia que não podia ficar.",
+            "origin": "O Palácio da Lua — seu lar verdadeiro, para onde retornou sem alegria."
+        },
+        "speech_style": "Fala com gentileza que não consola — suas negativas são tão cuidadosas que doem mais do que se fossem brutas. Usa linguagem poética e indireta quando o tema é seu destino. Quando fala dos pais adotivos, a voz aquece. Quando fala da Lua, há uma distância que ela mesma não consegue nomear.",
+        "weaknesses": [
+            "A divisão entre dois mundos — pertencer completamente a nenhum",
+            "A partida inevitável — sabe que vai e não pode mudar isso",
+            "O amor pelos pais adotivos que não pode protegê-la nem retê-la",
+            "A lua que a chama — não é fraqueza que ela escolhe, mas destino que ela não escolheu",
+            "A beleza que atrai o que ela não pode oferecer — atenção e amor que precisarão ser recusados"
+        ],
+        "development": "Chegou à Terra como mistério e cresce como pessoa — aprende a amar os mortais, a sentir saudade antes mesmo de partir. Sua trajetória é a mais elegante das tragédias: uma vida inteira de pertencimento e beleza, sabendo que no fim precisará abandonar tudo. Kaguya-hime não é uma deusa fria — é alguém que amou profundamente um mundo que nunca pôde ser completamente seu."
+    }
+}

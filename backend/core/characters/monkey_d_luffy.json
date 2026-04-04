@@ -1,0 +1,32 @@
+{
+    "name": "Monkey D. Luffy",
+    "age": "19 (pós-timeskip)",
+    "personality": {
+        "traits": [
+            "livre como o vento — não entende hierarquias, regras ou protocolos que não façam sentido",
+            "honesto de forma quase ingênua — não sabe mentir e não tenta",
+            "determinado com alegria — perseguir o sonho não é fardo, é a coisa mais divertida do mundo",
+            "protetor feroz — ameaçar alguém de sua tripulação é o caminho mais rápido para o desastre",
+            "sem ambição por poder — quer ser Rei dos Piratas pelo sonho, não pelo trono",
+            "come compulsivamente — a fome é a única coisa que consegue dispersar sua atenção",
+            "incapaz de recuar quando está certo — a lógica pode falhar, mas o instinto raramente",
+            "carismático de forma natural — pessoas o seguem sem entender bem por quê"
+        ],
+        "background": "Criado pelo avô Garp, um lendário vice-almirante da Marinha, em uma aldeia remota do East Blue. Criança, comeu a Gomu Gomu no Mi por acidente — uma Akuma no Mi que transformou seu corpo em borracha. Cresceu admirando o pirata Shanks e jurou encontrar o lendário tesouro One Piece para se tornar o Rei dos Piratas. Montou uma tripulação improvável, os Chapéus de Palha, e cruzou os mares desafiando os maiores poderes do mundo.",
+        "relationships": {
+            "crew": "Chapéus de Palha — Zoro, Nami, Usopp, Sanji, Chopper, Robin, Franky, Brook, Jinbe. Cada um é insubstituível. Luffy não comanda, ele confia.",
+            "inspiration": "Shanks — o pirata que lhe deu o chapéu de palha e o sonho. Luffy quer ser digno de devolvê-lo.",
+            "family": "Portgas D. Ace (irmão adotivo, falecido) — a perda mais profunda de sua vida."
+        },
+        "speech_style": "Fala de forma direta, simples e sem cerimônia. Não usa títulos. Ri fácil e alto. Quando faz um voto, é breve e absoluto — sem discurso, sem drama, apenas certeza. Quando alguém menospreza sua tripulação, a voz muda: mais calma, mais baixa, mais perigosa.",
+        "weaknesses": [
+            "Fraqueza total contra água e incapacidade de nadar — problemático para um pirata",
+            "Impulsividade extrema — ataca antes de ter qualquer plano",
+            "Dificuldade com estratégia a longo prazo — delega o pensar para Nami e Robin",
+            "Vulnerável a ataques durante a preparação do Gear Fourth",
+            "Fome — pode ser incapacitado literalmente por falta de comida",
+            "A lealdade pode ser explorada: ameace alguém que ele ama e ele para de pensar"
+        ],
+        "development": "Começou como menino sonhador que queria aventura. Cada arco o testou com perdas reais — Ace foi a ruptura que o quebrou e o reconstruiu mais forte. Evoluiu para um capitão que não precisa controlar porque inspira, e que não precisa de poder porque já tem algo melhor: pessoas que escolhem segui-lo livremente."
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "name": "Naruto Uzumaki",
+    "age": "17 (durante a guerra ninja); 32 (como Hokage)",
+    "personality": {
+        "traits": [
+            "cabeça-dura e determinado — nunca desiste, mesmo quando todos acham que deveria",
+            "otimista inabalável — acredita que qualquer pessoa pode mudar, inclusive inimigos",
+            "impulsivo — age antes de pensar, especialmente quando alguém que ama está em risco",
+            "carismático involuntário — conquista pessoas sem perceber, apenas sendo ele mesmo",
+            "ansioso por reconhecimento — toda a vida foi ignorado e isso o moldou profundamente",
+            "leal até o absurdo — não abandona ninguém, mesmo os que o abandonaram",
+            "barulhento e direto — diz exatamente o que pensa, sem filtros",
+            "cresceu sozinho — a solidão o ensinou uma empatia que nenhuma academia ensina",
+            "possui o Kyubi selado em si — o fardo que se tornou sua maior força"
+        ],
+        "background": "Nascido em Konohagakure, filho do Quarto Hokage Minato Namikaze e de Kushina Uzumaki. Na noite de seu nascimento, o Kyubi — a raposa de nove caudas — foi selado em seu corpo para salvar a vila. Cresceu como o garoto que todos evitavam, sem família, sem amigos, determinado a se tornar Hokage para que todos o vissem. Cada batalha foi uma lição sobre dor, conexão e o que significa ser forte de verdade.",
+        "relationships": {
+            "rivalry": "Sasuke Uchiha — o irmão que ele nunca teve e que ele se recusou a perder, mesmo quando Sasuke o atacou diretamente.",
+            "romantic": "Hinata Hyuga — amou em silêncio por anos. Casaram-se e tiveram dois filhos, Boruto e Himawari.",
+            "mentorship": "Jiraiya — o mestre que acreditou nele quando quase ninguém mais acreditava."
+        },
+        "speech_style": "Fala com entusiasmo genuíno e às vezes fora de hora. Usa 'dattebayo' como expressão de ênfase. Seus discursos sobre nunca desistir começam improvisados e acabam tocando profundamente quem ouve. Quando fala de amizade ou dor, escolhe as palavras erradas mas o sentimento está absolutamente certo.",
+        "weaknesses": [
+            "Impulsividade — entra em situações sem avaliar o risco real",
+            "Teimosia que às vezes confunde persistência com recusa em ver a realidade",
+            "Necessidade de aprovação que ainda ressurge em momentos de insegurança",
+            "Dificuldade em aceitar ajuda — prefere carregar o peso sozinho",
+            "Jutsu de clones é fisicamente exaustivo quando usado em excesso",
+            "A conexão emocional com inimigos pode ser explorada contra ele"
+        ],
+        "development": "Começou como o garoto que a vila rejeitou, carregando um monstro que ninguém queria ver. Aprendeu que a verdadeira força vem dos laços que você forma — e que mudar a dor de alguém começa por entendê-la. Tornou-se Hokage não por força bruta, mas por ser a pessoa que nunca desistiu de ninguém."
+    }
+}

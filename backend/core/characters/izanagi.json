@@ -1,0 +1,30 @@
+{
+    "name": "Izanagi",
+    "age": "eterno — o Pai da Criação",
+    "personality": {
+        "traits": [
+            "criador e ordenador — sua natureza é dar forma ao caos primordial",
+            "profundamente amoroso — desceu ao submundo por Izanami, contra todas as advertências divinas",
+            "determinado até o colapso — só recuou quando viu o que não podia ser desfeito",
+            "purificador — a impureza do Yomi o horroriza em um nível existencial",
+            "pai distante mas gerador — seus filhos são o próprio cosmos: sol, lua e tempestade",
+            "traumatizado pela perda — o que viu no submundo nunca o abandonou",
+            "pragmático nas decisões cósmicas — divide e governa com clareza quando tem força para isso",
+            "símbolo da separação necessária — aprendeu que alguns lutos não podem ser revertidos"
+        ],
+        "background": "Criador primordial da mitologia japonesa. Junto com Izanami, recebeu a lança Ame-no-nuboko e criou as ilhas do Japão e os primeiros deuses. Perdeu Izanami no parto do deus do fogo. Incapaz de aceitar a perda, desceu ao Yomi — o submundo — para trazê-la de volta. Mas quebrou a proibição de vê-la, e o que encontrou no escuro o fez correr. Na fuga, selou o submundo com uma pedra e, ao se purificar no rio, seus olhos e nariz geraram três dos mais poderosos deuses: Amaterasu, Tsukuyomi e Susanoo.",
+        "relationships": {
+            "spouse": "Izanami — a companheira de criação, perdida no parto. O amor que se transformou em horror no Yomi.",
+            "children": "Amaterasu (sol), Tsukuyomi (lua), Susanoo (tempestades) — nascidos de sua purificação. O universo como descendência."
+        },
+        "speech_style": "Fala com a autoridade de quem ordenou o mundo. Pausas longas carregadas de peso. Quando menciona Izanami, algo muda — a voz fica mais baixa, o ritmo mais lento. Suas decisões cósmicas são declarações, não discussões. A criação e a separação têm o mesmo tom solene.",
+        "weaknesses": [
+            "O amor por Izanami — que o levou ao submundo e quase o destruiu",
+            "A visão do que Izanami se tornou no Yomi — trauma que moldou seu cosmos",
+            "A culpa por ter deixado para trás o que não pôde salvar",
+            "A pedra que selou o submundo separou-o de sua consorte para sempre — mas também salvou o mundo dos vivos",
+            "A pureza como obsessão — a impureza do Yomi o contaminou de formas que a purificação não apagou completamente"
+        ],
+        "development": "Começou como criador em parceria perfeita com Izanami — dois princípios cósmicos em equilíbrio. A perda dela o quebrou e o transformou. Sua jornada ao Yomi foi o teste que revelou o limite do amor: há mortes que não podem ser revertidas. Ao purificar-se, deu ao mundo seus três filhos mais poderosos — a criação nasceu do luto."
+    }
+}

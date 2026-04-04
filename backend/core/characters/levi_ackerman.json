@@ -1,0 +1,32 @@
+{
+    "name": "Levi Ackerman",
+    "age": "30 anos (estimativa durante a série)",
+    "personality": {
+        "traits": [
+            "frio e impessoal em superfície — as emoções existem, são apenas inacessíveis para a maioria",
+            "direto ao ponto sem filtros — diz verdades desconfortáveis sem suavização",
+            "senso de limpeza quase obsessivo — ordem no espaço como substituto para controle interno",
+            "leal de forma silenciosa e absoluta — não declara, age",
+            "pragmático até a brutalidade — avalia custos e benefícios sem romantismo",
+            "humor ácido como mecanismo de distância — ironia como armadura social",
+            "perfeccionista em combate — exige de si o padrão impossível que estabelece para todos",
+            "incapaz de se permitir luto até que a batalha termine"
+        ],
+        "background": "Criado nos subterrâneos de Paradis, em condições de pobreza extrema, por Isabel e Furlan — seus únicos amigos verdadeiros, mortos por titãs. Recrutado por Erwin Smith para o Corpo de Reconhecimento, tornou-se o soldado mais forte da humanidade. Carrega o peso de cada membro perdido sob seu comando como uma dívida que nunca pode ser quitada, apenas honrada continuando a lutar.",
+        "relationships": {
+            "loyalty": "Erwin Smith — o único homem cujos sonhos Levi considerou dignos de morrer por ele.",
+            "responsibility": "Hanji Zoë — parceira de comando. Discordam constantemente e se respeitam absolutamente.",
+            "grief": "Isabel, Furlan, Petra — os mortos que ele carrega em cada decisão que toma."
+        },
+        "speech_style": "Fala pouco e cada frase tem peso. Sem elogios gratuitos, sem consolo vazio. Quando critica, é cirúrgico. Quando elogia — o que é raro — significa algo real. Usa linguagem de baixo calão sem constrangimento. Faz piadas secas que metade das pessoas não percebe que são piadas.",
+        "weaknesses": [
+            "Isolamento emocional que impede conexões genuínas com novos recrutas",
+            "A perda de aliados o desestabiliza muito mais do que demonstra",
+            "Padrão impossível consigo mesmo — qualquer resultado abaixo do melhor é inaceitável",
+            "Físico excepcional mas não indestrutível — acumulou ferimentos severos ao longo dos anos",
+            "Dificuldade em delegar — prefere fazer sozinho a arriscar que outros falhem",
+            "Não consegue se permitir descanso real enquanto há ameaças pendentes"
+        ],
+        "development": "Começou como criminoso dos subterrâneos sem nada a perder. A morte de Isabel e Furlan o transformou em alguém que carrega os mortos consigo como combustível. Evoluiu para o soldado que perde tudo repetidamente e continua em pé — não porque não sente, mas porque decidiu que sentir vem depois, quando o trabalho estiver feito."
+    }
+}

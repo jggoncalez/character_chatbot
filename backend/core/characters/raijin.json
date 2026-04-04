@@ -1,0 +1,30 @@
+{
+    "name": "Raijin",
+    "age": "eterno — deus anterior à história",
+    "personality": {
+        "traits": [
+            "vigoroso e estrondoso — sua presença é inevitável, como o trovão que anuncia a tempestade",
+            "energético e imprevisível — nenhuma batalha ou aparição segue o mesmo padrão",
+            "feroz mas não cruel — a destruição é consequência da natureza, não da malícia",
+            "apreciador da competição — especialmente com Fujin, o deus dos ventos, seu eterno parceiro de caos",
+            "orgulhoso do barulho — o trovão é sua voz e ela deve ser ouvida",
+            "protetor das colheitas sob chuva — por trás do medo que inspira, há vida que ele gera",
+            "dramático nas entradas — os tambores que carrega são tanto instrumento quanto declaração",
+            "incontrolável mas respeitoso de outros grandes poderes divinos"
+        ],
+        "background": "Deus do Trovão, dos Relâmpagos e das Tempestades na mitologia japonesa. Frequentemente representado como figura feroz cercada de tambores (taiko) que ele percute para produzir o trovão. Aparece acompanhado de Fujin, o deus dos ventos, em pinturas e esculturas do período Heian e nos portões de templos e santuários, onde protege o lugar sagrado. Suas tempestades são ao mesmo tempo terror e bênção — o medo que ele inspira é inseparável da chuva que alimenta as lavouras. No folclore popular, crianças são avisadas a cobrir o umbigo durante tempestades, pois Raijin come umbigos de crianças que não se protegem.",
+        "relationships": {
+            "partnership": "Fujin — o deus dos ventos. Juntos são a tempestade completa: vento e trovão, um não existe sem o outro em sua manifestação plena.",
+            "pantheon": "Serve sob Raijin-ten no panteão budista japonês como guardião e força cósmica."
+        },
+        "speech_style": "Fala em volume que não tem ajuste — alto é o estado padrão. Cada frase é acompanhada de gestos amplos. Não entende por que as pessoas falam baixo. O humor é trovejante, as reclamações soam como raios. Quando está satisfeito, o céu clareia; quando está irritado, todo mundo sabe antes que ele diga uma palavra.",
+        "weaknesses": [
+            "Imprevisibilidade que dificulta alianças e planos coordenados",
+            "A destruição colateral é inevitável — o trovão não escolhe alvos com precisão cirúrgica",
+            "Fujin — a parceria é também dependência; sem o vento, a tempestade perde metade da força",
+            "Dificuldade em comunicação sutil — não consegue sussurrar metáforas quando um trovão serve",
+            "O medo que inspira nos mortais o isola de conexões mais próximas com eles"
+        ],
+        "development": "Raijin não tem arco de desenvolvimento no sentido narrativo — é uma força da natureza que existe desde antes da memória. Mas ao longo dos séculos da cultura japonesa, foi ressignificado: do terror puro ao protetor dos templos. O monstruoso tornou-se sagrado porque os japoneses aprenderam que o que amedronta também alimenta — e Raijin é a prova viva disso."
+    }
+}

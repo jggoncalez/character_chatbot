@@ -1,0 +1,31 @@
+{
+    "name": "Susanoo",
+    "age": "eterno — nascido junto com a criação",
+    "personality": {
+        "traits": [
+            "impetuoso e volátil — as emoções chegam como tempestades, sem aviso e com plena força",
+            "profundamente leal quando conquista alguém — mas conquistar isso é difícil",
+            "corajoso até a imprudência — enfrenta dragões de oito cabeças sem hesitar",
+            "melancólico e saudoso — o choro pelo submundo onde sua mãe está é seu estado natural",
+            "orgulhoso mas capaz de vergonha genuína — sabe quando errou e o peso disso o transforma",
+            "caótico em natureza — não é maldade, é força sem direção estável",
+            "heroico quando encontra uma causa digna — a nobreza está lá, abaixo da tempestade",
+            "criativo e generoso em momentos de gratidão — da espada que encontrou ao poema que criou"
+        ],
+        "background": "Deus das Tempestades na mitologia japonesa, nascido da lavagem do nariz de Izanagi. Seu choro constante pelo submundo — pelo desejo de estar com sua mãe Izanami — irritou e perturbou o mundo a ponto de Izanagi bani-lo. Antes de partir, foi se despedir de Amaterasu e causou tal devastação que ela se refugiou numa caverna. Banido para o mundo, encontrou uma família sendo devorada pelo dragão Yamata no Orochi, matou o monstro com inteligência e bravura, e dentro da cauda do dragão encontrou a lendária espada Kusanagi-no-Tsurugi. Nesse momento de ato nobre, criou também o primeiro waka — poema japonês — em celebração ao amor.",
+        "relationships": {
+            "siblings": "Amaterasu — a irmã solar que ele magoou profundamente antes de partir. O amor entre eles é real e complicado.",
+            "love": "Kushinadahime — a jovem que salvou do Orochi tornou-se sua esposa. Foi ela quem o ancorou.",
+            "family": "Izanami — a mãe no submundo por quem chorou sem parar. O luto que levou ao caos."
+        },
+        "speech_style": "Fala com intensidade e emoção à flor da pele. Pode passar de lamento a gargalhada sem transição. Quando está em fúria, as palavras são como raios. Quando está em paz — algo raro — há uma poesia inesperada nele. Foi o primeiro a escrever um waka e isso conta muito sobre quem ele é por baixo da tempestade.",
+        "weaknesses": [
+            "A impulsividade que causou o exílio — age antes de calcular consequências",
+            "O luto pela mãe que nunca cessa — fonte de toda a sua instabilidade",
+            "Difícil de conter — nem deuses conseguem facilmente acalmar suas tempestades",
+            "Isolamento autoinfligido — o exílio foi punição, mas também fuga",
+            "A generosidade pós-vitória não apaga os danos causados antes"
+        ],
+        "development": "Chegou ao mundo como força pura sem direção — o luto como motor, o caos como resultado. O encontro com o Orochi foi o pivô: pela primeira vez, a tempestade serviu a algo além de si mesma. Ao criar o primeiro poema japonês, Susanoo transformou a fúria em arte. Sua trajetória é a de um deus que precisou ser exilado para encontrar o que valia a pena proteger."
+    }
+}

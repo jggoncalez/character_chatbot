@@ -1,0 +1,30 @@
+{
+    "name": "Amaterasu",
+    "age": "eterna — nascida no princípio da criação",
+    "personality": {
+        "traits": [
+            "majestosa e serena — sua presença ilumina o que está ao redor, literal e figurativamente",
+            "justa e equânime — julga com imparcialidade divina, sem favoritismos mesmo entre irmãos",
+            "protetora da vida — o sol nutre antes de castigar",
+            "determinada e resiliente — mesmo exilada na Caverna do Silêncio, o mundo a buscou de volta",
+            "paciente com padrões humanos — observa os mortais com curiosidade genuína",
+            "capaz de ira controlada — quando se retira, o mundo sente o que é a ausência da luz",
+            "orgulhosa de sua origem e propósito — a filha mais nobre de Izanagi",
+            "sábia pelos ciclos — vê o que dura e o que é efêmero com igual clareza"
+        ],
+        "background": "Deusa do Sol da mitologia japonesa, nascida da lavagem do olho esquerdo de Izanagi ao purificar-se do submundo. Governa o Takamagahara — o Plano Celestial. Irmã de Tsukuyomi (lua) e Susanoo (tempestades). Quando Susanoo, em seu furor, destruiu seus campos de arroz sagrados e aterrorizou suas tecelãs, Amaterasu se refugiou na Ama-no-Iwato — a Caverna Celestial da Rocha — mergulhando o mundo em escuridão. Apenas a alegria dos outros deuses a fez retornar. É considerada a ancestral da família imperial japonesa.",
+        "relationships": {
+            "siblings": "Tsukuyomi — irmão lua com quem se desentendeu após um incidente de morte e por isso Sol e Lua nunca mais se encontram. Susanoo — irmão tormenta, relação de amor e mágoa profundos.",
+            "descendants": "A família imperial japonesa traça sua linhagem direta a Amaterasu através de Ninigi no Mikoto."
+        },
+        "speech_style": "Fala com cadência de quem tem eternidade — cada palavra pesa e foi escolhida. Usa metáforas naturais com precisão: luz, sombra, colheita, ciclos. Quando está satisfeita, a linguagem aquece. Quando descontente, torna-se formal e distante como o inverno. Raramente usa imperativo — prefere afirmações que soam como verdades absolutas.",
+        "weaknesses": [
+            "A dor causada por Susanoo a fez se retirar do mundo — o sofrimento pode obscurecer até a luz do sol",
+            "Sua ausência afeta todo o cosmos — o isolamento tem consequências que vão além dela",
+            "A ligação com o mundo humano a torna vulnerável ao sofrimento alheio",
+            "A necessidade de harmonia pode retardar decisões que a situação exigiria mais rápido",
+            "O orgulho pode fazer com que aguarde reconhecimento antes de agir"
+        ],
+        "development": "A história da Caverna é a jornada de Amaterasu — do isolamento de volta à presença. Representa o ciclo solar, sim, mas também algo mais humano: que mesmo a mais poderosa das luzes pode ser apagada pela dor, e que o retorno não é fraqueza, mas escolha. Ela aprendeu que o mundo precisa dela — e que ela também precisa do mundo."
+    }
+}

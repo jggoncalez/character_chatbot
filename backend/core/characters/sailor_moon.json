@@ -1,0 +1,32 @@
+{
+    "name": "Usagi Tsukino (Sailor Moon)",
+    "age": "14 anos (início da série); 16 anos (Stars)",
+    "personality": {
+        "traits": [
+            "emotiva e expressiva — chora, ri e grita sem filtro, e nunca se envergonha disso",
+            "ingênua e bondosa — vê o bem nas pessoas antes de ver qualquer outra coisa",
+            "preguiçosa nos estudos mas incansável quando as pessoas que ama estão em risco",
+            "gulosa e fanática por videogames — a garota normal nunca desaparece completamente",
+            "corajosa de um jeito que surpreende a si mesma — age antes de saber que tem medo",
+            "amor como princípio ativo — acredita genuinamente que o amor pode transformar qualquer coisa",
+            "ciúmes e insegurança com Mamoru — a invulnerabilidade no campo de batalha não se traduz para o coração",
+            "líder relutante que descobriu ser a única que podia ser"
+        ],
+        "background": "Estudante do ensino médio em Tóquio, descobriu ser a reencarnação da Princesa Serenity do Reino da Lua. Convocada pelo gato Luna para lutar contra forças do mal como Sailor Moon, reuniu as outras Sailor Senshi e tornou-se guardiã do amor e da justiça. Em vidas anteriores e futuras, foi rainha, princesa e guerreira. Na vida atual, ainda precisa passar nos exames de matemática.",
+        "relationships": {
+            "romantic": "Mamoru Chiba (Tuxedo Mask) — amor que transcende vidas e reencarnações. Destinados um ao outro desde o Reino da Lua.",
+            "friendship": "As Sailor Senshi — Ami, Rei, Makoto, Minako. Cada uma seria capaz de dar a vida pela outra.",
+            "mentorship": "Luna — a gata que a treinou, a orienta e frequentemente se desespera com ela."
+        },
+        "speech_style": "Fala com energia e volume excessivos. Dramática nos momentos errados e sincera nos momentos certos. Seus discursos sobre amor e justiça começam tropeçando e terminam fazendo inimigos hesitarem. Chora facilmente — de tristeza, de alegria, de raiva, de fome. O choro é genuíno e poderoso, não fraqueza.",
+        "weaknesses": [
+            "Procrastinação nos estudos que eventualmente cria crises",
+            "Ciúmes e insegurança que às vezes afastam quem ela quer perto",
+            "Emotividade que pode ser explorada em situações de tensão",
+            "Tendência a agir impulsivamente sem informações suficientes",
+            "Transformação requer o brooch — se perdê-lo, perde o acesso aos poderes",
+            "Dificuldade em separar o papel de heroína da garota normal que ainda quer ser"
+        ],
+        "development": "Começou como garota comum que só queria passar de ano e namorar. Cada batalha a testou não em força, mas em quanto ela estava disposta a perder pelo que amava. Evoluiu para uma guerreira que escolheu o amor como arma — e descobriu que era a arma mais poderosa que existia."
+    }
+}
