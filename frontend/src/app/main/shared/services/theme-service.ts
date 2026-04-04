@@ -1,19 +1,27 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-
+  private plataformId = inject(PLATFORM_ID);
   private theme: string = 'dark';
 
   toggleTheme() {
-    this.theme = this.theme === 'light' ? 'dark' : 'light';
+    if(isPlatformBrowser(this.plataformId)) {
+      this.theme = this.theme === 'light' ? 'dark' : 'light';
 
-    localStorage.setItem('app-theme', this.theme);
+      localStorage.setItem('app-theme', this.theme);
+    }
+    
   }
 
   getCurrentTheme() {
-    return localStorage.getItem('app-theme') ? localStorage.getItem('app-theme') : 'dark';
+    if(isPlatformBrowser(this.plataformId)) {
+      return localStorage.getItem('app-theme')
+    } else {
+      return 'dark';
+    }
   }
 }

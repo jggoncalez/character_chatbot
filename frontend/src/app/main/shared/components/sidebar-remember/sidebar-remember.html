@@ -2,25 +2,23 @@
      style="width: 100%; max-width: 300px;"
      class="trasition_bg">
      
-  <h6 class="fw-bold mb-3 px-1">IAs Online ({{iasOnline.length}})</h6>
+  <h6 class="fw-bold mb-3 px-1">IAs Online ({{saveIA.length}})</h6>
 
   <ul class="list-unstyled d-flex flex-column gap-2 mb-0 overflow-y-auto" style="max-height: 70vh;">
-    @for(ia of iasOnline.slice(0, 6); track ia.nome) {
+    @for(ia of saveIA; track ia.agent) {
     <li>
       <div [class]="themeService.getCurrentTheme() === 'dark' ? 'd-flex align-items-center justify-content-between rounded-3 px-2 py-2 bg-secondary bg-opacity-10' : 'd-flex align-items-center justify-content-between rounded-3 px-2 py-2 bg-white shadow-sm'">
         <div class="d-flex align-items-center gap-2">
           <div class="position-relative">
-            <div [class]="'rounded-circle d-flex align-items-center justify-content-center ' + (ia.color || '')"
-                 [style.background-color]="ia.customColor"
+            <div [class]="'rounded-circle d-flex align-items-center justify-content-center '"
                  style="width: 40px; height: 40px;">
-              <i [class]="'bi ' + ia.icon + ' fs-6 ' + (ia.text || 'text-white')"></i>
+              <i [class]="'bi bi-code-slash fs-6 text-bg-light'"></i>
             </div>
             <span [class]="themeService.getCurrentTheme() === 'dark' ? 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-dark' : 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-white'"
                   style="width: 12px; height: 12px;"></span>
           </div>
           <div>
-            <div [class]="themeService.getCurrentTheme() === 'dark' ? 'fw-semibold small text-white' : 'fw-semibold small text-dark'">{{ia.nome}}</div>
-            <div class="text-secondary" style="font-size: 0.75rem;">{{ia.cargo}}</div>
+            <div [class]="themeService.getCurrentTheme() === 'dark' ? 'fw-semibold small text-white' : 'fw-semibold small text-dark'">{{ia.agent}}</div> 
           </div>
         </div>
         <button class="btn btn-sm p-1 lh-1 border-0 text-secondary" disabled>

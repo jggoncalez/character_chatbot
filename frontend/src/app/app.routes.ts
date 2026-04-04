@@ -3,6 +3,7 @@ import { Router, Routes } from '@angular/router';
 import { EMPTY, of } from 'rxjs';
 import { Main } from './main/main';
 import { authGuard } from './main/shared/guards/auth.guard';
+import { characterDataResolver } from './main/features/pages/profile-ia/route/character-data-resolver';
 
 
 export const routes: Routes = [
@@ -26,6 +27,11 @@ export const routes: Routes = [
             {
                 path : "settings",
                 loadComponent : () => import("./main/features/pages/settings/settings").then(m => m.Settings)
+            },
+            {
+                path : "profileIA/:agent",
+                loadComponent : () => import("./main/features/pages/profile-ia/profile-ia").then(m => m.ProfileIA),
+                resolve : { characterData: characterDataResolver }
             }
         ]
     },

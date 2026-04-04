@@ -1,3 +1,5 @@
+import { ICharacterConfig } from "./character-config";
+
 export interface ICharactersResponse {
-  characters: string[];
+  characters: ICharacterConfig[];
 }
