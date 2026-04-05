@@ -58,22 +58,41 @@ def clean_json(text: str) -> str:
 
 def parse_response(text: str, character_name: str) -> list[dict]:
     try:
-        # Se text vazio ou só whitespace, usar fallback
+        # Se completamente vazio, retorna fallback
         if not text or not text.strip():
-            return [_make_fallback(character_name, "...")]
+            return [_make_fallback(character_name, "")]
 
-        parsed = json.loads(clean_json(text))
+        text = text.strip()
+        cleaned = clean_json(text)
+
+        # Tenta parsear JSON
+        parsed = json.loads(cleaned)
 
         if isinstance(parsed, dict):
-            return [parsed]
+            # Se é um dict, verifica se tem "text"
+            if parsed.get("text"):
+                return [parsed]
+            # Se não tem text, tenta usar o dict inteiro como descrição
+            return [_make_fallback(character_name, json.dumps(parsed))]
 
-        if isinstance(parsed, list) and parsed and isinstance(parsed[0], str):
-            return [_make_fallback(character_name, parsed[0])]
+        if isinstance(parsed, list) and parsed:
+            if isinstance(parsed[0], dict):
+                # Array de dicts - retorna como está
+                return parsed
+            elif isinstance(parsed[0], str):
+                # Array de strings
+                return [_make_fallback(character_name, parsed[0])]
 
-        return parsed if parsed else [_make_fallback(character_name, "...")]
+        return [_make_fallback(character_name, "")]
 
     except json.JSONDecodeError:
-        return [_make_fallback(character_name, text.strip())] if text.strip() else [_make_fallback(character_name, "...")]
+        # Se não conseguir parsear JSON, trata como texto puro
+        if text and text.strip():
+            # Remove aspas se for uma string JSON mal formatada
+            text_clean = text.strip().strip('"').strip("'")
+            if text_clean and len(text_clean) > 2:
+                return [_make_fallback(character_name, text_clean)]
+        return [_make_fallback(character_name, "")]
 
 
 def _make_fallback(character_name: str, text: str) -> dict:
@@ -99,18 +118,17 @@ def load_character(name: str) -> dict:
 def build_system_prompt(character_name: str, character: dict) -> str:
     valid_states = ", ".join(s.value for s in State)
     return (
-        f"Você é {character_name}.\nPerfil: {character}\n"
-        "INSTRUÇÕES:\n"
-        "- SEMPRE responda em um JSON array com um objeto.\n"
-        f"- Formato: [{{\"character\": \"{character_name}\", \"text\": \"sua resposta aqui\", \"state\": \"neutral\"}}]\n"
-        "- Sem texto antes ou depois do JSON.\n"
-        "- Português correto. Acentos obrigatórios. Nunca 'nao', sempre 'não'.\n"
-        "- Máximo 20 palavras por mensagem (exceto se ensinar algo).\n"
-        "- Se ensina algo: máximo 100 palavras.\n"
-        "- Se pergunta complexa: máximo 50 palavras.\n"
-        f"- Estados válidos: {valid_states}\n"
-        "- Use 'text' com a sua resposta natural e direta.\n"
-        "- IMPORTANTE: Responda SEMPRE com JSON válido, nada de texto extra."
+        f"Você é {character_name}.\n"
+        f"Perfil: {character}\n\n"
+        "Responda SEMPRE neste EXATO formato JSON (sem nada antes ou depois):\n"
+        f'[{{"character": "{character_name}", "text": "<sua resposta aqui>", "state": "neutral"}}]\n\n'
+        "Regras:\n"
+        "- Responda direto e naturalmente\n"
+        "- Máximo 20 palavras (se ensinar: 100, se pergunta complexa: 50)\n"
+        "- Português correto com acentos\n"
+        f"- Estados: {valid_states}\n"
+        "- Responda como você, não como um bot\n"
+        "- Use os dados reais das ferramentas que chamar"
     )
 
 
@@ -394,10 +412,6 @@ def generate_message(message: str, character_name: str) -> list[dict]:
 
     # Parse resposta (sempre retorna algo válido)
     parsed = parse_response(raw or "", character_name)
-
-    # Garantir que pelo menos há uma resposta
-    if not parsed or not parsed[0].get("text") or parsed[0].get("text") == "...":
-        parsed = [_make_fallback(character_name, "Recebi sua mensagem!")]
 
     # Salva histórico
     try:
