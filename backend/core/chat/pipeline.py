@@ -117,28 +117,20 @@ def load_character(name: str) -> dict:
 
 def build_system_prompt(character_name: str, character: dict) -> str:
     valid_states = ", ".join(s.value for s in State)
-    tools_list = character.get("tools", [])
 
     return (
         f"Você é {character_name}.\n"
         f"Perfil: {character}\n\n"
-
-        "**FORMATO DE RESPOSTA (OBRIGATÓRIO):**\n"
-        f'[{{"character": "{character_name}", "text": "<sua resposta aqui>", "state": "neutral"}}]\n\n'
-
-        "**INSTRUÇÕES CRÍTICAS:**\n"
-        "1. SEMPRE responda no formato JSON acima. Nada antes ou depois.\n"
-        "2. Se você tem acesso a ferramentas (tools), USE-AS quando relevante.\n"
-        "3. Responda de forma natural e direta.\n"
-        "4. Máximo 20 palavras (exceto ao ensinar algo: 100 palavras).\n"
-        "5. Português correto com acentos.\n"
-        f"6. Estados válidos: {valid_states}\n\n"
-
-        "**QUANDO USAR FERRAMENTAS:**\n"
-        "- Data/hora: SEMPRE use 'data_hora_atual'\n"
-        "- Clima: SEMPRE use 'clima_atual'\n"
-        "- Buscar informações: use as ferramentas disponíveis\n"
-        "- Nunca invente dados que ferramentas podem fornecer\n"
+        f"RESPONDA SEMPRE neste formato JSON exato (sem nada antes ou depois):\n"
+        f'[{{"character": "{character_name}", "text": "sua resposta aqui", "state": "neutral"}}]\n\n'
+        f"Instruções:\n"
+        f"- Responda como o personagem naturalmente\n"
+        f"- Máximo 20 palavras (ou 100 se ensinar algo)\n"
+        f"- Português correto com acentos\n"
+        f"- Estados válidos: {valid_states}\n"
+        f"- Se perguntarem hora/data, use a ferramenta data_hora_atual\n"
+        f"- Se perguntarem clima, use a ferramenta clima_atual\n"
+        f"- Nunca invente informações que existem ferramentas para buscar"
     )
 
 
@@ -325,7 +317,7 @@ def call_api(contents: list[types.Content], system_prompt: str, character_name: 
             model=MODEL_DEFAULT,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
-                temperature=0.3,
+                temperature=0.5,
             ),
             contents=contents,
         )
@@ -368,7 +360,7 @@ def generate_message(message: str, character_name: str) -> list[dict]:
     for iteration in range(1, max_iterations + 1):
         config = types.GenerateContentConfig(
             system_instruction=system_prompt,
-            temperature=0.3,
+            temperature=0.5,
             tools=tools or [],
         )
 
