@@ -338,14 +338,20 @@ def call_api(contents: list[types.Content], system_prompt: str, character_name: 
 # ======================================================
 def generate_message(message: str, character_name: str) -> list[dict]:
     """Gera uma mensagem do personagem, com suporte a tool calling."""
+    import sys
+    print(f"[GENERATE] Iniciando para {character_name}: '{message[:50]}'", flush=True)
+
     try:
         character = load_character(character_name)
     except FileNotFoundError as e:
+        print(f"[GENERATE] ✗ Personagem não encontrado: {character_name}", flush=True)
         return [_make_fallback(character_name, f"Personagem não encontrado")]
 
     history = load_history(character_name)
     tools = build_tools_for_character(character)
     model = get_model_for_character(character)
+
+    print(f"[GENERATE] Model: {model}, Tools: {len(tools) if tools else 0}, History: {len(history)}", flush=True)
 
     _append_to_history(history, Role.USER, message)
     contents = _build_contents(history)
@@ -364,14 +370,17 @@ def generate_message(message: str, character_name: str) -> list[dict]:
         )
 
         try:
+            print(f"[LOOP {iteration}] Chamando Gemini...", flush=True)
             response = client.models.generate_content(
                 model=model,
                 config=config,
                 contents=contents
             )
+            print(f"[LOOP {iteration}] ✓ Response OK", flush=True)
         except Exception as e:
             # Na primeira tentativa, retorna o erro
             error_text = str(e)[:50]
+            print(f"[LOOP {iteration}] ✗ Erro: {error_text}", flush=True)
             if iteration == 1:
                 return [_make_fallback(character_name, f"Erro API: {error_text}")]
             else:
@@ -382,6 +391,7 @@ def generate_message(message: str, character_name: str) -> list[dict]:
 
         # resposta vazia ou bloqueada
         if not response or not response.candidates:
+            print(f"[LOOP {iteration}] ✗ Response vazio", flush=True)
             if iteration < max_iterations:
                 continue  # Retry imediato
             raw = None
@@ -390,6 +400,7 @@ def generate_message(message: str, character_name: str) -> list[dict]:
         # sem tool call — resposta final
         if not _has_tool_call(response):
             raw = response.text
+            print(f"[LOOP {iteration}] ✓ Resposta final", flush=True)
             break
 
         # executa as tools e continua o loop
@@ -397,6 +408,7 @@ def generate_message(message: str, character_name: str) -> list[dict]:
 
         if not tool_results:
             raw = response.text
+            print(f"[LOOP {iteration}] ✓ Saiu (sem tool results)", flush=True)
             break
 
         # Adiciona response ao histórico
@@ -407,18 +419,24 @@ def generate_message(message: str, character_name: str) -> list[dict]:
         contents.append(
             types.Content(role="tool", parts=tool_results)
         )
+        print(f"[LOOP {iteration}] → Continuando com mais uma iteração...", flush=True)
 
     # Se saiu do loop sem ter raw, tenta usar a última response
     if raw is None and response:
         raw = response.text
     # ── fim do loop ───────────────────────────────────────
 
+    print(f"[PARSE] Raw: '{str(raw)[:80] if raw else 'VAZIO'}'", flush=True)
+
     # Parse resposta (sempre retorna algo válido)
     parsed = parse_response(raw or "", character_name)
 
     # Se ainda assim ficou vazio, força uma resposta padrão
     if not parsed or not parsed[0].get("text", "").strip():
+        print(f"[PARSE] Forçando fallback!", flush=True)
         parsed = [_make_fallback(character_name, "Deixa eu pensar melhor...")]
+
+    print(f"[PARSE] Resultado final: '{parsed[0]['text'][:60]}'", flush=True)
 
     # Salva histórico
     try:
