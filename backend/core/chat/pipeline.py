@@ -28,9 +28,8 @@ MODEL_SEARCH   = "gemini-2.0-flash"
 MAX_HISTORY    = 20
 
 client: genai.Client = genai.Client(
-    api_key=os.environ.get("GEMINI_API_KEY"),
-    http_options={"timeout": 600000}
-    )
+    api_key=os.environ.get("GEMINI_API_KEY")
+)
 
 
 # ======================================================
@@ -83,7 +82,7 @@ def parse_response(text: str, character_name: str) -> list[dict]:
                 # Array de strings
                 return [_make_fallback(character_name, parsed[0])]
 
-        return [_make_fallback(character_name, "")]
+        return [_make_fallback(character_name, "Hmm, não consegui responder agora.")]
 
     except json.JSONDecodeError:
         # Se não conseguir parsear JSON, trata como texto puro
@@ -92,7 +91,7 @@ def parse_response(text: str, character_name: str) -> list[dict]:
             text_clean = text.strip().strip('"').strip("'")
             if text_clean and len(text_clean) > 2:
                 return [_make_fallback(character_name, text_clean)]
-        return [_make_fallback(character_name, "")]
+        return [_make_fallback(character_name, "Desculpe, não consegui processar sua mensagem.")]
 
 
 def _make_fallback(character_name: str, text: str) -> dict:
@@ -371,18 +370,20 @@ def generate_message(message: str, character_name: str) -> list[dict]:
                 contents=contents
             )
         except Exception as e:
-            # Retorna erro específico no primeiro intento, fallback depois
+            # Na primeira tentativa, retorna o erro
             error_text = str(e)[:50]
             if iteration == 1:
                 return [_make_fallback(character_name, f"Erro API: {error_text}")]
             else:
-                # Retorna último raw se conseguiu algo, senão fallback
+                # Tenta novamente nas próximas tentativas
+                if iteration < max_iterations:
+                    continue
                 break
 
         # resposta vazia ou bloqueada
         if not response or not response.candidates:
             if iteration < max_iterations:
-                continue  # Retry
+                continue  # Retry imediato
             raw = None
             break
 
@@ -414,6 +415,10 @@ def generate_message(message: str, character_name: str) -> list[dict]:
 
     # Parse resposta (sempre retorna algo válido)
     parsed = parse_response(raw or "", character_name)
+
+    # Se ainda assim ficou vazio, força uma resposta padrão
+    if not parsed or not parsed[0].get("text", "").strip():
+        parsed = [_make_fallback(character_name, "Deixa eu pensar melhor...")]
 
     # Salva histórico
     try:
