@@ -2,6 +2,9 @@
 
 from google.genai import types
 
+def schema(definition: dict) -> types.Schema:
+    return types.Schema.model_validate(definition)
+
 TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
 
     # ── UNIVERSAIS ────────────────────────────────────────
@@ -12,7 +15,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem sobre tempo, temperatura, "
             "se vai chover, se está frio ou quente."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "city": {
@@ -20,7 +23,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                     "description": "Nome da cidade. Ex: 'Guariba', 'São Paulo'"
                 }
             }
-        }
+        })
     ),
 
     "data_hora_atual": types.FunctionDeclaration(
@@ -30,10 +33,29 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem que horas são, "
             "que dia é hoje, qual o dia da semana."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {}
-        }
+        })
+    ),
+
+    "web_search": types.FunctionDeclaration(
+        name="web_search",
+        description=(
+            "Realiza busca na web por informações atuais. "
+            "Use quando a pergunta exigir fatos recentes, "
+            "notícias ou dados fora da base local."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Termo de busca. Ex: 'cotação dólar hoje', 'notícias IA Brasil'"
+                }
+            },
+            "required": ["query"]
+        })
     ),
 
     # ── WIKIPEDIA ─────────────────────────────────────────
@@ -44,7 +66,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use para perguntas sobre pessoas, lugares, "
             "eventos históricos, conceitos."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "query": {
@@ -53,20 +75,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                 }
             },
             "required": ["query"]
-        }
-    ),
-
-    "curiosidade_aleatoria": types.FunctionDeclaration(
-        name="curiosidade_aleatoria",
-        description=(
-            "Traz uma curiosidade aleatória da Wikipedia. "
-            "Use quando pedirem algo interessante, "
-            "uma curiosidade, um fato aleatório."
-        ),
-        parameters={
-            "type": "object",
-            "properties": {}
-        }
+        })
     ),
 
     # ── ARXIV ─────────────────────────────────────────────
@@ -77,7 +86,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use para perguntas sobre pesquisas, avanços científicos, "
             "machine learning, física, matemática, computação."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "query": {
@@ -94,20 +103,20 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                 }
             },
             "required": ["query"]
-        }
+        })
     ),
 
-    "papers_ia_recentes": types.FunctionDeclaration(
-        name="papers_ia_recentes",
+    "papers_ia_recente": types.FunctionDeclaration(
+        name="papers_ia_recente",
         description=(
             "Busca os papers mais recentes de IA e Machine Learning. "
             "Use quando perguntarem sobre novidades em IA, "
             "últimos avanços, pesquisas recentes."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {}
-        }
+        })
     ),
 
     # ── FINANCEIRO ────────────────────────────────────────
@@ -117,7 +126,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Busca cotação atual de uma ação na B3. "
             "Use quando perguntarem sobre preço de ações específicas."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "ticker": {
@@ -126,7 +135,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                 }
             },
             "required": ["ticker"]
-        }
+        })
     ),
 
     "cotacao_fii": types.FunctionDeclaration(
@@ -135,7 +144,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Busca cotação atual de um FII na B3. "
             "Retorna preço, variação, dividend yield e P/VP."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "ticker": {
@@ -144,7 +153,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                 }
             },
             "required": ["ticker"]
-        }
+        })
     ),
 
     "listar_fiis_populares": types.FunctionDeclaration(
@@ -153,10 +162,10 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Lista cotações dos FIIs mais negociados da B3. "
             "Use quando perguntarem sobre o mercado de FIIs em geral."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {}
-        }
+        })
     ),
 
     "selic_atual": types.FunctionDeclaration(
@@ -166,10 +175,10 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem sobre juros, renda fixa, "
             "Tesouro Direto, CDI."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {}
-        }
+        })
     ),
 
     "buscar_noticias_financeiras": types.FunctionDeclaration(
@@ -179,10 +188,10 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem sobre o mercado hoje, "
             "Ibovespa, economia, bolsa."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {}
-        }
+        })
     ),
 
     # ── EDUCAÇÃO ──────────────────────────────────────────
@@ -193,7 +202,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem sobre ensino, MEC, "
             "ENEM, universidades, políticas educacionais."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "max_results": {
@@ -201,20 +210,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                     "description": "Quantidade de notícias. Padrão 5."
                 }
             }
-        }
-    ),
-
-    "noticias_tecnologia_educacao": types.FunctionDeclaration(
-        name="noticias_tecnologia_educacao",
-        description=(
-            "Busca notícias sobre tecnologia aplicada à educação. "
-            "Use quando perguntarem sobre EdTech, ensino online, "
-            "IA na educação."
-        ),
-        parameters={
-            "type": "object",
-            "properties": {}
-        }
+        })
     ),
 
     # ── LINUX / TECH ──────────────────────────────────────
@@ -225,10 +221,63 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem sobre novidades no Linux, "
             "versões recentes do kernel, patches."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {}
-        }
+        })
+    ),
+
+    "buscar_docs_python": types.FunctionDeclaration(
+        name="buscar_docs_python",
+        description=(
+            "Busca referências na documentação oficial do Python. "
+            "Use para dúvidas sobre funções, módulos, sintaxe e recursos da linguagem."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Termo técnico para buscar na documentação do Python."
+                }
+            },
+            "required": ["query"]
+        })
+    ),
+
+    "buscar_docs_rust": types.FunctionDeclaration(
+        name="buscar_docs_rust",
+        description=(
+            "Busca referências na documentação e ecossistema Rust. "
+            "Use para dúvidas sobre crates, módulos e recursos da linguagem."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Termo técnico para buscar na documentação do Rust."
+                }
+            },
+            "required": ["query"]
+        })
+    ),
+
+    "noticias_ia": types.FunctionDeclaration(
+        name="noticias_ia",
+        description=(
+            "Busca notícias recentes sobre Inteligência Artificial em múltiplas fontes. "
+            "Use quando perguntarem sobre novidades e tendências em IA."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {
+                "max_results": {
+                    "type": "integer",
+                    "description": "Quantidade de notícias. Padrão 5."
+                }
+            }
+        })
     ),
 
     "trending_github": types.FunctionDeclaration(
@@ -238,7 +287,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem sobre projetos populares, "
             "tendências de tecnologia, bibliotecas novas."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "language": {
@@ -250,7 +299,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                     )
                 }
             }
-        }
+        })
     ),
 
     # ── MÉDICO ────────────────────────────────────────────
@@ -261,7 +310,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem sobre doenças, tratamentos, "
             "pesquisas médicas, medicamentos."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "query": {
@@ -273,7 +322,85 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                 }
             },
             "required": ["query"]
-        }
+        })
+    ),
+
+    "buscar_anvisa": types.FunctionDeclaration(
+        name="buscar_anvisa",
+        description=(
+            "Busca medicamentos e produtos na base pública da ANVISA. "
+            "Use para validar registro, fabricante e situação regulatória."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Nome do medicamento ou produto para consulta na ANVISA."
+                }
+            },
+            "required": ["query"]
+        })
+    ),
+
+    "buscar_remedios": types.FunctionDeclaration(
+        name="buscar_remedios",
+        description=(
+            "Busca informações de medicamentos em base pública regulatória. "
+            "Use para consultar nome comercial, princípio ativo e laboratório."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {
+                "medicamento": {
+                    "type": "string",
+                    "description": "Nome do medicamento. Ex: 'dipirona', 'amoxicilina'"
+                }
+            },
+            "required": ["medicamento"]
+        })
+    ),
+
+    "noticias_saude": types.FunctionDeclaration(
+        name="noticias_saude",
+        description=(
+            "Busca notícias recentes de saúde em fontes públicas. "
+            "Use para novidades de saúde pública, ciência e medicina."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {}
+        })
+    ),
+
+    # ── VAREJO ────────────────────────────────────────────
+    "ipca_atual": types.FunctionDeclaration(
+        name="ipca_atual",
+        description=(
+            "Retorna o IPCA mais recente via Banco Central. "
+            "Use para inflação, preços e análise macroeconômica no Brasil."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {}
+        })
+    ),
+
+    "buscar_noticias_varejo": types.FunctionDeclaration(
+        name="buscar_noticias_varejo",
+        description=(
+            "Busca notícias do setor de varejo e supermercados. "
+            "Use para tendências de consumo, mercado varejista e trade."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {
+                "max_results": {
+                    "type": "integer",
+                    "description": "Quantidade de notícias. Padrão 5."
+                }
+            }
+        })
     ),
 
     # ── JURÍDICO ──────────────────────────────────────────
@@ -284,7 +411,7 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
             "Use quando perguntarem sobre leis, decretos, "
             "direitos, legislação específica."
         ),
-        parameters={
+        parameters=schema({
             "type": "object",
             "properties": {
                 "query": {
@@ -297,6 +424,36 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
                 }
             },
             "required": ["query"]
-        }
+        })
+    ),
+
+    "buscar_jurisprudencia_stj": types.FunctionDeclaration(
+        name="buscar_jurisprudencia_stj",
+        description=(
+            "Busca jurisprudência do STJ por termo jurídico. "
+            "Use para precedentes, acórdãos e entendimento dos tribunais superiores."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Termo jurídico para pesquisa no STJ."
+                }
+            },
+            "required": ["query"]
+        })
+    ),
+
+    "noticias_juridicas": types.FunctionDeclaration(
+        name="noticias_juridicas",
+        description=(
+            "Busca notícias jurídicas recentes em fontes especializadas. "
+            "Use para novidades legislativas, decisões e atualizações do Judiciário."
+        ),
+        parameters=schema({
+            "type": "object",
+            "properties": {}
+        })
     ),
 }

@@ -200,6 +200,44 @@ def _has_tool_call(response) -> bool:
         return False
 
 
+def _retry_simple_response(character_name: str, character: dict, history: list, system_prompt: str) -> list[dict]:
+    """Retry simples mantendo histórico mas sem tools."""
+    print(f"[RETRY] Tentando resposta simples (sem tools)...", flush=True)
+
+    for retry_attempt in range(1, 3):  # 2 tentativas
+        try:
+            contents = _build_contents(history)
+
+            config = types.GenerateContentConfig(
+                system_instruction=system_prompt,
+                temperature=0.7,  # Um pouco mais criativo
+                tools=None,  # Sem tools para simplificar
+            )
+
+            print(f"[RETRY {retry_attempt}] Chamando Gemini sem tools...", flush=True)
+            response = client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                config=config,
+                contents=contents
+            )
+
+            if response and response.text and response.text.strip():
+                print(f"[RETRY {retry_attempt}] ✓ Sucesso!", flush=True)
+                raw = response.text
+                parsed = parse_response(raw, character_name)
+                if parsed and parsed[0].get("text", "").strip():
+                    return parsed
+
+            print(f"[RETRY {retry_attempt}] Ainda vazio, tentando novamente...", flush=True)
+        except Exception as e:
+            print(f"[RETRY {retry_attempt}] Erro: {str(e)[:50]}", flush=True)
+            continue
+
+    # Se mesmo assim falhar, usa fallback
+    print(f"[RETRY] Todos os retries falharam, usando fallback", flush=True)
+    return [_make_fallback(character_name, "Desculpe, não consegui processar sua pergunta agora. Tente novamente.")]
+
+
 def _extract_tool_results(response) -> list[types.Part]:
     """Executa as tool calls e retorna os resultados."""
     results = []
@@ -431,10 +469,12 @@ def generate_message(message: str, character_name: str) -> list[dict]:
     # Parse resposta (sempre retorna algo válido)
     parsed = parse_response(raw or "", character_name)
 
-    # Se ainda assim ficou vazio, força uma resposta padrão
+    # Se ficou vazio, tenta fazer um retry final (sem tools)
     if not parsed or not parsed[0].get("text", "").strip():
-        print(f"[PARSE] Forçando fallback!", flush=True)
-        parsed = [_make_fallback(character_name, "Deixa eu pensar melhor...")]
+        print(f"[RETRY] Resposta vazia! Tentando retry sem tools...", flush=True)
+        parsed = _retry_simple_response(
+            character_name, character, history, system_prompt
+        )
 
     print(f"[PARSE] Resultado final: '{parsed[0]['text'][:60]}'", flush=True)
 

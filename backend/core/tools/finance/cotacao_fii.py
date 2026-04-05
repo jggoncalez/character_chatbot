@@ -122,4 +122,4 @@ def listar_fiis_populares() -> list[dict]:
         return [{"erro": str(e)}]
     
 if __name__ == "__main__":
-    print(cotacao_fii('BTHF11'))
+    print(cotacao_fii('XPML11'))

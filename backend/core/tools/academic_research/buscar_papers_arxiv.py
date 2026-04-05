@@ -51,7 +51,7 @@ def buscar_papers_arxiv(query: str, max_results: int = 3) -> list[dict]:
         return [{"erro": str(e)}]
 
 
-def papers_ia_recentes() -> list[dict]:
+def papers_ia_recente() -> list[dict]:
     """Atalho — busca papers recentes de IA sem precisar de query."""
     return buscar_papers_arxiv(
         "cat:cs.AI OR cat:cs.LG OR cat:cs.CL",
@@ -59,6 +59,6 @@ def papers_ia_recentes() -> list[dict]:
     )
     
 if __name__ == "__main__":
-    papers = papers_ia_recentes()
+    papers = papers_ia_recente()
     for p in papers:
         print(f"{p['titulo']} por {', '.join(p['autores'])}\nPublicado em: {p['publicado']}\n{p['resumo']}\n{p['url']}\n")
