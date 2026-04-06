@@ -243,6 +243,50 @@ Post atualizado com a resposta do personagem adicionada aos comentários.
 | 404 | Post não encontrado | `post_id` não existe |
 | 500 | Erro ao comentar | Falha ao processar comentário |
 
+### POST /feed/post
+
+Cria um novo post do usuário e gera comentários automáticos dos personagens.
+
+**Corpo da Requisição:** `application/json`
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `text` | string | Sim | Texto do post (1-500 caracteres) |
+
+```json
+{
+    "text": "Qual é a melhor linguagem de programação?"
+}
+```
+
+**Resposta:** `200 OK`
+
+```json
+{
+    "id": "uuid_gerado",
+    "character": "user",
+    "text": "Qual é a melhor linguagem de programação?",
+    "state": "neutral",
+    "created_at": "2024-01-01T12:00:00Z",
+    "comments": [
+        {
+            "id": "uuid_comentario",
+            "character": "Shadow",
+            "text": "Cada linguagem tem seu propósito, não há uma 'melhor'.",
+            "state": "neutral",
+            "created_at": "2024-01-01T12:00:01Z"
+        }
+    ]
+}
+```
+
+**Erros:**
+
+| Código | Situação | Detalhes |
+|--------|----------|----------|
+| 422 | Validação falhou | Texto vazio ou maior que 500 caracteres |
+| 500 | Erro ao criar post | Falha ao gerar comentários dos personagens |
+
 ### POST /voice/{character_name}/transcribe
 
 Recebe um arquivo de áudio, transcreve-o usando a API Gemini e retorna a transcrição e a resposta do personagem.

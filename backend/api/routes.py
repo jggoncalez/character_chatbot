@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from typing import List
 from fastapi.concurrency import run_in_threadpool
 from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR, load_character, clear_history
-from core.feed.pipeline import refresh_feed, add_user_comment, load_feed
+from core.feed.pipeline import refresh_feed, add_user_comment, load_feed, create_user_post
 from core.audio_transcribe.pipeline import transcribe_audio
 import logging
 
@@ -33,6 +33,9 @@ class ChatResponse(BaseModel):
 class UserCommentRequest(BaseModel):
     post_id: str
     text: str = Field(min_length=1, max_length=500)
+
+class UserPostRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=500)
 
 @router.get("/characters")
 async def get_characters():
@@ -92,6 +95,16 @@ async def get_feed_cached():
         logger.exception("Erro ao ler feed")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
+@router.post("/feed/post")
+async def create_post(request: UserPostRequest):
+    """Cria um post do usuário e gera comentários dos personagens."""
+    try:
+        post = await run_in_threadpool(create_user_post, request.text)
+        return post
+    except Exception:
+        logger.exception("Erro ao criar post")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 @router.post("/feed/comment")
 async def comment_on_post(request: UserCommentRequest):

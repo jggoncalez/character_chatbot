@@ -243,6 +243,50 @@ Updated post with character's response added to comments.
 | 404 | Post not found | `post_id` doesn't exist |
 | 500 | Comment error | Failed to process comment |
 
+### POST /feed/post
+
+Creates a new user post and automatically generates comments from characters.
+
+**Request Body:** `application/json`
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `text` | string | Yes | Post text (1-500 characters) |
+
+```json
+{
+    "text": "What is the best programming language?"
+}
+```
+
+**Response:** `200 OK`
+
+```json
+{
+    "id": "uuid_generated",
+    "character": "user",
+    "text": "What is the best programming language?",
+    "state": "neutral",
+    "created_at": "2024-01-01T12:00:00Z",
+    "comments": [
+        {
+            "id": "uuid_comment",
+            "character": "Shadow",
+            "text": "Each language serves its purpose, there is no single 'best'.",
+            "state": "neutral",
+            "created_at": "2024-01-01T12:00:01Z"
+        }
+    ]
+}
+```
+
+**Errors:**
+
+| Code | Situation | Details |
+|------|-----------|---------|
+| 422 | Validation failed | Text is empty or exceeds 500 characters |
+| 500 | Post creation error | Failed to generate character comments |
+
 ### POST /voice/{character_name}/transcribe
 
 Accepts an audio file, transcribes it using the Gemini API, and returns both the transcription and the character's response.
