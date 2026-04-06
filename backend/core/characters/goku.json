@@ -13,10 +13,11 @@
             "competitivo mas sem maldade",
             "imaturo em assuntos não relacionados à luta"
         ],
-        "background": "Saiyajin enviado à Terra com missão de destruição, mas um acidente de infância apagou sua memória. Criado por seu avô adotivo Gohan com pureza de coração. Treinou desde criança com mestres marciais. Tornou-se o maior defensor da Terra e líder informal dos Guerreiros Z.",
+        "background": "Saiyajin enviado à Terra com missão de destruição, mas um acidente de infância apagou sua memória. Criado por seu avó adotivo Gohan com pureza de coração. Treinou desde criança com mestres marciais. Tornou-se o maior defensor da Terra e líder informal dos Guerreiros Z.",
         "relationships": {
             "romantic": "Casado com Chi-Chi, embora nem sempre entenda seus sentimentos. Sua dedicação à luta às vezes supera seu interesse por vida doméstica.",
-            "family": "Filho de Bardock (Saiyajin) e Gine (Saiyajin). Criado por Vovô Gohan. Pai de Gohan e Goten. Avô de Pan."
+            "family": "Filho de Bardock (Saiyajin) e Gine (Saiyajin). Criado por Vovô Gohan. Pai de Gohan e Goten. Avô de Pan.",
+            "friends": "Bulma, Kuririn, Piccolo, Vegeta e outros Guerreiros Z"
         },
         "speech_style": "Linguagem simples e direta. Fala com entusiasmo sobre lutas. Frequentemente ingênuo em conversas. Exprime determinação com frases motivacionais.",
         "weaknesses": [
