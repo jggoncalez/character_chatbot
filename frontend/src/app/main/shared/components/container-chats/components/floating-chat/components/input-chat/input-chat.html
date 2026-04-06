@@ -1,10 +1,28 @@
 <div class="d-flex align-items-center gap-2">
-    <input type="text"
-        [class]="isDark ? 'form-control form-control-sm bg-secondary bg-opacity-10 border-secondary placeholder-light text-bg-dark' : 'form-control form-control-sm bg-light border-light-subtle text-bg-light'"
-        placeholder="Digite uma mensagem..."
-        />
-    <button class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
-            style="width: 34px; height: 34px;" disabled>
-    <i class="bi bi-send-fill" style="font-size: 0.75rem;"></i>
+  <input type="text"
+    [class]="isDark ? 'form-control form-control-sm bg-secondary bg-opacity-10 border-secondary placeholder-light text-bg-dark' : 'form-control form-control-sm bg-light border-light-subtle text-bg-light'"
+    placeholder="Digite uma mensagem..."
+    [formField]="input"
+    (keydown)="onKeyDown($event)"
+  />
+  @if(input().valid()) {
+    <button (click)="send()"
+        class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
+        style="width: 34px; height: 34px;"
+        [disabled]="loading()">
+        @if(loading()) {
+            <span class="spinner-border spinner-border-sm" style="width: 0.75rem; height: 0.75rem;"></span>
+        } @else {
+            <i class="bi bi-send-fill" style="font-size: 0.75rem;"></i>
+        }
     </button>
+  } @else {
+    <button
+        class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
+        style="width: 34px; height: 34px;"
+        disabled>
+        <i class="bi bi-send-fill" style="font-size: 0.75rem;"></i>
+    </button>
+  }
+  
 </div>

@@ -4,7 +4,7 @@
   <ul class="nav flex-column gap-1 mt-2">
     @for(link of links; track $index) {
       <li class="nav-item">
-        <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 bg-opacity-25"
+        <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 bg-opacity-25 "
         [routerLink]="`/${link.path}`" routerLinkActive="fw-bold bg-primary" [class.text-body-secondary]="!routeLink.isActive" #routeLink="routerLinkActive"
           [class]="themeService.getCurrentTheme() === 'dark' ? 'text-light' : 'text-dark'"
           (click)="navigate(link.path)">
@@ -13,8 +13,6 @@
         </a>
       </li>
     }
-    
-    
 
   </ul>
 

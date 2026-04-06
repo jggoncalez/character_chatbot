@@ -39,5 +39,13 @@ export class SavePostsService {
 
   private persistToStorage(data: ICharacterConfig[]) {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
+ }
+
+  getAgent(agent : ICharacterConfig,returnBolean : boolean = false) {
+    if(returnBolean) {
+      return this.getAll().some((value) => value.agent == agent.agent);
+    } else {
+      return this.getAll().find((value) => value === agent)
+    }
   }
 }

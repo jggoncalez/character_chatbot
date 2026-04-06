@@ -2,31 +2,50 @@
      style="width: 100%; max-width: 300px;"
      class="trasition_bg">
      
-  <h6 class="fw-bold mb-3 px-1">IAs Online ({{saveIA.length}})</h6>
+  <h6 class="fw-bold mb-3 px-1">IAs Online ({{saveIA().length}})</h6>
 
   <ul class="list-unstyled d-flex flex-column gap-2 mb-0 overflow-y-auto" style="max-height: 70vh;">
-    @for(ia of saveIA; track ia.agent) {
+    @for(ia of saveIA(); track ia.agent) {
     <li>
-      <div [class]="themeService.getCurrentTheme() === 'dark' ? 'd-flex align-items-center justify-content-between rounded-3 px-2 py-2 bg-secondary bg-opacity-10' : 'd-flex align-items-center justify-content-between rounded-3 px-2 py-2 bg-white shadow-sm'">
-        <div class="d-flex align-items-center gap-2">
+      <div [class]="themeService.getCurrentTheme() === 'dark' 
+        ? 'd-flex align-items-center justify-content-between rounded-3 px-2 py-2 bg-secondary bg-opacity-10' 
+        : 'd-flex align-items-center justify-content-between rounded-3 px-2 py-2 bg-white shadow-sm'">
+
+        <button 
+          (click)="seeProfile(ia.agent)" 
+          class="d-flex align-items-center gap-2 btn border-0 bg-transparent p-0 btn-hover-effect">
           <div class="position-relative">
-            <div [class]="'rounded-circle d-flex align-items-center justify-content-center '"
-                 style="width: 40px; height: 40px;">
-              <i [class]="'bi bi-code-slash fs-6 text-bg-light'"></i>
+            <div class="rounded-circle d-flex align-items-center justify-content-center"
+                style="width: 40px; height: 40px;">
+              <i class="bi bi-code-slash fs-6 text-bg-light"></i>
             </div>
-            <span [class]="themeService.getCurrentTheme() === 'dark' ? 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-dark' : 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-white'"
-                  style="width: 12px; height: 12px;"></span>
+            <span [class]="themeService.getCurrentTheme() === 'dark' 
+                ? 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-dark' 
+                : 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-white'"
+                  style="width: 12px; height: 12px;">
+            </span>
           </div>
           <div>
-            <div [class]="themeService.getCurrentTheme() === 'dark' ? 'fw-semibold small text-white' : 'fw-semibold small text-dark'">{{ia.agent}}</div> 
+            <div [class]="themeService.getCurrentTheme() === 'dark' 
+              ? 'fw-semibold small text-white' 
+              : 'fw-semibold small text-dark'">
+              {{ ia.agent }}
+            </div>
           </div>
-        </div>
-        <button class="btn btn-sm p-1 lh-1 border-0 text-secondary" disabled>
+        </button>
+
+        <button (click)="savePostsService.getAgent(ia)" class="btn btn-sm p-1 lh-1 border-0 text-secondary">
           <i class="bi bi-chat-dots"></i>
         </button>
       </div>
     </li>
-    }
+
+  } @empty {
+    <li class="text-center text-secondary py-4">
+      <i class="bi bi-robot fs-2 d-block mb-2 opacity-50"></i>
+      <span class="small">Nenhum agente disponível</span>
+    </li>
+  }
   </ul>
 
   <div class="mt-auto pt-3 border-top border-secondary">

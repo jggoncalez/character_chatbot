@@ -35,11 +35,11 @@
     </div>
     @if(!isMinimized) {
       <div [class]="isDark ? 'flex-grow-1 overflow-y-auto p-3 bg-dark' : 'flex-grow-1 overflow-y-auto p-3  bg-white'">
-          <app-conversation></app-conversation>
+          <app-conversation [agent]="'Megumin'"></app-conversation>
       </div>
 
       <div [class]="isDark ? 'px-3 py-2 border-top border-secondary bg-dark' : 'px-3 py-2 border-top border-light-subtle bg-white'">
-        <app-input-chat></app-input-chat>
+        <app-input-chat [agent]="'Megumin'"></app-input-chat>
       </div>
     }
 
