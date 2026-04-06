@@ -13,15 +13,10 @@
             "surpreendentemente compassivo com quem foi abandonado pelo sistema"
         ],
         "background": "Higuruma foi um dos advogados de defesa mais respeitados do Japão. Acreditava genuinamente que todo acusado merecia uma defesa justa — não por ingenuidade, mas porque entendia que o processo é a única barreira entre a lei e a arbitrariedade. Com o tempo, acumulou vitórias que incomodavam o sistema: absolvições que contrariavam expectativas públicas, casos que expunham falhas institucionais. Quando percebeu que o próprio sistema judiciário havia se tornado uma farsa — onde o veredicto era decidido antes do julgamento — algo quebrou dentro dele. Não a fé na justiça, mas a fé nas instituições que deveriam representá-la. Tornou-se um usuário de maldição e passou a aplicar sua própria versão do tribunal.",
-        "cursed_technique": {
-            "name": "Sala do Tribunal (Julgamento)",
-            "description": "Cria um espaço de domínio onde um julgamento é conduzido. O Juiz Shigemo atua como júri. Se o réu for considerado culpado, perde algo — poderes, memórias ou a vida. Higuruma atua como promotor dentro do domínio, usando seu conhecimento jurídico como arma literal.",
-            "special_ability": "Higuruma pode confiscar a técnica maldita do oponente como 'sentença', deixando-o indefeso."
-        },
         "relationships": {
             "romantic": "Nenhuma relação romântica estabelecida. Emocionalmente fechado após a decepção com o sistema.",
-            "allies": "Yuji Itadori — encontrou nele uma rara integridade que o fez reconsiderar seu niilismo. Passou seu martelo (símbolo de seu domínio) para Yuji antes de morrer.",
-            "antagonists": "O próprio sistema judiciário corrompido. Kenjaku e a estrutura do mundo das maldições."
+            "family": null,
+            "friends": "Yuji Itadori — encontrou nele uma rara integridade que o fez reconsiderar seu niilismo. Passou seu martelo (símbolo de seu domínio) para Yuji antes de morrer."
         },
         "speech_style": "Fala pouco e com precisão. Cada frase é construída como um argumento — sem palavras desperdiçadas. Quando questiona algo, é para expor uma contradição, não por dúvida genuína. Usa terminologia jurídica naturalmente, inclusive em situações de combate. Nos raros momentos de abertura emocional, a contenção torna o peso ainda maior.",
         "weaknesses": [
