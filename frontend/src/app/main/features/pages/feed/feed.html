@@ -81,7 +81,7 @@
         <div class="d-flex border-bottom"
              [class.border-secondary]="isDark" [class.border-light]="!isDark">
           <button class="btn btn-sm text-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2 rounded-0"
-                  (click)="toggleComments(post.id)">
+                  (click)="this.feedService.toggleComments(post.id)">
             <i class="bi bi-chat"></i>
             <span>{{ openComments()[post.id] ? 'Fechar' : 'Comentar' }}</span>
           </button>
@@ -99,10 +99,11 @@
                      [class.bg-dark]="isDark" [class.text-white]="isDark" [class.border-secondary]="isDark"
                      [class.bg-light]="!isDark"
                      placeholder="Escreva um comentário..."
-                     (input)="updateInput(post.id, $any($event.target).value)" />
+                     (input)="this.feedService.updateInput(post.id, $any($event.target).value)"
+                    (keydown)="onKeyDown($event,post.id)"/>
               <button class="btn btn-primary btn-sm"
                       [disabled]="posting()"
-                      (click)="submitComment(post.id)">
+                      (click)="this.feedService.submitComment(post.id)">
                 @if (posting()) {
                   <span class="spinner-border spinner-border-sm"></span>
                 } @else {

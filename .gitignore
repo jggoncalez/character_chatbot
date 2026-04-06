@@ -151,3 +151,10 @@ backend/core/feed/feed.json
 backend/core/feed/feed.json.tmp
 backend/core/feed/feed.lock
 
+backend/core/pipeline/__pycache__
+backend/api/__pycache__
+backend/__pycache__
+backend/core/chat/history.json
+backend/core/__pycache__
+backend/core/chat/__pycache__
+backend/core/feed/__pycache__

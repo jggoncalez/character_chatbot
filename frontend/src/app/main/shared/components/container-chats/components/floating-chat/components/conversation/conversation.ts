@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { ThemeService } from '../../../../../../services/theme-service';
 import { ChatService } from '../../../../../../services/chat-service';
 
@@ -20,7 +20,9 @@ export class Conversation {
   history = this.chatService.history;
 
   constructor() {
-    const name = this.agent();
-    if (name) this.chatService.loadHistory(name);
+    effect(() => {
+      const name = this.agent();
+      if (name) this.chatService.loadHistory(name);
+    });
   }
 }

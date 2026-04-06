@@ -3,9 +3,12 @@ import { ThemeService } from '../../../../services/theme-service';
 import { Conversation } from './components/conversation/conversation';
 import { InputChat } from './components/input-chat/input-chat';
 import { ICharacterConfig } from '../../../../interfaces/character-config';
+import { ContainerChatService } from '../../service/container-chat-service';
+import { ChatService } from '../../../../services/chat-service';
 
 @Component({
   selector: 'app-floating-chat',
+  providers : [ChatService],
   imports: [Conversation,InputChat],
   templateUrl: './floating-chat.html',
   styleUrl: './floating-chat.scss',
@@ -13,16 +16,16 @@ import { ICharacterConfig } from '../../../../interfaces/character-config';
 export class FloatingChat {
   themeService = inject(ThemeService);
   agentInput = input.required<ICharacterConfig>();
+  private containerChatService = inject(ContainerChatService);
 
   isMinimized = false;
-  isVisible   = true;
-  
+
   toggleMinimize(): void {
     this.isMinimized = !this.isMinimized;
   }
- 
+
   close(): void {
-    this.isVisible = false;
+    this.containerChatService.remove(this.agentInput());
   }
   get isDark(): boolean {
     return this.themeService.getCurrentTheme() === 'dark';

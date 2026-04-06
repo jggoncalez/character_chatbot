@@ -12,11 +12,11 @@ import { form, required, FormField, minLength, maxLength } from '@angular/forms/
 export class InputChat {
   themeService = inject(ThemeService);
   chatService = inject(ChatService);
+  agent = input.required<string>();
   get isDark(): boolean {
     return this.themeService.getCurrentTheme() === 'dark';
   }
 
-  agent = input.required<string>();
 
   message = signal('');
   input = form(this.message,(message) => {

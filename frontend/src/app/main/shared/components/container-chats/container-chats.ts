@@ -11,5 +11,5 @@ import { ContainerChatService } from './service/container-chat-service';
 export class ContainerChats {
   containerChatService = inject(ContainerChatService);
 
-  agentsConfig = this.containerChatService.getChats();
+  agentsConfig = this.containerChatService.getChats;
 }
