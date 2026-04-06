@@ -34,7 +34,7 @@
           </div>
         </button>
 
-        <button (click)="savePostsService.getAgent(ia)" class="btn btn-sm p-1 lh-1 border-0 text-secondary">
+        <button (click)="containerChatService.set(ia)" class="btn btn-sm p-1 lh-1 border-0 text-secondary">
           <i class="bi bi-chat-dots"></i>
         </button>
       </div>
@@ -48,9 +48,4 @@
   }
   </ul>
 
-  <div class="mt-auto pt-3 border-top border-secondary">
-    <a [class]="themeService.getCurrentTheme() === 'dark' ? 'btn btn-outline-light btn-sm w-100' : 'btn btn-outline-dark btn-sm w-100'" href="#">
-      Ver todos os amigos
-    </a>
-  </div>
 </div>

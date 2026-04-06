@@ -10,13 +10,12 @@ import { ChatService } from '../../../../../../services/chat-service';
 })
 export class Conversation {
   themeService = inject(ThemeService);
+  chatService = inject(ChatService);
   agent = input<string>()
 
   get isDark(): boolean {
     return this.themeService.getCurrentTheme() === 'dark';
   }
-
-  private chatService = inject(ChatService);
 
   history = this.chatService.history;
 

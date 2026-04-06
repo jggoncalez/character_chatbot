@@ -14,7 +14,7 @@
           <i class="bi bi-laptop-fill text-white"></i>
         </div>
         <div>
-          <div class="fw-semibold text-white small">Codex</div>
+          <div class="fw-semibold text-white small">{{agentInput().agent}}</div>
           <div class="text-white-50" style="font-size: 0.7rem;">Online</div>
         </div>
       </div>
@@ -35,11 +35,11 @@
     </div>
     @if(!isMinimized) {
       <div [class]="isDark ? 'flex-grow-1 overflow-y-auto p-3 bg-dark' : 'flex-grow-1 overflow-y-auto p-3  bg-white'">
-          <app-conversation [agent]="'Megumin'"></app-conversation>
+          <app-conversation [agent]="agentInput().agent"></app-conversation>
       </div>
 
       <div [class]="isDark ? 'px-3 py-2 border-top border-secondary bg-dark' : 'px-3 py-2 border-top border-light-subtle bg-white'">
-        <app-input-chat [agent]="'Megumin'"></app-input-chat>
+        <app-input-chat [agent]="agentInput().agent"></app-input-chat>
       </div>
     }
 

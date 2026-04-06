@@ -30,7 +30,6 @@ export class ChatService {
       next: (responses) => {
         this._messages.set(responses);
 
-        // Atualiza o histórico após enviar a mensagem
         this.loadHistory(agentName);
       },
       complete: () => this._loading.set(false),

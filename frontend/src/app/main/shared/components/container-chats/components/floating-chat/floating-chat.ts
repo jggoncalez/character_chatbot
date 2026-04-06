@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ThemeService } from '../../../../services/theme-service';
 import { Conversation } from './components/conversation/conversation';
 import { InputChat } from './components/input-chat/input-chat';
+import { ICharacterConfig } from '../../../../interfaces/character-config';
 
 @Component({
   selector: 'app-floating-chat',
@@ -11,6 +12,7 @@ import { InputChat } from './components/input-chat/input-chat';
 })
 export class FloatingChat {
   themeService = inject(ThemeService);
+  agentInput = input.required<ICharacterConfig>();
 
   isMinimized = false;
   isVisible   = true;

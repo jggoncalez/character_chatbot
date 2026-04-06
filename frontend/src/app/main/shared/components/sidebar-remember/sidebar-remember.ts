@@ -2,6 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme-service';
 import { SavePostsService } from '../../services/save-posts-service';
 import { Router } from '@angular/router';
+import { ContainerChatService } from '../container-chats/service/container-chat-service';
 
 @Component({
   selector: 'app-sidebar-remember',
@@ -13,6 +14,7 @@ export class SidebarRemember {
   router = inject(Router);
   themeService = inject(ThemeService);
   savePostsService = inject(SavePostsService);
+  containerChatService = inject(ContainerChatService)
   saveIA = computed(() => this.savePostsService.getAll())
 
   seeProfile(agent : string) {
