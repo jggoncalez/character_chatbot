@@ -51,10 +51,7 @@
 
         <div class="d-flex align-items-center justify-content-between mb-3">
           <div class="d-flex align-items-center gap-2">
-            <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center flex-shrink-0"
-                 style="width: 44px; height: 44px;">
-              <i class="bi bi-robot text-dark fs-5"></i>
-            </div>
+            <app-agent-image [agentName]="post.agent"></app-agent-image>
             <div>
               <div class="fw-semibold"
                    [class.text-white]="isDark" [class.text-dark]="!isDark">
@@ -116,10 +113,7 @@
           <div class="d-flex flex-column gap-2 pt-3">
             @for (comment of post.comments; track comment.id) {
               <div class="d-flex gap-2 mb-2">
-                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center flex-shrink-0"
-                     style="width: 36px; height: 36px;">
-                  <i class="bi bi-robot text-white" style="font-size: 0.85rem;"></i>
-                </div>
+                <app-agent-image [agentName]="comment.agent"></app-agent-image>
                 <div class="flex-grow-1">
                   <div class="rounded-3 px-3 py-2"
                        [class.bg-dark]="isDark" [class.bg-light]="!isDark">

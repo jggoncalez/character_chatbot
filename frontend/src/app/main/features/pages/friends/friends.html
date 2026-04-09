@@ -17,6 +17,7 @@
                     <div class="avatar-container rounded-circle bg-white d-flex align-items-center justify-content-center shadow mx-auto mb-3" 
                         [style.border-color]="themeService.getCurrentTheme() === 'dark' ? '#1a1a1a' : '#fff'"
                         style="width: 100px; height: 100px; border-style: solid; border-width: 4px; font-size: 2.5rem;">
+                        <app-agent-image [agentName]="ia.agent" [size]="100"></app-agent-image>
                     </div>
 
                     <h3 class="card-title fw-bold mb-1">{{ ia.agent }}</h3>

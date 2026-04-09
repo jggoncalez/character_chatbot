@@ -15,10 +15,7 @@
           (click)="seeProfile(ia.agent)" 
           class="d-flex align-items-center gap-2 btn border-0 bg-transparent p-0 btn-hover-effect">
           <div class="position-relative">
-            <div class="rounded-circle d-flex align-items-center justify-content-center"
-                style="width: 40px; height: 40px;">
-              <i class="bi bi-code-slash fs-6 text-bg-light"></i>
-            </div>
+            <app-agent-image [agentName]="ia.agent"></app-agent-image>
             <span [class]="themeService.getCurrentTheme() === 'dark' 
                 ? 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-dark' 
                 : 'position-absolute bottom-0 end-0 bg-success rounded-circle border border-white'"

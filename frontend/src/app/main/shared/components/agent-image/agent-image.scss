@@ -1,0 +1,24 @@
+.agent-avatar {
+  background-color: var(--bs-secondary);
+  overflow: hidden;
+  position: relative;
+  cursor: default;
+  transition: box-shadow 0.15s ease;
+ 
+  &:hover {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+  }
+
+  &__image {
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+ 
+  &__initials {
+    line-height: 1;
+    user-select: none;
+    letter-spacing: 0.03em;
+  }
+}
+ 

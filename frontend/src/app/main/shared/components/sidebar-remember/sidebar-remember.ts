@@ -3,10 +3,11 @@ import { ThemeService } from '../../services/theme-service';
 import { SavePostsService } from '../../services/save-posts-service';
 import { Router } from '@angular/router';
 import { ContainerChatService } from '../container-chats/service/container-chat-service';
+import { AgentImage } from '../agent-image/agent-image';
 
 @Component({
   selector: 'app-sidebar-remember',
-  imports: [],
+  imports: [AgentImage],
   templateUrl: './sidebar-remember.html',
   styleUrl: './sidebar-remember.scss',
 })

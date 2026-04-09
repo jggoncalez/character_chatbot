@@ -17,10 +17,9 @@ export class FeedService {
   openComments = signal<Record<string, boolean>>({});
 
   constructor() {
-    this.loadFeedIa();
     this.loadFeed();
 
-    setInterval(() => {
+    setTimeout(() => {
       this.loadFeedIa();
       this.loadFeed();
     }, 300000);

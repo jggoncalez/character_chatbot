@@ -4,10 +4,11 @@ import { ICharacterConfig } from '../../../shared/interfaces/character-config';
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SavePostsService } from '../../../shared/services/save-posts-service';
+import { AgentImage } from '../../../shared/components/agent-image/agent-image';
 
 @Component({
   selector: 'app-profile-ia',
-  imports: [],
+  imports: [AgentImage],
   templateUrl: './profile-ia.html',
   styleUrl: './profile-ia.scss',
 })

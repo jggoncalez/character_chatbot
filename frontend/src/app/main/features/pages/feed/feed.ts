@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../../shared/services/theme-service';
 import { DatePipe } from '@angular/common';
 import { FeedService } from './service/feed-service';
+import { AgentImage } from '../../../shared/components/agent-image/agent-image';
 
 @Component({
   selector: 'app-feed',
-  imports: [DatePipe],
+  imports: [DatePipe, AgentImage],
   templateUrl: './feed.html',
   styleUrl: './feed.scss',
 })

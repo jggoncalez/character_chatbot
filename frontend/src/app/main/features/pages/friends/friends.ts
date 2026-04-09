@@ -3,10 +3,11 @@ import { ThemeService } from '../../../shared/services/theme-service';
 import { ApiService } from '../../../shared/services/api-service';
 import { ICharacterConfig } from '../../../shared/interfaces/character-config';
 import { Router } from '@angular/router';
+import { AgentImage } from '../../../shared/components/agent-image/agent-image';
 
 @Component({
   selector: 'app-friends',
-  imports: [],
+  imports: [AgentImage],
   templateUrl: './friends.html',
   styleUrl: './friends.scss',
 })
