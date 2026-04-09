@@ -1,10 +1,16 @@
 import json
 import random
 import threading
+import sys
 from contextlib import contextmanager
 from pathlib import Path
 from datetime import datetime, timezone
 from uuid import uuid4
+
+_current_dir = Path(__file__).parent
+if str(_current_dir.parent.parent) not in sys.path:
+    sys.path.insert(0, str(_current_dir.parent.parent))
+
 from core.chat.pipeline import load_character, call_api, build_system_prompt, CHARACTERS_DIR
 
 try:
@@ -20,7 +26,7 @@ except ImportError:
 FEED_FILE = Path(__file__).parent / "feed.json"
 MAX_POSTS = 20          # máximo de posts no feed
 MAX_COMMENTS = 3        # comentários por post
-POSTS_PER_REFRESH = 2   # posts novos gerados por abertura do feed
+POSTS_PER_REFRESH = 1   # posts novos gerados por abertura do feed
 
 _feed_thread_lock = threading.Lock()
 
@@ -53,7 +59,19 @@ def load_feed() -> list[dict]:
     if not FEED_FILE.exists():
         return []
     with _feed_file_lock():
-        return json.loads(FEED_FILE.read_text(encoding="utf-8"))
+        try:
+            content = FEED_FILE.read_text(encoding="utf-8")
+            if not content:  # Handle empty file
+                return []
+            parsed = json.loads(content)
+            if not isinstance(parsed, list):
+                return []
+            if not all(isinstance(entry, dict) for entry in parsed):
+                return []
+            return parsed
+        except json.JSONDecodeError:
+            # File is corrupted, return empty feed
+            return []
 
 
 def save_feed(feed: list[dict]) -> None:
@@ -123,7 +141,7 @@ def _generate_comments(post: dict, all_names: list[str]) -> list[dict]:
 
             prompt = (
                 f"{post['character']} postou: \"{post['text']}\"\n"
-                "Escreva UM comentário curto reagindo a isso. "
+                "Escreva UM comentário curto reagindo a esta publicação. "
                 "Máximo 1 frase. Fique no personagem."
             )
 
@@ -178,8 +196,38 @@ def refresh_feed() -> list[dict]:
 
 
 # ======================================================
-# COMENTÁRIO DO USUÁRIO
+# INTERAÇÕES DO USUÁRIO
 # ======================================================
+
+def add_user_post(user_text: str) -> dict | None:
+    """Usuário cria um post e recebe comentários dos personagens."""
+    with _feed_thread_lock:
+        feed      = load_feed()
+        all_names = _all_character_names()
+        
+        if not all_names:
+            return None
+        
+        # cria o post do usuário
+        post = {
+            "id":         str(uuid4()),
+            "character":  "user",
+            "text":       user_text.strip(),
+            "state":      "neutral",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "comments":   [],
+        }
+        
+        # gera comentários de 2-3 personagens
+        post["comments"] = _generate_comments(post, all_names)
+        
+        # adiciona ao feed (mais recente primeiro)
+        feed.insert(0, post)
+        feed = feed[:MAX_POSTS]
+        save_feed(feed)
+        
+        return post
+
 def add_user_comment(post_id: str, user_text: str) -> dict | None:
     """Adiciona comentário do usuário e gera 1 resposta do autor do post."""
     with _feed_thread_lock:
@@ -228,3 +276,55 @@ def add_user_comment(post_id: str, user_text: str) -> dict | None:
 
         save_feed(feed)
         return post
+
+
+# ======================================================
+# POST DO USUÁRIO
+# ======================================================
+def create_user_post(user_text: str) -> dict | None:
+    """Usuário cria um post e recebe comentários dos personagens."""
+    with _feed_thread_lock:
+        feed      = load_feed()
+        all_names = _all_character_names()
+
+        if not all_names:
+            return None
+
+        # cria o post do usuário
+        post = {
+            "id":         str(uuid4()),
+            "character":  "user",
+            "text":       user_text.strip(),
+            "state":      "neutral",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "comments":   [],
+        }
+
+        # gera comentários de 2-3 personagens
+        post["comments"] = _generate_comments(post, all_names)
+
+        # adiciona ao feed (mais recente primeiro)
+        feed.insert(0, post)
+        feed = feed[:MAX_POSTS]
+        save_feed(feed)
+
+        return post
+
+
+# ======================================================
+# TESTE
+# ======================================================
+if __name__ == "__main__":
+    import sys
+
+    print("=== Feed Pipeline Test ===\n")
+
+    # Listar personagens disponíveis
+    characters = _all_character_names()
+    text = sys.argv[2] if len(sys.argv) > 2 else "O que vocês acham de chocolate com menta?"
+    print(f"Criando post do usuário: {text}\n")
+    post = create_user_post(text)
+    if post:
+        print(f"Post criado com {len(post['comments'])} comentários:")
+        for comment in post['comments']:
+            print(f"  - {comment['character']}: {comment['text']}")

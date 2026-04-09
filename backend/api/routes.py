@@ -1,10 +1,21 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File
 from pydantic import BaseModel, Field
 from typing import List
 from fastapi.concurrency import run_in_threadpool
 from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR, load_character, clear_history
-from core.feed.pipeline import refresh_feed, add_user_comment, load_feed
+from core.feed.pipeline import refresh_feed, add_user_comment, load_feed, create_user_post
+from core.audio_transcribe.pipeline import transcribe_audio
 import logging
+import asyncio
+
+SUPPORTED_TYPES = [
+    "audio/webm",
+    "audio/webm;codecs=opus",
+    "audio/mp4",
+    "audio/wav",
+    "audio/ogg"
+]
+
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +35,9 @@ class UserCommentRequest(BaseModel):
     post_id: str
     text: str = Field(min_length=1, max_length=500)
 
+class UserPostRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=500)
+
 @router.get("/characters")
 async def get_characters():
     try:
@@ -38,10 +52,20 @@ async def get_characters():
 @router.post("/chat", response_model=List[ChatResponse])
 async def chat(request: ChatRequest):
     try:
-        responses = await run_in_threadpool(
-            generate_message, request.message, request.character_name
+        logger.info(f"Chat request: {request.character_name} - '{request.message[:50]}'")
+
+        # Timeout de 30 segundos para não travar indefinidamente
+        response = await asyncio.wait_for(
+            run_in_threadpool(generate_message, request.message, request.character_name),
+            timeout=30.0
         )
-        return responses
+
+        logger.info(f"Chat response: {response}")
+        return response
+
+    except asyncio.TimeoutError:
+        logger.error(f"Timeout na geração de mensagem para {request.character_name}")
+        raise HTTPException(status_code=504, detail="Resposta demorou muito - timeout")
     except FileNotFoundError as e:
         logger.exception(
             "Character data not found for name: %s", request.character_name
@@ -83,6 +107,16 @@ async def get_feed_cached():
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
+@router.post("/feed/post")
+async def create_post(request: UserPostRequest):
+    """Cria um post do usuário e gera comentários dos personagens."""
+    try:
+        post = await run_in_threadpool(create_user_post, request.text)
+        return post
+    except Exception:
+        logger.exception("Erro ao criar post")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
 @router.post("/feed/comment")
 async def comment_on_post(request: UserCommentRequest):
     """Usuário comenta num post e o personagem responde."""
@@ -123,3 +157,47 @@ async def clear_character_history(character_name: str):
     except Exception:
         logger.exception("Erro ao limpar histórico")
         raise HTTPException(status_code=500, detail="Erro ao processar limpeza de arquivo")
+    
+
+@router.post("/voice/{character_name}/transcribe")
+async def transcribe_voice(
+    character_name: str,
+    audio: UploadFile = File(...),
+):
+    try:
+        mime = audio.content_type or "audio/webm"
+        if not any(mime.startswith(t) for t in SUPPORTED_TYPES):
+            raise HTTPException(status_code=415, detail=f"Tipo não suportado: {mime}")
+
+        audio_bytes = await audio.read()
+        if len(audio_bytes) > 1_000_000:
+            raise HTTPException(status_code=413, detail="Áudio muito longo")
+
+        logger.info(f"Transcribing audio for {character_name}")
+        text = await run_in_threadpool(transcribe_audio, audio_bytes, mime)
+
+        if not text:
+            raise HTTPException(status_code=422, detail="Não foi possível transcrever")
+
+        logger.info(f"Transcription: {text[:50]}")
+
+        # Timeout de 30 segundos para gerar resposta
+        responses = await asyncio.wait_for(
+            run_in_threadpool(generate_message, text, character_name),
+            timeout=30.0
+        )
+
+        logger.info(f"Voice response: {responses}")
+        return {"transcription": text, "responses": responses}
+
+    except asyncio.TimeoutError:
+        logger.error(f"Timeout na geração de mensagem para {character_name}")
+        raise HTTPException(status_code=504, detail="Resposta demorou muito - timeout")
+    except HTTPException:
+        raise
+    except FileNotFoundError:
+        logger.exception("Character data not found for name: %s", character_name)
+        raise HTTPException(status_code=404, detail="Character not found")
+    except Exception:
+        logger.exception("Erro na transcrição")
+        raise HTTPException(status_code=500, detail="Erro interno na transcrição")

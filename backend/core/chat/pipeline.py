@@ -9,6 +9,12 @@ from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+
+from core.tools.declarations import TOOL_DECLARATIONS
+from core.tools.registry import TOOL_REGISTRY
 
 load_dotenv()
 
@@ -17,10 +23,13 @@ load_dotenv()
 # ======================================================
 CHARACTERS_DIR = Path(__file__).parent.parent / "characters"
 HISTORY_FILE   = Path(__file__).parent / "history.json"
-MODEL_ID       = "gemini-2.5-flash-lite"
+MODEL_DEFAULT  = "gemini-2.5-flash-lite"
+MODEL_SEARCH   = "gemini-2.0-flash"
 MAX_HISTORY    = 20
 
-client: genai.Client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+client: genai.Client = genai.Client(
+    api_key=os.environ.get("GEMINI_API_KEY")
+)
 
 
 # ======================================================
@@ -47,20 +56,42 @@ def clean_json(text: str) -> str:
 
 
 def parse_response(text: str, character_name: str) -> list[dict]:
-    """Tenta parsear a resposta da API. Retorna fallback em caso de erro."""
     try:
-        parsed = json.loads(clean_json(text))
+        # Se completamente vazio, retorna fallback
+        if not text or not text.strip():
+            return [_make_fallback(character_name, "")]
+
+        text = text.strip()
+        cleaned = clean_json(text)
+
+        # Tenta parsear JSON
+        parsed = json.loads(cleaned)
 
         if isinstance(parsed, dict):
-            return [parsed]
+            # Se é um dict, verifica se tem "text"
+            if parsed.get("text"):
+                return [parsed]
+            # Se não tem text, tenta usar o dict inteiro como descrição
+            return [_make_fallback(character_name, json.dumps(parsed))]
 
-        if isinstance(parsed, list) and parsed and isinstance(parsed[0], str):
-            return [_make_fallback(character_name, parsed[0])]
+        if isinstance(parsed, list) and parsed:
+            if isinstance(parsed[0], dict):
+                # Array de dicts - retorna como está
+                return parsed
+            elif isinstance(parsed[0], str):
+                # Array de strings
+                return [_make_fallback(character_name, parsed[0])]
 
-        return parsed
+        return [_make_fallback(character_name, "Hmm, não consegui responder agora.")]
 
     except json.JSONDecodeError:
-        return [_make_fallback(character_name, text.strip())]
+        # Se não conseguir parsear JSON, trata como texto puro
+        if text and text.strip():
+            # Remove aspas se for uma string JSON mal formatada
+            text_clean = text.strip().strip('"').strip("'")
+            if text_clean and len(text_clean) > 2:
+                return [_make_fallback(character_name, text_clean)]
+        return [_make_fallback(character_name, "Desculpe, não consegui processar sua mensagem.")]
 
 
 def _make_fallback(character_name: str, text: str) -> dict:
@@ -85,24 +116,156 @@ def load_character(name: str) -> dict:
 
 def build_system_prompt(character_name: str, character: dict) -> str:
     valid_states = ", ".join(s.value for s in State)
+
     return (
-        f"Você é {character_name}.\nPerfil: {character}\n"
-        "REGRAS ABSOLUTAS:\n"
-        "- Responda SOMENTE com JSON válido, nada mais.\n"
-        "- Sem texto antes ou depois do JSON.\n"
-        "- Português do Brasil UTF-8, sem emojis, sem formatação.\n"
-        "- OBRIGATÓRIO: Use português do Brasil CORRETO. "
-        "Acentos, cedilha e pontuação são OBRIGATÓRIOS. "
-        "Nunca escreva 'nao', sempre 'não'. Nunca 'voce', sempre 'você'.\n"
-        "- Padrão: máximo 20 palavras por mensagem.\n"
-        "- EXCEÇÃO: Se ensinar algo ou passo a passo, máximo 100 palavras totais.\n"
-        "- EXCEÇÃO: Se responder pergunta complexa, máximo 50 palavras.\n"
-        "- Sempre priorize concisão e clareza.\n"
-        f'FORMATO OBRIGATÓRIO (copie exatamente):\n'
-        f'[{{"character": "{character_name}", "text": "sua resposta aqui", "state": "neutral"}}]\n'
-        f"Estados válidos: {valid_states}\n"
-        "Respeite rigorosamente o limite de palavras especificado para cada contexto."
+        f"Você é {character_name}.\n"
+        f"Perfil: {character}\n\n"
+        f"RESPONDA SEMPRE neste formato JSON exato (sem nada antes ou depois):\n"
+        f'[{{"character": "{character_name}", "text": "sua resposta aqui", "state": "neutral"}}]\n\n'
+        f"Instruções:\n"
+        f"- Responda como o personagem naturalmente\n"
+        f"- Máximo 20 palavras (ou 100 se ensinar algo)\n"
+        f"- Português correto com acentos\n"
+        f"- Estados válidos: {valid_states}\n"
+        f"- Se perguntarem hora/data, use a ferramenta data_hora_atual\n"
+        f"- Se perguntarem clima, use a ferramenta clima_atual\n"
+        f"- Nunca invente informações que existem ferramentas para buscar"
     )
+
+
+# ======================================================
+# HELPERS — TOOLS
+# ======================================================
+def get_model_for_character(character: dict) -> str:
+    """Usa modelo mais capaz se o personagem tiver web_search."""
+    if "web_search" in character.get("tools", []):
+        return MODEL_SEARCH
+    return MODEL_DEFAULT
+
+
+def build_tools_for_character(character: dict) -> list | None:
+    """Monta a lista de tools do Gemini baseado no JSON do personagem."""
+    tool_names = character.get("tools", [])
+    if not tool_names:
+        return None
+
+    tools = []
+
+    # tools normais — passam pelo execute_tool_call
+    other_names = [n for n in tool_names if n != "web_search"]
+    declarations = [
+        TOOL_DECLARATIONS[name]
+        for name in other_names
+        if name in TOOL_DECLARATIONS
+    ]
+
+    if declarations:
+        tools.append(types.Tool(function_declarations=declarations))
+
+    # web_search é especial — SEMPRE em objeto separado, SEMPRE por último
+    if "web_search" in tool_names:
+        tools.append(types.Tool(google_search=types.GoogleSearch()))
+
+    return tools if tools else None
+
+
+def execute_tool_call(tool_name: str, args: dict) -> str:
+    """Executa a função real e retorna o resultado como string JSON."""
+    fn = TOOL_REGISTRY.get(tool_name)
+    if not fn:
+        return json.dumps({"erro": f"Ferramenta '{tool_name}' não encontrada"})
+    try:
+        result = fn(**args)
+        return json.dumps(result, ensure_ascii=False)
+    except Exception as e:
+        return json.dumps({"erro": f"Erro ao executar {tool_name}: {str(e)}"})
+
+
+def _has_tool_call(response) -> bool:
+    """Verifica se o Gemini quer chamar alguma tool."""
+    try:
+        candidates = response.candidates
+        if not candidates:
+            return False
+
+        content = candidates[0].content
+        if not content or not content.parts:
+            return False
+
+        return any(
+            hasattr(part, "function_call") and part.function_call
+            for part in content.parts
+        )
+    except (IndexError, AttributeError):
+        return False
+
+
+def _retry_simple_response(character_name: str, character: dict, history: list, system_prompt: str) -> list[dict]:
+    """Retry simples mantendo histórico mas sem tools."""
+    print(f"[RETRY] Tentando resposta simples (sem tools)...", flush=True)
+
+    for retry_attempt in range(1, 3):  # 2 tentativas
+        try:
+            contents = _build_contents(history)
+
+            config = types.GenerateContentConfig(
+                system_instruction=system_prompt,
+                temperature=0.7,  # Um pouco mais criativo
+                tools=None,  # Sem tools para simplificar
+            )
+
+            print(f"[RETRY {retry_attempt}] Chamando Gemini sem tools...", flush=True)
+            response = client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                config=config,
+                contents=contents
+            )
+
+            if response and response.text and response.text.strip():
+                print(f"[RETRY {retry_attempt}] ✓ Sucesso!", flush=True)
+                raw = response.text
+                parsed = parse_response(raw, character_name)
+                if parsed and parsed[0].get("text", "").strip():
+                    return parsed
+
+            print(f"[RETRY {retry_attempt}] Ainda vazio, tentando novamente...", flush=True)
+        except Exception as e:
+            print(f"[RETRY {retry_attempt}] Erro: {str(e)[:50]}", flush=True)
+            continue
+
+    # Se mesmo assim falhar, usa fallback
+    print(f"[RETRY] Todos os retries falharam, usando fallback", flush=True)
+    return [_make_fallback(character_name, "Desculpe, não consegui processar sua pergunta agora. Tente novamente.")]
+
+
+def _extract_tool_results(response) -> list[types.Part]:
+    """Executa as tool calls e retorna os resultados."""
+    results = []
+
+    try:
+        parts = response.candidates[0].content.parts
+        if not parts:
+            return results
+    except (IndexError, AttributeError):
+        return results
+
+    for part in parts:
+        if not hasattr(part, "function_call") or not part.function_call:
+            continue
+
+        fc     = part.function_call
+        result = execute_tool_call(fc.name, dict(fc.args))
+
+        results.append(
+            types.Part(
+                function_response=types.FunctionResponse(
+                    name=fc.name,
+                    response={"result": result}
+                )
+            )
+        )
+
+    return results
 
 
 # ======================================================
@@ -116,21 +279,32 @@ def load_history(character_name: str) -> list:
     if not HISTORY_FILE.exists():
         return []
 
-    data = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
-    return data.get(normalize_character_name(character_name), [])
+    try:
+        content = HISTORY_FILE.read_text(encoding="utf-8")
+        if not content:
+            return []
+        data = json.loads(content)
+        if not isinstance(data, dict):
+            return []
+        return data.get(normalize_character_name(character_name), [])
+    except json.JSONDecodeError:
+        return []
 
 
 def _append_to_history(history: list, role: Role, content: str) -> None:
-    """Adiciona uma entrada ao histórico em memória."""
     history.append({"role": role, "content": content})
 
 
 def persist_history(character_name: str, history: list) -> None:
-    """Salva o histórico (truncado) em disco."""
     all_history: dict = {}
 
     if HISTORY_FILE.exists():
-        all_history = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
+        try:
+            content = HISTORY_FILE.read_text(encoding="utf-8")
+            if content:
+                all_history = json.loads(content)
+        except json.JSONDecodeError:
+            all_history = {}
 
     all_history[normalize_character_name(character_name)] = history[-MAX_HISTORY:]
     HISTORY_FILE.write_text(
@@ -140,12 +314,17 @@ def persist_history(character_name: str, history: list) -> None:
 
 
 def clear_history(character_name: str) -> bool:
-    """Remove o histórico de um personagem específico. Retorna True se havia histórico."""
     if not HISTORY_FILE.exists():
         return False
 
     key = normalize_character_name(character_name)
-    all_history = json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
+    try:
+        content = HISTORY_FILE.read_text(encoding="utf-8")
+        if not content:
+            return False
+        all_history = json.loads(content)
+    except json.JSONDecodeError:
+        return False
 
     if key not in all_history:
         return False
@@ -169,36 +348,142 @@ def _build_contents(history: list) -> list[types.Content]:
 
 
 def call_api(contents: list[types.Content], system_prompt: str, character_name: str) -> str:
+    """Compatibilidade com feed e audio_transcribe que usam chamada direta."""
     try:
         response = client.models.generate_content(
-            model=MODEL_ID,
+            model=MODEL_DEFAULT,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
-                temperature=0.7,
+                temperature=0.5,
             ),
             contents=contents,
         )
         return response.text or ""
-    except Exception as e:
-        return json.dumps([{"character": "{character_name}", "text": "Desculpe, ocorreu um erro ao processar sua mensagem.","state": "hushed"}])
+    except Exception:
+        return json.dumps(
+            [
+                {
+                    "character": character_name,
+                    "text": "Desculpe, ocorreu um erro ao processar sua mensagem.",
+                    "state": "hushed",
+                }
+            ]
+        )
 
 
 # ======================================================
 # MAIN
 # ======================================================
 def generate_message(message: str, character_name: str) -> list[dict]:
-    character = load_character(character_name)
-    history   = load_history(character_name)
+    """Gera uma mensagem do personagem, com suporte a tool calling."""
+    import sys
+    print(f"[GENERATE] Iniciando para {character_name}: '{message[:50]}'", flush=True)
+
+    try:
+        character = load_character(character_name)
+    except FileNotFoundError as e:
+        print(f"[GENERATE] ✗ Personagem não encontrado: {character_name}", flush=True)
+        return [_make_fallback(character_name, f"Personagem não encontrado")]
+
+    history = load_history(character_name)
+    tools = build_tools_for_character(character)
+    model = get_model_for_character(character)
+
+    print(f"[GENERATE] Model: {model}, Tools: {len(tools) if tools else 0}, History: {len(history)}", flush=True)
 
     _append_to_history(history, Role.USER, message)
+    contents = _build_contents(history)
+    system_prompt = build_system_prompt(character_name, character)
 
-    contents       = _build_contents(history)
-    system_prompt  = build_system_prompt(character_name, character)
-    raw_response   = call_api(contents, system_prompt, character_name)
-    parsed         = parse_response(raw_response, character_name)
+    # ── loop de tool calling ──────────────────────────────
+    max_iterations = 5
+    raw = None
+    response = None
 
-    _append_to_history(history, Role.MODEL, parsed[0]["text"])
-    persist_history(character_name, history)
+    for iteration in range(1, max_iterations + 1):
+        config = types.GenerateContentConfig(
+            system_instruction=system_prompt,
+            temperature=0.5,
+            tools=tools or [],
+        )
+
+        try:
+            print(f"[LOOP {iteration}] Chamando Gemini...", flush=True)
+            response = client.models.generate_content(
+                model=model,
+                config=config,
+                contents=contents
+            )
+            print(f"[LOOP {iteration}] ✓ Response OK", flush=True)
+        except Exception as e:
+            # Na primeira tentativa, retorna o erro
+            error_text = str(e)[:50]
+            print(f"[LOOP {iteration}] ✗ Erro: {error_text}", flush=True)
+            if iteration == 1:
+                return [_make_fallback(character_name, f"Erro API: {error_text}")]
+            else:
+                # Tenta novamente nas próximas tentativas
+                if iteration < max_iterations:
+                    continue
+                break
+
+        # resposta vazia ou bloqueada
+        if not response or not response.candidates:
+            print(f"[LOOP {iteration}] ✗ Response vazio", flush=True)
+            if iteration < max_iterations:
+                continue  # Retry imediato
+            raw = None
+            break
+
+        # sem tool call — resposta final
+        if not _has_tool_call(response):
+            raw = response.text
+            print(f"[LOOP {iteration}] ✓ Resposta final", flush=True)
+            break
+
+        # executa as tools e continua o loop
+        tool_results = _extract_tool_results(response)
+
+        if not tool_results:
+            raw = response.text
+            print(f"[LOOP {iteration}] ✓ Saiu (sem tool results)", flush=True)
+            break
+
+        # Adiciona response ao histórico
+        if response.candidates[0].content:
+            contents.append(response.candidates[0].content)
+
+        # Adiciona tool results
+        contents.append(
+            types.Content(role="tool", parts=tool_results)
+        )
+        print(f"[LOOP {iteration}] → Continuando com mais uma iteração...", flush=True)
+
+    # Se saiu do loop sem ter raw, tenta usar a última response
+    if raw is None and response:
+        raw = response.text
+    # ── fim do loop ───────────────────────────────────────
+
+    print(f"[PARSE] Raw: '{str(raw)[:80] if raw else 'VAZIO'}'", flush=True)
+
+    # Parse resposta (sempre retorna algo válido)
+    parsed = parse_response(raw or "", character_name)
+
+    # Se ficou vazio, tenta fazer um retry final (sem tools)
+    if not parsed or not parsed[0].get("text", "").strip():
+        print(f"[RETRY] Resposta vazia! Tentando retry sem tools...", flush=True)
+        parsed = _retry_simple_response(
+            character_name, character, history, system_prompt
+        )
+
+    print(f"[PARSE] Resultado final: '{parsed[0]['text'][:60]}'", flush=True)
+
+    # Salva histórico
+    try:
+        _append_to_history(history, Role.MODEL, parsed[0]["text"])
+        persist_history(character_name, history)
+    except Exception as e:
+        print(f"[WARN] Erro ao salvar histórico: {e}")
 
     return parsed
 
@@ -207,4 +492,4 @@ def generate_message(message: str, character_name: str) -> list[dict]:
 # DEBUG
 # ======================================================
 if __name__ == "__main__":
-    generate_message("Pode me dar o passo a passo?", "pixxie")
+    print(generate_message("Qual a Selic hoje?", "Corretor Rodrigo"))

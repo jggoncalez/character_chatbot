@@ -243,6 +243,95 @@ Post atualizado com a resposta do personagem adicionada aos comentários.
 | 404 | Post não encontrado | `post_id` não existe |
 | 500 | Erro ao comentar | Falha ao processar comentário |
 
+### POST /feed/post
+
+Cria um novo post do usuário e gera comentários automáticos dos personagens.
+
+**Corpo da Requisição:** `application/json`
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `text` | string | Sim | Texto do post (1-500 caracteres) |
+
+```json
+{
+    "text": "Qual é a melhor linguagem de programação?"
+}
+```
+
+**Resposta:** `200 OK`
+
+```json
+{
+    "id": "uuid_gerado",
+    "character": "user",
+    "text": "Qual é a melhor linguagem de programação?",
+    "state": "neutral",
+    "created_at": "2024-01-01T12:00:00Z",
+    "comments": [
+        {
+            "id": "uuid_comentario",
+            "character": "Shadow",
+            "text": "Cada linguagem tem seu propósito, não há uma 'melhor'.",
+            "state": "neutral",
+            "created_at": "2024-01-01T12:00:01Z"
+        }
+    ]
+}
+```
+
+**Erros:**
+
+| Código | Situação | Detalhes |
+|--------|----------|----------|
+| 422 | Validação falhou | Texto vazio ou maior que 500 caracteres |
+| 500 | Erro ao criar post | Falha ao gerar comentários dos personagens |
+
+### POST /voice/{character_name}/transcribe
+
+Recebe um arquivo de áudio, transcreve-o usando a API Gemini e retorna a transcrição e a resposta do personagem.
+
+**Parâmetros de Caminho:**
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `character_name` | string | Sim | Nome do personagem (case-insensitive) |
+
+**Corpo da Requisição:** `multipart/form-data`
+
+| Campo | Tipo | Obrigatório | Descrição |
+|-------|------|-------------|-----------|
+| `audio` | arquivo | Sim | Arquivo de áudio a ser transcrito |
+
+**Tipos MIME suportados:** `audio/webm`, `audio/webm;codecs=opus`, `audio/mp4`, `audio/wav`, `audio/ogg`
+
+**Tamanho máximo do arquivo:** 1 MB
+
+**Resposta:** `200 OK`
+
+```json
+{
+    "transcription": "Olá, como vai você?",
+    "responses": [
+        {
+            "character": "Shadow",
+            "text": "Estou bem, obrigado.",
+            "state": "neutral"
+        }
+    ]
+}
+```
+
+**Erros:**
+
+| Código | Situação | Detalhes |
+|--------|----------|----------|
+| 404 | Personagem não encontrado | Arquivo do personagem não existe |
+| 413 | Áudio muito longo | Arquivo excede o limite de 1 MB |
+| 415 | Tipo de mídia não suportado | Tipo MIME não é suportado |
+| 422 | Transcrição falhou | Não foi possível transcrever o áudio |
+| 500 | Erro interno | Falha na API Gemini ou erro de processamento |
+
 ## Estrutura do Projeto
 
 ```
@@ -255,11 +344,12 @@ backend/
 │   └── routes.py          # Definições de endpoints
 ├── core/
 │   ├── characters/        # <name>.json por personagem
+│   ├── audio_transcribe/
+│   │   └── pipeline.py    # Transcrição de áudio com Gemini
 │   ├── chat/
 │   │   └── pipeline.py    # Lógica Gemini + histórico
-│   ├── feed/
-│   │   └── pipeline.py    # Geração de feed + comentários
-│   └── history.json
+│   └── feed/
+│       └── pipeline.py    # Geração de feed + comentários
 └── tests/
         └── test_api.py
 ```
