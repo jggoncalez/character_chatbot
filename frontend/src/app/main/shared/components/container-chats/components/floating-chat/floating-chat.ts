@@ -5,11 +5,12 @@ import { InputChat } from './components/input-chat/input-chat';
 import { ICharacterConfig } from '../../../../interfaces/character-config';
 import { ContainerChatService } from '../../service/container-chat-service';
 import { ChatService } from '../../../../services/chat-service';
+import { AgentImage } from '../../../agent-image/agent-image';
 
 @Component({
   selector: 'app-floating-chat',
-  providers : [ChatService],
-  imports: [Conversation,InputChat],
+  providers : [ChatService, AgentImage],
+  imports: [Conversation, InputChat, AgentImage],
   templateUrl: './floating-chat.html',
   styleUrl: './floating-chat.scss',
 })

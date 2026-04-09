@@ -4,10 +4,11 @@ import { ThemeService } from '../../../shared/services/theme-service';
 import { ApiService } from '../../../shared/services/api-service';
 import { SavePostsService } from '../../../shared/services/save-posts-service';
 import { Router } from '@angular/router';
+import { AgentImage } from '../../../shared/components/agent-image/agent-image';
 
 @Component({
   selector: 'app-profile',
-  imports: [NgClass],
+  imports: [NgClass, AgentImage],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })

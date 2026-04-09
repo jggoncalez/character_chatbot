@@ -19,7 +19,7 @@ export class ThemeService {
 
   getCurrentTheme() {
     if(isPlatformBrowser(this.plataformId)) {
-      return localStorage.getItem('app-theme')
+      return localStorage.getItem('app-theme') ?? 'dark'
     } else {
       return 'dark';
     }

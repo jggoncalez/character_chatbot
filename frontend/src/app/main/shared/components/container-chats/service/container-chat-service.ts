@@ -11,8 +11,8 @@ export class ContainerChatService {
 
   private _chats = signal<ICharacterConfig[]>([]);
   getChats = computed(() => this._chats());
-
   set(config: ICharacterConfig): void {
+    console.log(config)
     this._chats.update((current) => {
       const alreadyOpen = current.some(c => c.agent === config.agent);
       if (alreadyOpen) return current;

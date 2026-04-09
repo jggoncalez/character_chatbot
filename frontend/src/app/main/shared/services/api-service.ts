@@ -43,6 +43,12 @@ export class ApiService {
     );
   }
 
+  getCharactersNodetails(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/characters`).pipe(
+      map((characters: []) => ({ data : characters }))
+    );
+  }
+
   sendMessage(message: string, character_name: string): Observable<IChatResponse[]> {
     const body: IChatRequest = { message, character_name };
     return this.http.post<IChatResponse[]>(`${this.baseUrl}/chat`, body);

@@ -8,10 +8,7 @@
       (click)="toggleMinimize()">
 
     <div class="d-flex align-items-center gap-2">
-      <div class="rounded-2 bg-dark bg-opacity-25 d-flex align-items-center justify-content-center"
-          style="width: 34px; height: 34px;">
-        <i class="bi bi-laptop-fill text-white"></i>
-      </div>
+      <app-agent-image [agentName]="agentInput().agent"></app-agent-image>
       <div>
         <div class="fw-semibold text-white small">{{agentInput().agent}}</div>
         <div class="text-white-50" style="font-size: 0.7rem;">Online</div>

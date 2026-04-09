@@ -84,10 +84,7 @@
           <div class="col-6 col-sm-4 col-md-3 col-lg-2">
             <button (click)="seeProfile(ia.agent)" class="btn w-100 rounded-3 p-3 d-flex flex-column align-items-center gap-2 friend-card"
                     [ngClass]="isDark ? 'bg-secondary bg-opacity-10' : 'bg-light'">
-              <div class="rounded-3 d-flex align-items-center justify-content-center"
-                  style="width: 64px; height: 64px; background-color: #a855f7;">
-                <i class="bi bi-palette-fill text-white fs-4"></i>
-              </div>
+              <app-agent-image [agentName]="ia.agent" [size]="60"></app-agent-image>
               <span class="small fw-semibold text-center"
                     [ngClass]="isDark ? 'text-white' : 'text-dark'">{{ia.agent}}</span>
             </button>
