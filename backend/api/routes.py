@@ -6,6 +6,7 @@ from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR, l
 from core.feed.pipeline import refresh_feed, add_user_comment, load_feed, create_user_post
 from core.audio_transcribe.pipeline import transcribe_audio
 import logging
+import asyncio
 
 SUPPORTED_TYPES = [
     "audio/webm",
@@ -51,10 +52,20 @@ async def get_characters():
 @router.post("/chat", response_model=List[ChatResponse])
 async def chat(request: ChatRequest):
     try:
-        responses = await run_in_threadpool(
-            generate_message, request.message, request.character_name
+        logger.info(f"Chat request: {request.character_name} - '{request.message[:50]}'")
+
+        # Timeout de 30 segundos para não travar indefinidamente
+        response = await asyncio.wait_for(
+            run_in_threadpool(generate_message, request.message, request.character_name),
+            timeout=30.0
         )
-        return responses
+
+        logger.info(f"Chat response: {response}")
+        return response
+
+    except asyncio.TimeoutError:
+        logger.error(f"Timeout na geração de mensagem para {request.character_name}")
+        raise HTTPException(status_code=504, detail="Resposta demorou muito - timeout")
     except FileNotFoundError as e:
         logger.exception(
             "Character data not found for name: %s", request.character_name
@@ -157,20 +168,31 @@ async def transcribe_voice(
         mime = audio.content_type or "audio/webm"
         if not any(mime.startswith(t) for t in SUPPORTED_TYPES):
             raise HTTPException(status_code=415, detail=f"Tipo não suportado: {mime}")
-        
+
         audio_bytes = await audio.read()
         if len(audio_bytes) > 1_000_000:
             raise HTTPException(status_code=413, detail="Áudio muito longo")
-        
+
+        logger.info(f"Transcribing audio for {character_name}")
         text = await run_in_threadpool(transcribe_audio, audio_bytes, mime)
-        
+
         if not text:
             raise HTTPException(status_code=422, detail="Não foi possível transcrever")
-        
-        responses = await run_in_threadpool(generate_message, text, character_name)
-        
+
+        logger.info(f"Transcription: {text[:50]}")
+
+        # Timeout de 30 segundos para gerar resposta
+        responses = await asyncio.wait_for(
+            run_in_threadpool(generate_message, text, character_name),
+            timeout=30.0
+        )
+
+        logger.info(f"Voice response: {responses}")
         return {"transcription": text, "responses": responses}
 
+    except asyncio.TimeoutError:
+        logger.error(f"Timeout na geração de mensagem para {character_name}")
+        raise HTTPException(status_code=504, detail="Resposta demorou muito - timeout")
     except HTTPException:
         raise
     except FileNotFoundError:
