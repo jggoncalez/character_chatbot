@@ -1,0 +1,26 @@
+@media (max-width: 360px) {
+  .rounded-circle[style*="width: 110px"] {
+    width: 85px !important;
+    height: 85px !important;
+    margin-top: -40px;
+ 
+    i {
+      font-size: 2.5rem !important;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  div[style*="height: 200px"] {
+    height: 140px !important;
+  }
+}
+
+.friend-card {
+  min-height: 110px;
+  transition: opacity 0.15s ease;
+ 
+  &:hover {
+    opacity: 0.85;
+  }
+}

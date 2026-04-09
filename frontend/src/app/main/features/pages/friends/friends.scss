@@ -1,0 +1,48 @@
+
+.transition-all {
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease;
+    border-radius: 16px; 
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.avatar-container {
+    transition: border-color 0.4s ease;
+    z-index: 2;
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+    
+    .card-title {
+        font-size: 1.25rem;
+    }
+    .container-fluid {
+        padding: 1rem !important;
+    }
+}
+.dark-theme-card {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.light-theme-card {
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    border: none;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+}

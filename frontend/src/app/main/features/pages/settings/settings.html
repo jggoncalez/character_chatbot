@@ -1,0 +1,112 @@
+<div class="transition_bg p-3 d-flex flex-column gap-3"
+     [ngClass]="isDark ? 'bg-dark text-white' : 'bg-light text-dark'">
+
+  <h5 class="fw-bold d-flex align-items-center gap-2 mb-0"
+      [ngClass]="isDark ? 'text-white' : 'text-dark'">
+    <i class="bi bi-gear"></i> Configurações
+  </h5>
+
+  <div class="card" [ngClass]="isDark ? 'bg-secondary bg-opacity-10 border-secondary' : 'bg-white border-light-subtle shadow-sm'">
+    <div class="card-body d-flex flex-column gap-3">
+
+      <div class="d-flex align-items-center gap-2 fw-semibold"
+           [ngClass]="isDark ? 'text-white' : 'text-dark'">
+        <i class="bi bi-person-circle" [ngClass]="isDark ? 'text-secondary' : 'text-muted'"></i>
+        Conta
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between border-bottom pb-3"
+           [ngClass]="isDark ? 'border-secondary' : 'border-light-subtle'">
+        <div>
+          <div class="fw-semibold small" [ngClass]="isDark ? 'text-white' : 'text-dark'">Nome de usuário</div>
+          <div class="small" [ngClass]="isDark ? 'text-secondary' : 'text-muted'">Você</div>
+        </div>
+        <button class="btn btn-sm" [ngClass]="isDark ? 'btn-outline-secondary' : 'btn-outline-secondary'">Editar</button>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <div class="fw-semibold small" [ngClass]="isDark ? 'text-white' : 'text-dark'">Email</div>
+          <div class="small" [ngClass]="isDark ? 'text-secondary' : 'text-muted'">usuario&#64;aisocial.com</div>
+        </div>
+        <button class="btn btn-sm" [ngClass]="isDark ? 'btn-outline-secondary' : 'btn-outline-secondary'">Editar</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card" [ngClass]="isDark ? 'bg-secondary bg-opacity-10 border-secondary' : 'bg-white border-light-subtle shadow-sm'">
+    <div class="card-body d-flex flex-column gap-3">
+
+      <div class="d-flex align-items-center gap-2 fw-semibold"
+           [ngClass]="isDark ? 'text-white' : 'text-dark'">
+        <i class="bi bi-bell" [ngClass]="isDark ? 'text-secondary' : 'text-muted'"></i>
+        Notificações
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between border-bottom pb-3"
+           [ngClass]="isDark ? 'border-secondary' : 'border-light-subtle'">
+        <span class="small fw-semibold" [ngClass]="isDark ? 'text-white' : 'text-dark'">Mensagens de IAs</span>
+        <input class="form-check-input" type="checkbox" checked disabled style="width: 18px; height: 18px;">
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between border-bottom pb-3"
+           [ngClass]="isDark ? 'border-secondary' : 'border-light-subtle'">
+        <span class="small fw-semibold" [ngClass]="isDark ? 'text-white' : 'text-dark'">Curtidas nos seus posts</span>
+        <input class="form-check-input" type="checkbox" checked disabled style="width: 18px; height: 18px;">
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        <span class="small fw-semibold" [ngClass]="isDark ? 'text-white' : 'text-dark'">Comentários</span>
+        <input class="form-check-input" type="checkbox" checked disabled style="width: 18px; height: 18px;">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card" [ngClass]="isDark ? 'bg-secondary bg-opacity-10 border-secondary' : 'bg-white border-light-subtle shadow-sm'">
+    <div class="card-body d-flex flex-column gap-3">
+
+      <div class="d-flex align-items-center gap-2 fw-semibold"
+           [ngClass]="isDark ? 'text-white' : 'text-dark'">
+        <i class="bi bi-palette" [ngClass]="isDark ? 'text-secondary' : 'text-muted'"></i>
+        Aparência
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        <span class="small fw-semibold" [ngClass]="isDark ? 'text-white' : 'text-dark'">Tema</span>
+        <select class="form-select form-select-sm w-auto"
+                [ngClass]="isDark ? 'bg-dark text-white border-secondary' : 'bg-white text-dark border-secondary'"
+                disabled>
+          <option>Escuro</option>
+          <option>Claro</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card" [ngClass]="isDark ? 'bg-secondary bg-opacity-10 border-secondary' : 'bg-white border-light-subtle shadow-sm'">
+    <div class="card-body d-flex flex-column gap-3">
+
+      <div class="d-flex align-items-center gap-2 fw-semibold"
+           [ngClass]="isDark ? 'text-white' : 'text-dark'">
+        <i class="bi bi-globe" [ngClass]="isDark ? 'text-secondary' : 'text-muted'"></i>
+        Idioma
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        <span class="small fw-semibold" [ngClass]="isDark ? 'text-white' : 'text-dark'">Idioma da interface</span>
+        <select class="form-select form-select-sm w-auto"
+                [ngClass]="isDark ? 'bg-dark text-white border-secondary' : 'bg-white text-dark border-secondary'"
+                disabled>
+          <option>Português (BR)</option>
+          <option>English</option>
+          <option>Español</option>
+        </select>
+      </div>
+
+    </div>
+  </div>
+
+</div>

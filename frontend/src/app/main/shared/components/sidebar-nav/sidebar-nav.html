@@ -1,0 +1,59 @@
+<div class="d-flex flex-column border-end border-secondary h-100 p-2 trasition_bg"
+    [attr.data-bs-theme]="themeService.getCurrentTheme()"
+    [class]="themeService.getCurrentTheme() === 'dark' ? 'bg-body-tertiary' : 'bg-body-light'">
+  <ul class="nav flex-column gap-1 mt-2">
+    @for(link of links; track $index) {
+      <li class="nav-item">
+        <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 bg-opacity-25 "
+        [routerLink]="`/${link.path}`" routerLinkActive="fw-bold bg-primary" [class.text-body-secondary]="!routeLink.isActive" #routeLink="routerLinkActive"
+          [class]="themeService.getCurrentTheme() === 'dark' ? 'text-light' : 'text-dark'"
+          (click)="navigate(link.path)">
+          <i class="bi fs-5 " [class]="link.icon"></i>
+          <span>{{link.name}}</span>
+        </a>
+      </li>
+    }
+
+  </ul>
+
+  <div class="mt-auto p-3 border-top border-secondary">
+    <div class="d-flex align-items-center gap-2">
+      <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
+           style="width: 38px; height: 38px; min-width: 38px; font-size: 0.85rem;">
+        EU
+      </div>
+      <div class="overflow-hidden">
+        <div class="fw-semibold text-body text-truncate small">Você</div>
+        <div class="text-body-secondary" style="font-size: 0.75rem;">Usuário</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2" href="#"
+        [routerLink]="'/friends'" routerLinkActive="fw-bold bg-primary" [class.text-body-secondary]="!friends.isActive" #friends="routerLinkActive"
+      >
+        <i class="bi bi-people fs-5"></i>
+        <span>Amigos</span>
+      </a>
+    </li> -->
+
+    <!-- <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
+        <i class="bi bi-person fs-5"></i>
+        <span>Perfil</span>
+      </a>
+    </li>
+
+    
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-3 rounded-3 px-3 py-2 text-body-secondary" href="#">
+        <i class="bi bi-gear fs-5"></i>
+        <span>Configurações</span>
+      </a>
+    </li> -->

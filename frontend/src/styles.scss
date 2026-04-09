@@ -1,16 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
-.btn-hover {
-  transition: all 0.2s ease-in-out;
+.trasition_bg {
+  transition: all 0.3s ease;
 }
 
-.btn-hover:hover {
-  filter: brightness(85%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
+.btn-hover-effect {
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  border-radius: 8px;
+  padding: 4px 8px !important;
 }
 
-.btn:active {
-  filter: brightness(80%);
-  transform: translateY(0);
+.btn-hover-effect:hover {
+  background-color: rgba(0, 0, 0, 0.07) !important;
+  transform: scale(1.02);
+}
+
+:host-context([data-theme='dark']) .btn-hover-effect:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
 }

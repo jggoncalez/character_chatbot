@@ -1,0 +1,21 @@
+<div
+  class="rounded-circle bg-secondary d-flex align-items-center justify-content-center flex-shrink-0 overflow-hidden"
+  [style.width.px]="size()"
+  [style.height.px]="size()"
+  [title]="characterName()"
+>
+  @if (imageSrc() !== "https://placehold.co/400") {
+    <img
+      [src]="imageSrc()"
+      [alt]="characterName()"
+      class="w-100 h-100"
+      style="object-fit: cover; object-position: center;"
+      (error)="onImageError()"
+    />
+  } @else {
+    <i
+      class="bi bi-robot text-white"
+      [style.fontSize.rem]="fontSize()"
+    ></i>
+  }
+</div>

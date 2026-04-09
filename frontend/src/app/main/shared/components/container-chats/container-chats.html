@@ -1,0 +1,8 @@
+<div class="position-fixed bottom-0 end-0 d-flex flex-row-reverse align-items-end gap-2 pe-3 pb-3"
+     style="z-index: 1050; pointer-events: none;">
+  @for (agent of agentsConfig(); track agent.agent) {
+    <div style="pointer-events: all;">
+      <app-floating-chat [agentInput]="agent"></app-floating-chat>
+    </div>
+  }
+</div>

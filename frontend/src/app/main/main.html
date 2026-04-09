@@ -1,0 +1,25 @@
+<div data-bs-theme="dark">
+  <app-header></app-header> 
+   
+  <div class="d-flex" style="margin-top: 60px; min-height: calc(100vh - 60px);">
+    <app-sidebar-nav
+      class="d-none d-lg-block flex-shrink-0"
+      style="width: 240px; position: sticky; top: 60px; height: calc(100vh - 60px); overflow-y: auto;">
+    </app-sidebar-nav>
+    
+ 
+    <main class="flex-grow-1 overflow-y-auto trasition_bg" style="min-width: 0;" [class]="themeService.getCurrentTheme() === 'dark' ? 'bg-dark' : 'bg-light' ">
+      <div class="container-fluid px-3 py-3" style="max-width: 680px; margin: 0 auto;">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+
+    <app-sidebar-remember
+      class="d-none d-xl-block flex-shrink-0"
+      style="width: 300px; position: sticky; top: 60px; height: calc(100vh - 60px); overflow-y: auto;">
+    </app-sidebar-remember>
+ 
+  </div>
+</div>
+
+<app-container-chats></app-container-chats>

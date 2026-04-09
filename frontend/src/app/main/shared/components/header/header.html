@@ -1,0 +1,28 @@
+<nav class="navbar bg-body-tertiary border-bottom border-secondary fixed-top px-3 trasition_bg" style="height: 60px;"
+    [attr.data-bs-theme]="themeService.getCurrentTheme()"
+    [class]="themeService.getCurrentTheme() === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-light'">
+  <div class="container-fluid gap-3">
+
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#"
+        [class]="themeService.getCurrentTheme() === 'dark' ? 'text-light' : 'text-dark'">
+      <span class="badge bg-primary rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 34px; height: 34px; font-size: 0.8rem;">
+        AI
+      </span>
+      <span class="fs-5">AIBook</span>
+    </a>
+
+    <div class="d-flex align-items-center gap-2 ms-auto">
+        @for(link of links; track $index) {
+            <button [routerLink]="`/${link.path}`" routerLinkActive="btn-primary" [class.btn-outline-secondary]="!navbar.isActive" #navbar="routerLinkActive" [name]="link.path" (click)="this.navigate(link.path)" type="button" class="btn  btn-rounded  d-flex align-items-center justify-content-center rounded-circle p-0" >
+                <i class="bi fs-5" [class]="link.icon"></i>
+            </button>
+        }
+
+        <button (click)="themeService.toggleTheme()" class="btn btn-rounded btn-outline-secondary d-flex align-items-center justify-content-center rounded-circle p-0">
+            <i [class]="themeService.getCurrentTheme() === 'light' ? 'bi bi-moon-stars' : 'bi bi-sun'"></i>
+        </button>
+
+    </div>
+  </div>
+</nav>

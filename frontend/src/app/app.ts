@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Modal } from './shared/components/modal/modal';
-import { ToastMessages } from './shared/components/toast-messages/toast-messages';
+import { ToastMessages } from './main/shared/components/toast-messages/toast-messages';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,Modal,ToastMessages],
+  imports: [RouterOutlet,ToastMessages],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

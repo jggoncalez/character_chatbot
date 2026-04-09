@@ -1,39 +1,42 @@
 import { inject } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import { EMPTY, of } from 'rxjs';
-import { ConversationService } from './features/pages/chatbot/components/conversation/services/conversation-service';
-import { ApiService } from './shared/services/api-service';
+import { Main } from './main/main';
+import { authGuard } from './main/shared/guards/auth.guard';
+import { characterDataResolver } from './main/features/pages/profile-ia/route/character-data-resolver';
+
 
 export const routes: Routes = [
     {
-        path: '',
-        loadComponent: () => import('./features/pages/home-page/home-page').then(m => m.HomePage),
-        resolve: {
-            characters: () => {
-                const apiService = inject(ApiService);
-                return apiService.getCharacters();
+        path : "",
+        component : Main,
+        canActivate : [authGuard],
+        children: [
+            {
+                path: "feed",
+                loadComponent : () => import("./main/features/pages/feed/feed").then(m=> m.Feed)
+            },
+            {
+                path: "friends",
+                loadComponent : () => import("./main/features/pages/friends/friends").then(m=> m.Friends)
+            },
+            {
+                path : "profile",
+                loadComponent : () => import("./main/features/pages/profile/profile").then(m => m.Profile)
+            },
+            {
+                path : "settings",
+                loadComponent : () => import("./main/features/pages/settings/settings").then(m => m.Settings)
+            },
+            {
+                path : "profileIA/:agent",
+                loadComponent : () => import("./main/features/pages/profile-ia/profile-ia").then(m => m.ProfileIA),
+                resolve : { characterData: characterDataResolver }
             }
-        }
+        ]
     },
     {
-        path: 'chat',
-        loadComponent: () => import('./features/pages/chatbot/chatbot').then(m => m.Chatbot),
-        resolve: {
-            config: () => {
-            const conversationService = inject(ConversationService);
-            const router = inject(Router);
-
-            if (!conversationService.currentChat()) {
-                router.navigate(['']);
-                return EMPTY;
-            }
-
-            return of(conversationService.currentChat());
-            }
-        }
-    },
-    {
-        path: 'about-us',
-        loadComponent: () => import('./features/pages/about-us/about-us').then(m => m.AboutUs)
+        path : "**",
+        redirectTo : ""
     }
 ];

@@ -1,0 +1,13 @@
+<div class="d-flex flex-column gap-2">
+  @for(msg of history()?.history; track $index) {
+    <div [class]="msg.role === 'model' ? 'd-flex justify-content-start' : 'd-flex justify-content-end'">
+      <div
+        [class]="msg.role === 'model'
+          ? (isDark ? 'rounded-3 px-3 py-2 bg-info bg-opacity-25 text-white' : 'rounded-3 px-3 py-2 bg-info text-bg-info')
+          : (isDark ? 'rounded-3 px-3 py-2 bg-secondary bg-opacity-25 text-white text-break' : 'rounded-3 px-3 py-2 bg-primary text-bg-primary text-break')"
+        style="max-width: 80%; font-size: 0.875rem;">
+        {{ msg.content }}
+      </div>
+    </div>
+  }
+</div>

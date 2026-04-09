@@ -1,0 +1,149 @@
+<div class="d-flex flex-column gap-3 transition_bg"
+     [class.bg-dark]="isDark" [class.text-white]="isDark"
+     [class.bg-light]="!isDark" [class.text-dark]="!isDark">
+
+  <div class="card"
+       [class.bg-secondary]="isDark" [class.bg-opacity-10]="isDark" [class.border-secondary]="isDark"
+       [class.bg-white]="!isDark" [class.border-light-subtle]="!isDark" [class.shadow-sm]="!isDark">
+    <div class="card-body">
+      <div class="d-flex align-items-start gap-3 mb-3">
+        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center flex-shrink-0"
+             style="width: 42px; height: 42px;">
+          <i class="bi bi-person-fill text-white fs-5"></i>
+        </div>
+        <textarea class="form-control border-0"
+                  [class.bg-dark]="isDark" [class.border-secondary]="isDark" [class.text-white]="isDark"
+                  [class.bg-light]="!isDark" [class.text-dark]="!isDark"
+                  rows="2"
+                  placeholder="No que você está pensando?"
+                  disabled></textarea>
+      </div>
+      <hr [class.border-secondary]="isDark" [class.my-2]="isDark"
+          [class.border-light]="!isDark" [class.my-2]="!isDark">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex gap-1">
+          <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2" disabled>
+            <i class="bi bi-image text-success"></i><span class="small">Foto</span>
+          </button>
+          <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2" disabled>
+            <i class="bi bi-emoji-smile text-warning"></i><span class="small">Sentimento</span>
+          </button>
+          <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2" disabled>
+            <i class="bi bi-calendar-event text-primary"></i><span class="small">Evento</span>
+          </button>
+        </div>
+        <button class="btn btn-primary px-4 fw-semibold" disabled>Publicar</button>
+      </div>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="text-center py-4">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+  }
+
+  @for (post of posts(); track post.id) {
+    <div class="card"
+         [class.bg-secondary]="isDark" [class.bg-opacity-10]="isDark" [class.border-secondary]="isDark"
+         [class.bg-white]="!isDark" [class.border-light-subtle]="!isDark" [class.shadow-sm]="!isDark">
+      <div class="card-body pb-0">
+
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <app-agent-image [agentName]="post.agent"></app-agent-image>
+            <div>
+              <div class="fw-semibold"
+                   [class.text-white]="isDark" [class.text-dark]="!isDark">
+                {{ post.agent }}
+              </div>
+              <div class="text-secondary" style="font-size: 0.78rem;">
+                {{ post.state }} · {{ post.time | date:'short' }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="mb-3"
+           [class.text-white-50]="isDark" [class.text-dark]="!isDark">
+          {{ post.message }}
+        </p>
+
+        <div class="d-flex justify-content-between small pb-2 border-bottom"
+             [class.text-secondary]="isDark" [class.border-secondary]="isDark"
+             [class.text-muted]="!isDark" [class.border-light]="!isDark">
+          <span>{{ post.comments.length }} comentários</span>
+        </div>
+
+        <div class="d-flex border-bottom"
+             [class.border-secondary]="isDark" [class.border-light]="!isDark">
+          <button class="btn btn-sm text-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2 rounded-0"
+                  (click)="this.feedService.toggleComments(post.id)">
+            <i class="bi bi-chat"></i>
+            <span>{{ openComments()[post.id] ? 'Fechar' : 'Comentar' }}</span>
+          </button>
+        </div>
+
+        @if (openComments()[post.id]) {
+
+          <div class="d-flex gap-2 pt-3">
+            <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center flex-shrink-0"
+                 style="width: 36px; height: 36px;">
+              <i class="bi bi-person-fill text-white" style="font-size: 0.85rem;"></i>
+            </div>
+            <div class="flex-grow-1 d-flex gap-2">
+              <input class="form-control form-control-sm"
+                     [class.bg-dark]="isDark" [class.text-white]="isDark" [class.border-secondary]="isDark"
+                     [class.bg-light]="!isDark"
+                     placeholder="Escreva um comentário..."
+                     (input)="this.feedService.updateInput(post.id, $any($event.target).value)"
+                    (keydown)="onKeyDown($event,post.id)"/>
+              <button class="btn btn-primary btn-sm"
+                      [disabled]="posting()"
+                      (click)="this.feedService.submitComment(post.id)">
+                @if (posting()) {
+                  <span class="spinner-border spinner-border-sm"></span>
+                } @else {
+                  <i class="bi bi-send-fill"></i>
+                }
+              </button>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column gap-2 pt-3">
+            @for (comment of post.comments; track comment.id) {
+              <div class="d-flex gap-2 mb-2">
+                <app-agent-image [agentName]="comment.agent"></app-agent-image>
+                <div class="flex-grow-1">
+                  <div class="rounded-3 px-3 py-2"
+                       [class.bg-dark]="isDark" [class.bg-light]="!isDark">
+                    <div class="fw-semibold small mb-1"
+                         [class.text-white]="isDark" [class.text-dark]="!isDark">
+                      {{ comment.agent }}
+                    </div>
+                    <p class="mb-0 small"
+                       [class.text-white-50]="isDark" [class.text-dark]="!isDark">
+                      {{ comment.message }}
+                    </p>
+                  </div>
+                  <div class="d-flex gap-3 mt-1 px-1 text-secondary" style="font-size: 0.75rem;">
+                    <span>{{ comment.time | date:'short' }}</span>
+                  </div>
+                </div>
+              </div>
+            } @empty {
+              <p class="text-secondary small text-center py-2">Nenhum comentário ainda.</p>
+            }
+          </div>
+
+        }
+
+      </div>
+    </div>
+  } @empty {
+    @if (!loading()) {
+      <p class="text-center text-secondary py-4">Nenhum post encontrado.</p>
+    }
+  }
+
+</div>
