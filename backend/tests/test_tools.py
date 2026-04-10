@@ -139,6 +139,9 @@ def mock_external_dependencies(monkeypatch):
         if "bcdata.sgs.11" in url:
             return FakeResponse(json_data=[{"valor": "10.50", "data": "01/04/2026"}])
 
+        if "bcdata.sgs.432" in url:
+            return FakeResponse(json_data=[{"valor": "10.50", "data": "01/04/2026"}])
+
         if "bcdata.sgs.433" in url:
             return FakeResponse(
                 json_data=[

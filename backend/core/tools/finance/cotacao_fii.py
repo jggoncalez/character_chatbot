@@ -70,56 +70,15 @@ def cotacao_fii(ticker: str) -> dict:
     except Exception as e:
         return {"erro": str(e)}
 
-
 def listar_fiis_populares() -> list[dict]:
-    """Retorna cotações dos FIIs mais negociados da B3."""
-    fiis = [
-        "HGLG11",  # logística
-        "KNRI11",  # renda
-        "MXRF11",  # papel
-        "XPML11",  # shoppings
-        "BTLG11",  # logística
-        "VISC11",  # shoppings
-        "HGBS11",  # shoppings
-        "IRDM11",  # papel
+    fiis = ["HGLG11", "MXRF11", "XPML11", "BTLG11"]  # reduz pra 4
+    resultados = []
+    
+    for ticker in fiis:
+        resultado = cotacao_fii(ticker)  # já existe, chama 1 por vez
+        if "erro" not in resultado:
+            resultados.append(resultado)
+    
+    return resultados if resultados else [
+        {"erro": "Nenhuma cotação disponível"}
     ]
-    
-    try:
-        tickers = ",".join(fiis)
-        api_key = _get_brapi_key()
-        if not api_key:
-            return [{"erro": "BRAPI_KEY não configurada. Verifique seu arquivo .env."}]
-
-        res = httpx.get(
-            f"https://brapi.dev/api/quote/{tickers}",
-            params={"token": api_key},
-            timeout=10,
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
-
-        if res.status_code == 401:
-            return [_brapi_401_error("lista de FIIs")]
-
-        if res.status_code != 200:
-            return [{"erro": f"HTTP {res.status_code}: {res.text[:200]}"}]
-        
-        data = res.json()
-        results = data.get("results", [])
-        
-        return [
-            {
-                "ticker": q.get("symbol"),
-                "nome": q.get("longName", ""),
-                "preco": q.get("regularMarketPrice"),
-                "variacao_dia": q.get("regularMarketChangePercent"),
-                "dividendo_yield": q.get("dividendYield"),
-                "pvp": q.get("priceToBook"),
-            }
-            for q in results
-        ]
-        
-    except Exception as e:
-        return [{"erro": str(e)}]
-    
-if __name__ == "__main__":
-    print(cotacao_fii('XPML11'))

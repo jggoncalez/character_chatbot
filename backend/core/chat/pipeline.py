@@ -11,6 +11,8 @@ from google import genai
 from google.genai import types
 from pathlib import Path
 import sys
+from functools import lru_cache
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from core.tools.declarations import TOOL_DECLARATIONS
@@ -105,6 +107,7 @@ def _make_fallback(character_name: str, text: str) -> dict:
 # ======================================================
 # HELPERS — PERSONAGEM
 # ======================================================
+@lru_cache(maxsize=32)
 def load_character(name: str) -> dict:
     path = CHARACTERS_DIR / (name.lower().replace(" ", "_") + ".json")
 
@@ -383,7 +386,7 @@ def generate_message(message: str, character_name: str) -> list[dict]:
         character = load_character(character_name)
     except FileNotFoundError as e:
         print(f"[GENERATE] ✗ Personagem não encontrado: {character_name}", flush=True)
-        return [_make_fallback(character_name, f"Personagem não encontrado")]
+        raise  # Relança a exceção para que routes.py possa tratá-la como 404
 
     history = load_history(character_name)
     tools = build_tools_for_character(character)

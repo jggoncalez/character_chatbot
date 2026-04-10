@@ -1,6 +1,7 @@
 import json
 import random
 import threading
+import asyncio
 import sys
 from contextlib import contextmanager
 from pathlib import Path
@@ -11,7 +12,8 @@ _current_dir = Path(__file__).parent
 if str(_current_dir.parent.parent) not in sys.path:
     sys.path.insert(0, str(_current_dir.parent.parent))
 
-from core.chat.pipeline import load_character, call_api, build_system_prompt, CHARACTERS_DIR
+from core.chat.pipeline import load_character, build_system_prompt, CHARACTERS_DIR, client, parse_response
+from google.genai import types
 
 try:
     import fcntl  # type: ignore[attr-defined]
@@ -87,10 +89,10 @@ def _all_character_names() -> list[str]:
 
 
 # ======================================================
-# GERAÇÃO DE POST
+# GERAÇÃO DE POST (ASYNC)
 # ======================================================
-def _generate_post(character_name: str) -> dict | None:
-    """Pede ao Gemini que o personagem crie um post curto sobre seu dia."""
+async def _generate_post_async(character_name: str) -> dict | None:
+    """Pede ao Gemini que o personagem crie um post curto sobre seu dia (async)."""
     try:
         character = load_character(character_name)
         system    = build_system_prompt(character_name, character)
@@ -101,12 +103,19 @@ def _generate_post(character_name: str) -> dict | None:
             "Máximo 2 frases. Sem hashtags. Fique no personagem."
         )
 
-        from google.genai import types
         contents = [types.Content(role="user", parts=[types.Part(text=prompt)])]
-        raw      = call_api(contents, system, character_name)
+        response = await asyncio.to_thread(
+            lambda: client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                config=types.GenerateContentConfig(
+                    system_instruction=system,
+                    temperature=0.5,
+                ),
+                contents=contents,
+            )
+        )
+        raw = response.text if response else ""
 
-        # reutiliza o parse existente
-        from core.chat.pipeline import parse_response
         parsed = parse_response(raw, character_name)
         text   = parsed[0].get("text", "").strip()
 
@@ -126,51 +135,68 @@ def _generate_post(character_name: str) -> dict | None:
 
 
 # ======================================================
-# GERAÇÃO DE COMENTÁRIOS
+# GERAÇÃO DE COMENTÁRIOS (ASYNC)
 # ======================================================
-def _generate_comments(post: dict, all_names: list[str]) -> list[dict]:
-    """Sorteia alguns personagens pra comentar no post."""
+async def _generate_comment_async(commenter: str, post: dict) -> dict | None:
+    """Gera um comentário individual para um post (async)."""
+    try:
+        character = load_character(commenter)
+        system    = build_system_prompt(commenter, character)
+
+        prompt = (
+            f"{post['character']} postou: \"{post['text']}\"\n"
+            "Escreva UM comentário curto reagindo a esta publicação. "
+            "Máximo 1 frase. Fique no personagem."
+        )
+
+        contents = [types.Content(role="user", parts=[types.Part(text=prompt)])]
+        response = await asyncio.to_thread(
+            lambda: client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                config=types.GenerateContentConfig(
+                    system_instruction=system,
+                    temperature=0.5,
+                ),
+                contents=contents,
+            )
+        )
+        raw = response.text if response else ""
+
+        parsed = parse_response(raw, commenter)
+        text   = parsed[0].get("text", "").strip()
+
+        if not text:
+            return None
+
+        return {
+            "id":         str(uuid4()),
+            "character":  commenter,
+            "text":       text,
+            "state":      parsed[0].get("state", "neutral"),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+    except Exception:
+        return None
+
+
+async def _generate_comments_async(post: dict, all_names: list[str]) -> list[dict]:
+    """Gera comentários em paralelo usando asyncio.gather (async)."""
     candidates = [n for n in all_names if n != post["character"]]
     commenters = random.sample(candidates, min(MAX_COMMENTS, len(candidates)))
-    comments   = []
 
-    for commenter in commenters:
-        try:
-            character = load_character(commenter)
-            system    = build_system_prompt(commenter, character)
+    # Executa todos os comentários em paralelo
+    tasks = [_generate_comment_async(commenter, post) for commenter in commenters]
+    results = await asyncio.gather(*tasks, return_exceptions=False)
 
-            prompt = (
-                f"{post['character']} postou: \"{post['text']}\"\n"
-                "Escreva UM comentário curto reagindo a esta publicação. "
-                "Máximo 1 frase. Fique no personagem."
-            )
-
-            from google.genai import types
-            from core.chat.pipeline import parse_response
-            contents = [types.Content(role="user", parts=[types.Part(text=prompt)])]
-            raw      = call_api(contents, system, commenter)
-            parsed   = parse_response(raw, commenter)
-            text     = parsed[0].get("text", "").strip()
-
-            if text:
-                comments.append({
-                    "id":         str(uuid4()),
-                    "character":  commenter,
-                    "text":       text,
-                    "state":      parsed[0].get("state", "neutral"),
-                    "created_at": datetime.now(timezone.utc).isoformat(),
-                })
-        except Exception:
-            continue
-
-    return comments
+    # Filtra Nones (comentários que falharam)
+    return [comment for comment in results if comment is not None]
 
 
 # ======================================================
-# MAIN — chamado pelo endpoint
+# MAIN — chamado pelo endpoint (ASYNC)
 # ======================================================
-def refresh_feed() -> list[dict]:
-    """Gera posts novos, adiciona comentários, persiste e retorna o feed."""
+async def _refresh_feed_async() -> list[dict]:
+    """Gera posts novos com comentários em paralelo (async)."""
     with _feed_thread_lock:
         feed      = load_feed()
         all_names = _all_character_names()
@@ -181,12 +207,15 @@ def refresh_feed() -> list[dict]:
         # sorteia quais personagens postam nesse refresh
         posters = random.sample(all_names, min(POSTS_PER_REFRESH, len(all_names)))
 
-        for character_name in posters:
-            post = _generate_post(character_name)
-            if not post:
-                continue
+        # Gera posts em paralelo
+        post_tasks = [_generate_post_async(character_name) for character_name in posters]
+        posts = await asyncio.gather(*post_tasks, return_exceptions=False)
 
-            post["comments"] = _generate_comments(post, all_names)
+        # Para cada post válido, gera comentários em paralelo
+        valid_posts = [p for p in posts if p]
+
+        for post in valid_posts:
+            post["comments"] = await _generate_comments_async(post, all_names)
             feed.insert(0, post)   # mais recente primeiro
 
         # mantém o feed no limite máximo
@@ -195,19 +224,24 @@ def refresh_feed() -> list[dict]:
         return feed
 
 
+def refresh_feed() -> list[dict]:
+    """Wrapper síncrono para _refresh_feed_async."""
+    return asyncio.run(_refresh_feed_async())
+
+
 # ======================================================
-# INTERAÇÕES DO USUÁRIO
+# INTERAÇÕES DO USUÁRIO (ASYNC)
 # ======================================================
 
-def add_user_post(user_text: str) -> dict | None:
-    """Usuário cria um post e recebe comentários dos personagens."""
+async def _add_user_post_async(user_text: str) -> dict | None:
+    """Usuário cria um post e recebe comentários dos personagens (async)."""
     with _feed_thread_lock:
         feed      = load_feed()
         all_names = _all_character_names()
-        
+
         if not all_names:
             return None
-        
+
         # cria o post do usuário
         post = {
             "id":         str(uuid4()),
@@ -217,19 +251,30 @@ def add_user_post(user_text: str) -> dict | None:
             "created_at": datetime.now(timezone.utc).isoformat(),
             "comments":   [],
         }
-        
-        # gera comentários de 2-3 personagens
-        post["comments"] = _generate_comments(post, all_names)
-        
+
+        # gera comentários de 2-3 personagens em paralelo
+        post["comments"] = await _generate_comments_async(post, all_names)
+
         # adiciona ao feed (mais recente primeiro)
         feed.insert(0, post)
         feed = feed[:MAX_POSTS]
         save_feed(feed)
-        
+
         return post
 
+
+def add_user_post(user_text: str) -> dict | None:
+    """Wrapper síncrono para _add_user_post_async."""
+    return asyncio.run(_add_user_post_async(user_text))
+
+
 def add_user_comment(post_id: str, user_text: str) -> dict | None:
-    """Adiciona comentário do usuário e gera 1 resposta do autor do post."""
+    """Adiciona comentário do usuário e gera 1 resposta do autor do post (async-compatible)."""
+    return asyncio.run(_add_user_comment_async(post_id, user_text))
+
+
+async def _add_user_comment_async(post_id: str, user_text: str) -> dict | None:
+    """Adiciona comentário do usuário e gera 1 resposta do autor do post (async)."""
     with _feed_thread_lock:
         feed = load_feed()
         post = next((p for p in feed if p["id"] == post_id), None)
@@ -256,12 +301,22 @@ def add_user_comment(post_id: str, user_text: str) -> dict | None:
                 f"Um usuário comentou: \"{user_text}\"\n"
                 "Responda ao comentário em 1 frase. Fique no personagem."
             )
-            from google.genai import types
-            from core.chat.pipeline import parse_response
+
             contents = [types.Content(role="user", parts=[types.Part(text=prompt)])]
-            raw      = call_api(contents, system, post["character"])
-            parsed   = parse_response(raw, post["character"])
-            text     = parsed[0].get("text", "").strip()
+            response = await asyncio.to_thread(
+                lambda: client.models.generate_content(
+                    model="gemini-2.5-flash-lite",
+                    config=types.GenerateContentConfig(
+                        system_instruction=system,
+                        temperature=0.5,
+                    ),
+                    contents=contents,
+                )
+            )
+            raw = response.text if response else ""
+
+            parsed = parse_response(raw, post["character"])
+            text   = parsed[0].get("text", "").strip()
 
             if text:
                 post["comments"].append({
@@ -281,8 +336,8 @@ def add_user_comment(post_id: str, user_text: str) -> dict | None:
 # ======================================================
 # POST DO USUÁRIO
 # ======================================================
-def create_user_post(user_text: str) -> dict | None:
-    """Usuário cria um post e recebe comentários dos personagens."""
+async def _create_user_post_async(user_text: str) -> dict | None:
+    """Usuário cria um post e recebe comentários dos personagens (async)."""
     with _feed_thread_lock:
         feed      = load_feed()
         all_names = _all_character_names()
@@ -300,8 +355,8 @@ def create_user_post(user_text: str) -> dict | None:
             "comments":   [],
         }
 
-        # gera comentários de 2-3 personagens
-        post["comments"] = _generate_comments(post, all_names)
+        # gera comentários de 2-3 personagens em paralelo
+        post["comments"] = await _generate_comments_async(post, all_names)
 
         # adiciona ao feed (mais recente primeiro)
         feed.insert(0, post)
@@ -309,6 +364,11 @@ def create_user_post(user_text: str) -> dict | None:
         save_feed(feed)
 
         return post
+
+
+def create_user_post(user_text: str) -> dict | None:
+    """Wrapper síncrono para _create_user_post_async."""
+    return asyncio.run(_create_user_post_async(user_text))
 
 
 # ======================================================
