@@ -1,84 +1,66 @@
-import os
+import yfinance as yf
 
-import httpx
-from dotenv import load_dotenv
-
-
-load_dotenv()
-
-
-def _get_brapi_key() -> str:
-    return os.getenv("BRAPI_KEY", "").strip()
-
-
-def _brapi_401_error(ticker: str) -> dict:
-    return {
-        "erro": (
-            f"HTTP 401 ao consultar a BRAPI para '{ticker}'. "
-            "Verifique se a variável BRAPI_KEY está definida e se o token é válido."
-        )
-    }
 
 def cotacao_fii(ticker: str) -> dict:
-    """Busca cotação real de FII na B3 via BRAPI."""
+    """Busca cotação real de FII na B3 via Yahoo Finance — sem autenticação"""
     try:
-        # garante o sufixo 11 se não tiver
         ticker = ticker.upper().strip()
 
-        api_key = _get_brapi_key()
-        if not api_key:
-            return {
-                "erro": (
-                    "BRAPI_KEY não configurada. "
-                    "Defina a variável de ambiente ou ajuste o arquivo .env."
-                )
-            }
+        # Define tickers a serem tentados
+        tickers_to_try = [ticker]
+        if not ticker.endswith('.SA'):
+            tickers_to_try.append(f"{ticker}.SA")
 
-        res = httpx.get(
-            f"https://brapi.dev/api/quote/{ticker}",
-            params={"token": api_key},
-            timeout=5,
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
-        
-        if res.status_code == 401:
-            return _brapi_401_error(ticker)
+        # Tenta cada variação de ticker
+        for attempt_ticker in tickers_to_try:
+            try:
+                stock = yf.Ticker(attempt_ticker)
+                hist = stock.history(period="5d")
 
-        if res.status_code != 200:
-            return {"erro": f"HTTP {res.status_code}: {res.text[:200]}"}
-        
-        data = res.json()
-        
-        if not data.get("results"):
-            return {"erro": f"FII '{ticker}' não encontrado"}
-        
-        quote = data["results"][0]
-        
-        return {
-            "ticker": ticker,
-            "nome": quote.get("longName", ""),
-            "preco": quote.get("regularMarketPrice"),
-            "variacao_dia": quote.get("regularMarketChangePercent"),
-            "abertura": quote.get("regularMarketOpen"),
-            "minimo_dia": quote.get("regularMarketDayLow"),
-            "maximo_dia": quote.get("regularMarketDayHigh"),
-            "volume": quote.get("regularMarketVolume"),
-            "dividendo_yield": quote.get("dividendYield"),
-            "pvp": quote.get("priceToBook"),  # P/VP — métrica chave de FII
-        }
-        
+                if not hist.empty:
+                    info = stock.info or {}
+
+                    # Preço de fechamento do último dia
+                    last_price = hist['Close'].iloc[-1]
+
+                    # Variação percentual em relação ao dia anterior
+                    if len(hist) > 1:
+                        prev_price = hist['Close'].iloc[-2]
+                        variacao_dia = ((last_price - prev_price) / prev_price) * 100
+                    else:
+                        variacao_dia = 0
+
+                    return {
+                        "ticker": ticker,
+                        "nome": info.get("longName", ""),
+                        "preco": float(last_price),
+                        "variacao_dia": float(variacao_dia),
+                        "abertura": float(info.get("open", 0)) if info.get("open") else None,
+                        "minimo_dia": float(hist['Low'].iloc[-1]) if len(hist) > 0 else None,
+                        "maximo_dia": float(hist['High'].iloc[-1]) if len(hist) > 0 else None,
+                        "volume": int(info.get("volume", 0)) if info.get("volume") else None,
+                        "dividendo_yield": float(info.get("dividendYield", 0)) if info.get("dividendYield") else None,
+                        "pvp": float(info.get("priceToBook", 0)) if info.get("priceToBook") else None,
+                    }
+            except Exception:
+                continue
+
+        return {"erro": f"FII '{ticker}' não encontrado. Tente especificar .SA (ex: HGLG11.SA)"}
+
     except Exception as e:
         return {"erro": str(e)}
 
+
 def listar_fiis_populares() -> list[dict]:
-    fiis = ["HGLG11", "MXRF11", "XPML11", "BTLG11"]  # reduz pra 4
+    """Lista FIIs populares brasileiros com suas cotações"""
+    fiis = ["HGLG11", "MXRF11", "XPML11", "BTLG11"]
     resultados = []
-    
+
     for ticker in fiis:
-        resultado = cotacao_fii(ticker)  # já existe, chama 1 por vez
+        resultado = cotacao_fii(ticker)
         if "erro" not in resultado:
             resultados.append(resultado)
-    
+
     return resultados if resultados else [
         {"erro": "Nenhuma cotação disponível"}
     ]

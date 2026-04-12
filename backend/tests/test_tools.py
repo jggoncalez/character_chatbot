@@ -55,9 +55,52 @@ class AttrDict(dict):
 @pytest.fixture(autouse=True)
 def mock_external_dependencies(monkeypatch):
     import feedparser
-    import httpx
+    import yfinance
 
-    monkeypatch.setenv("BRAPI_KEY", "test-token")
+    def fake_yfinance_ticker(ticker):
+        """Mock para yfinance.Ticker"""
+        class FakeTicker:
+            def __init__(self, ticker_name):
+                self.ticker_name = ticker_name
+                self.info = {
+                    "longName": f"Ativo {ticker_name}",
+                    "currency": "BRL" if ".SA" in ticker_name else "USD",
+                    "open": 9.9,
+                }
+
+            def history(self, period=None):
+                """Mock para history() que retorna DataFrame-like"""
+                import pandas as pd
+                data = {
+                    'Close': [9.8, 9.9, 10.0, 10.1, 10.2],
+                    'High': [10.0, 10.1, 10.2, 10.3, 10.4],
+                    'Low': [9.7, 9.8, 9.9, 10.0, 10.1],
+                }
+                df = pd.DataFrame(data)
+                return df if len(data['Close']) > 0 else pd.DataFrame()
+
+        return FakeTicker(ticker)
+
+    def fake_feedparser_parse(url):
+        if "infomoney.com.br" in url:
+            entries = [
+                SimpleNamespace(title="Noticia Financeira", link="https://example.com/finance")
+            ]
+            return SimpleNamespace(entries=entries)
+
+        common_entries = [
+            AttrDict(
+                {
+                    "title": "Titulo",
+                    "summary": "Resumo",
+                    "link": "https://example.com/noticia",
+                    "published": "2026-04-01",
+                }
+            )
+        ]
+        return SimpleNamespace(entries=common_entries)
+
+    import httpx
 
     def fake_httpx_get(url, params=None, headers=None, timeout=None, follow_redirects=False):
         if "wttr.in" in url:
@@ -99,42 +142,6 @@ def mock_external_dependencies(monkeypatch):
             </feed>
             """.strip()
             return FakeResponse(text=xml)
-
-        if "brapi.dev/api/quote/" in url:
-            tickers = url.rsplit("/", 1)[-1]
-            if "," in tickers:
-                symbols = tickers.split(",")
-                results = [
-                    {
-                        "symbol": s,
-                        "longName": f"FII {s}",
-                        "regularMarketPrice": 100.0,
-                        "regularMarketChangePercent": 0.5,
-                        "dividendYield": 0.9,
-                        "priceToBook": 0.95,
-                    }
-                    for s in symbols
-                ]
-                return FakeResponse(json_data={"results": results})
-
-            return FakeResponse(
-                json_data={
-                    "results": [
-                        {
-                            "symbol": tickers,
-                            "longName": f"Ativo {tickers}",
-                            "regularMarketPrice": 10.0,
-                            "regularMarketChangePercent": 1.2,
-                            "regularMarketOpen": 9.9,
-                            "regularMarketDayLow": 9.8,
-                            "regularMarketDayHigh": 10.2,
-                            "regularMarketVolume": 123456,
-                            "dividendYield": 0.8,
-                            "priceToBook": 1.1,
-                        }
-                    ]
-                }
-            )
 
         if "bcdata.sgs.11" in url:
             return FakeResponse(json_data=[{"valor": "10.50", "data": "01/04/2026"}])
@@ -264,27 +271,9 @@ def mock_external_dependencies(monkeypatch):
 
         raise AssertionError(f"URL nao mockada no teste: {url}")
 
-    def fake_feedparser_parse(url):
-        if "infomoney.com.br" in url:
-            entries = [
-                SimpleNamespace(title="Noticia Financeira", link="https://example.com/finance")
-            ]
-            return SimpleNamespace(entries=entries)
-
-        common_entries = [
-            AttrDict(
-                {
-                    "title": "Titulo",
-                    "summary": "Resumo",
-                    "link": "https://example.com/noticia",
-                    "published": "2026-04-01",
-                }
-            )
-        ]
-        return SimpleNamespace(entries=common_entries)
-
     monkeypatch.setattr(httpx, "get", fake_httpx_get)
     monkeypatch.setattr(feedparser, "parse", fake_feedparser_parse)
+    monkeypatch.setattr(yfinance, "Ticker", fake_yfinance_ticker)
 
 
 TOOL_CASES = [

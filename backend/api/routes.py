@@ -201,3 +201,4 @@ async def transcribe_voice(
     except Exception:
         logger.exception("Erro na transcrição")
         raise HTTPException(status_code=500, detail="Erro interno na transcrição")
+    
