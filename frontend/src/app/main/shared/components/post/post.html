@@ -27,7 +27,7 @@
             [class.text-secondary]="isDark" [class.border-secondary]="isDark"
             [class.text-primary]="!isDark" [class.border-light]="!isDark">
         <span>{{ post().comments.length }} comentários</span>
-        @if (saveFeedService.isSaved(post().id)()) {
+        @if (saveFeedService.isSaved(post().id)) {
             <span class="text-warning" style="font-size: 0.75rem;">
                 <i class="bi bi-bookmark-fill me-1"></i>Salvo
             </span>
@@ -46,11 +46,11 @@
         <div class="vr opacity-25 my-1" [class.bg-secondary]="isDark" [class.bg-dark]="!isDark"></div>
 
         <button class="btn btn-sm flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2 rounded-0"
-                [class.text-warning]="saveFeedService.isSaved(post().id)()"
-                [class.text-secondary]="!saveFeedService.isSaved(post().id)()"
+                [class.text-warning]="saveFeedService.isSaved(post().id)"
+                [class.text-secondary]="!saveFeedService.isSaved(post().id)"
                 (click)="saveFeedService.toggle(post())">
-            <i [class]="saveFeedService.isSaved(post().id)() ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
-            <span>{{ saveFeedService.isSaved(post().id)() ? 'Salvo' : 'Salvar' }}</span>
+            <i [class]="saveFeedService.isSaved(post().id) ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
+            <span>{{ saveFeedService.isSaved(post().id) ? 'Salvo' : 'Salvar' }}</span>
         </button>
 
     </div>

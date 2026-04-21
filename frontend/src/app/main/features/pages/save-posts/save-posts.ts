@@ -10,7 +10,7 @@ import { Post } from '../../../shared/components/post/post';
   templateUrl: './save-posts.html',
   styleUrl: './save-posts.scss',
 })
-export class SalvePosts {
+export class SavePosts {
   themeService = inject(ThemeService);
   postService = inject(PostService);
 

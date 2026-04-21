@@ -67,7 +67,7 @@
       <button (click)="send()"
           class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
           style="width:34px;height:34px;"
-          [disabled]="loading()">
+          [disabled]="loading() || !characterName()">
         @if(loading()) {
           <span class="spinner-border spinner-border-sm" style="width:0.75rem;height:0.75rem;"></span>
         } @else {
@@ -100,7 +100,7 @@
         <button (click)="startRecording()"
             class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
             style="width:34px;height:34px;"
-            [disabled]="loading()">
+            [disabled]="loading() || !characterName()">
           @if(loading()) {
             <span class="spinner-border spinner-border-sm" style="width:0.75rem;height:0.75rem;"></span>
           } @else {
@@ -119,10 +119,3 @@
   }
 
 </div>
-
-<style>
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.3; }
-  }
-</style>

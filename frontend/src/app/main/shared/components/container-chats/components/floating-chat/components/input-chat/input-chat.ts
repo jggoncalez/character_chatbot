@@ -5,6 +5,7 @@ import { form, required, FormField, minLength, maxLength } from '@angular/forms/
 import { ApiService } from '../../../../../../services/api-service';
 import { dtoAgentName } from '../../../../../../utils/dto-agent-name';
 import { InputChatService } from './service/input-chat-service';
+import { ToastService } from '../../../../../../components/toast-messages/services/toast-service';
 
 @Component({
   selector: 'app-input-chat',
@@ -17,6 +18,7 @@ export class InputChat {
   themeService = inject(ThemeService);
   chatService = inject(ChatService);
   inputChatService = inject(InputChatService);
+  private toastService = inject(ToastService);
 
   agent = input.required<string>();
   characters = signal<string[]>([]);
@@ -55,6 +57,7 @@ export class InputChat {
   })
 
   send(): void {
+    if (!this.characterName()) return;
     const text = this.message().trim();
     if (!text) return;
     this.chatService.sendMessage(text, this.characterName());
@@ -70,23 +73,29 @@ export class InputChat {
 
 
   async startRecording(): Promise<void> {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    if (!this.characterName()) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-    this.audioChunks = [];
-    this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+      this.audioChunks = [];
+      this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
 
-    this.mediaRecorder.ondataavailable = (e) => {
-      if (e.data.size > 0) this.audioChunks.push(e.data);
-    };
+      this.mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) this.audioChunks.push(e.data);
+      };
 
-    this.mediaRecorder.onstop = () => {
-      const blob = new Blob(this.audioChunks, { type: 'audio/webm;codecs=opus' });
-      this.sendAudio(blob);
-      stream.getTracks().forEach(t => t.stop());
-    };
+      this.mediaRecorder.onstop = () => {
+        const blob = new Blob(this.audioChunks, { type: 'audio/webm;codecs=opus' });
+        this.sendAudio(blob);
+        stream.getTracks().forEach(t => t.stop());
+      };
 
-    this.mediaRecorder.start();
-    this.isRecording.set(true);
+      this.mediaRecorder.start();
+      this.isRecording.set(true);
+    } catch {
+      this.isRecording.set(false);
+      this.toastService.show('Não foi possível acessar o microfone. Verifique as permissões.', 'danger', 4000);
+    }
   }
 
   stopRecording(): void {

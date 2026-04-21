@@ -19,7 +19,7 @@ export const routes: Routes = [
             },
             {
                 path : "save-posts",
-                loadComponent : () => import("./main/features/pages/save-posts/save-posts").then(m => m.SalvePosts)
+                loadComponent : () => import("./main/features/pages/save-posts/save-posts").then(m => m.SavePosts)
             },
             {
                 path: "feed",

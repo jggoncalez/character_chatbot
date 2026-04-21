@@ -11,11 +11,11 @@ export class PostService {
  
   getAll = computed(() => this._savedPosts());
  
-  isSaved = (postId: string) =>
-    computed(() => this._savedPosts().some((p) => p.id === postId));
+  isSaved = (postId: string): boolean =>
+    this._savedPosts().some((p) => p.id === postId);
  
   save(post: IPostConfig): void {
-    if (this.isSaved(post.id)()) return;
+    if (this.isSaved(post.id)) return;
     const updated = [...this._savedPosts(), post];
     this._savedPosts.set(updated);
     this.setStorage(updated);
@@ -28,7 +28,7 @@ export class PostService {
   }
  
   toggle(post: IPostConfig): void {
-    if (this.isSaved(post.id)()) {
+    if (this.isSaved(post.id)) {
       this.remove(post.id);
     } else {
       this.save(post);
