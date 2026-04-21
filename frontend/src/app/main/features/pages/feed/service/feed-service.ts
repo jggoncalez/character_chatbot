@@ -77,12 +77,12 @@ export class FeedService {
   }
  
   submitComment(postId: string): void {
-    const text = this._commentInputs()[postId];
+    const text = this._commentInputs()[postId] ?? '';
     if (text.length > 200) {
       this.toastService.show('Mensagem muito grande', 'danger', 2000);
       return;
     }
-    if (!text?.trim()) return;
+    if (!text.trim()) return;
  
     this._posting.set(true);
     this.apiService.postCommentFeed(postId, text).subscribe({
