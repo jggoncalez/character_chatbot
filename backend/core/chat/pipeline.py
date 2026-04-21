@@ -338,14 +338,16 @@ def _extract_tool_results(response) -> list[types.Part]:
 # ======================================================
 # HELPERS — HISTÓRICO
 # ======================================================
+_history_file_lock = threading.Lock()
+
+
 def normalize_character_name(character_name: str) -> str:
     return character_name.lower().replace(" ", "_")
 
 
 def load_history(character_name: str) -> list:
     key = normalize_character_name(character_name)
-    lock = _get_history_lock(key)
-    with lock:
+    with _history_file_lock:
         if key in _history_cache and HISTORY_FILE.exists():
             return list(_history_cache[key])
 
@@ -373,8 +375,7 @@ def load_history(character_name: str) -> list:
 def persist_history(character_name: str, history: list) -> None:
     key = normalize_character_name(character_name)
     trimmed = history[-MAX_HISTORY:]
-    lock = _get_history_lock(key)
-    with lock:
+    with _history_file_lock:
         _history_cache[key] = trimmed
         all_history: dict = {}
         if HISTORY_FILE.exists():
@@ -393,8 +394,7 @@ def persist_history(character_name: str, history: list) -> None:
 
 def clear_history(character_name: str) -> bool:
     key = normalize_character_name(character_name)
-    lock = _get_history_lock(key)
-    with lock:
+    with _history_file_lock:
         if not HISTORY_FILE.exists():
             _history_cache.pop(key, None)
             return False
