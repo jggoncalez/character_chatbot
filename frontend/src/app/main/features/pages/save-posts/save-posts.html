@@ -1,0 +1,29 @@
+<div class="d-flex align-items-center gap-2 mb-4" 
+     [class]="isDark ? 'text-white' : 'text-dark'">
+  <i class="bi bi-bookmark fs-4"></i>
+  <h4 class="fw-bold mb-0">Posts Salvos</h4>
+</div>
+
+<div class="d-flex flex-column gap-3">
+  
+  @for (post of getSavePosts(); track post.id) {
+    <app-post [post]="post"></app-post>
+  } @empty {
+    <div class="d-flex flex-column align-items-center justify-content-center text-center p-5 rounded-3 border"
+         [class]="isDark 
+           ? 'bg-secondary bg-opacity-10 border-secondary border-opacity-50 text-white' 
+           : 'bg-light border-light-subtle text-dark'"
+         style="min-height: 300px;">
+         
+      <i class="bi bi-bookmark mb-3 text-secondary" style="font-size: 4rem; opacity: 0.6;"></i>
+      
+      <h5 class="fw-bold mb-2">Nenhum post salvo ainda</h5>
+      
+      <p class="text-secondary mb-0" style="max-width: 480px; font-size: 0.95rem;">
+        Salve posts interessantes para acessá-los mais tarde. Seus posts salvos aparecerão aqui.
+      </p>
+      
+    </div>
+  }
+  
+</div>

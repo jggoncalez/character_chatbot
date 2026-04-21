@@ -1,14 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { ThemeService } from '../../../shared/services/theme-service';
-import { DatePipe } from '@angular/common';
 import { FeedService } from './service/feed-service';
-import { AgentImage } from '../../../shared/components/agent-image/agent-image';
 import { IFeedModel } from './interface/feed-model';
 import { form, minLength, required, FormField } from '@angular/forms/signals';
+import { Post } from '../../../shared/components/post/post';
 
 @Component({
   selector: 'app-feed',
-  imports: [DatePipe, AgentImage, FormField],
+  imports: [FormField, Post],
   templateUrl: './feed.html',
   styleUrl: './feed.scss',
 })
@@ -18,9 +17,6 @@ export class Feed {
 
   posts         = this.feedService.posts;
   loading       = this.feedService.loading;
-  posting       = this.feedService.posting;
-  commentInputs = this.feedService.commentInputs;
-  openComments  = this.feedService.openComments;
 
   inputFeed = signal<IFeedModel>({
     inputUser : ''
@@ -31,21 +27,15 @@ export class Feed {
     minLength(schema.inputUser,10,{message : "Precisa ter no minimo 10 letras!"})
   })
 
-  onKeyDown(event: KeyboardEvent,postId : string): void {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      this.feedService.submitComment(postId);
-    }
-  }
-
-  get isDark(): boolean {
-    return this.themeService.getCurrentTheme() === 'dark';
-  }
-
   onSubmitPost() {
     this.feedService.sumbitFeed(this.inputFeed())
     this.inputFeed.set({
       inputUser : ''
     })
   }
+
+  get isDark(): boolean {
+    return this.themeService.getCurrentTheme() === 'dark';
+  }
+
 }
