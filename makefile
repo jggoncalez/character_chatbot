@@ -15,7 +15,7 @@ else
     RMDIR        := rm -rf
 endif
 
-.PHONY: help install install-backend install-frontend run run-backend run-frontend test clean
+.PHONY: help install install-backend install-frontend run run-backend run-frontend test clean clear-data clear-history clear-feed
 
 # ── Help ──────────────────────────────────────────────────────────────────────
 help:
@@ -29,6 +29,9 @@ help:
 	@echo "  run-backend        Start FastAPI server on port 8000"
 	@echo "  run-frontend       Start Angular dev server"
 	@echo "  test               Run pytest"
+	@echo "  clear-data         Delete history.json and feed.json"
+	@echo "  clear-history      Delete chat history (history.json)"
+	@echo "  clear-feed         Delete feed cache (feed.json)"
 	@echo "  clean              Remove venv and node_modules"
 	@echo ""
 
@@ -64,6 +67,24 @@ endif
 # ── Test ──────────────────────────────────────────────────────────────────────
 test:
 	cd backend && $(VENV_PYTHON) -m pytest
+
+# ── Data reset ────────────────────────────────────────────────────────────────
+clear-history:
+ifeq ($(OS),Windows_NT)
+	if exist backend\core\chat\history.json del /f backend\core\chat\history.json
+else
+	rm -f backend/core/chat/history.json
+endif
+
+clear-feed:
+ifeq ($(OS),Windows_NT)
+	if exist backend\core\feed\feed.json del /f backend\core\feed\feed.json
+	if exist backend\core\feed\feed.lock del /f backend\core\feed\feed.lock
+else
+	rm -f backend/core/feed/feed.json backend/core/feed/feed.lock
+endif
+
+clear-data: clear-history clear-feed
 
 # ── Clean ─────────────────────────────────────────────────────────────────────
 clean:

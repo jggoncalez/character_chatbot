@@ -346,7 +346,7 @@ def load_history(character_name: str) -> list:
     key = normalize_character_name(character_name)
     lock = _get_history_lock(key)
     with lock:
-        if key in _history_cache:
+        if key in _history_cache and HISTORY_FILE.exists():
             return list(_history_cache[key])
 
         if not HISTORY_FILE.exists():
