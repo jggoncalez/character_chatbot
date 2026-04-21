@@ -32,8 +32,7 @@
   }
 
   @for(msg of history()?.history; track $index) {
-    <div [class]="msg.role === 'model' ? 'd-flex justify-content-start' : 'd-flex justify-content-end'"
-         style="animation: fadeSlideIn 0.2s ease forwards;">
+    <div [class]="(msg.role === 'model' ? 'd-flex justify-content-start' : 'd-flex justify-content-end') + ' fade-slide-in'">
       <div
         [class]="msg.role === 'model'
           ? (isDark ? 'rounded-3 px-3 py-2 bg-info bg-opacity-25 text-white' : 'rounded-3 px-3 py-2 bg-info text-bg-info')
@@ -45,7 +44,7 @@
   }
 
   @if(loading()) {
-    <div class="d-flex justify-content-start" style="animation:fadeSlideIn 0.2s ease forwards;">
+    <div class="d-flex justify-content-start fade-slide-in">
       <div [class]="isDark ? 'rounded-3 px-3 py-2 bg-info bg-opacity-25' : 'rounded-3 px-3 py-2 bg-info text-bg-info'"
            style="max-width:80%;">
         <div class="d-flex align-items-center gap-1" style="height:20px;">
@@ -58,24 +57,3 @@
   }
 
 </div>
-
-<style>
-  @keyframes fadeSlideIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0);   }
-  }
-
-  .typing-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.4;
-    animation: typingBounce 0.8s ease-in-out infinite;
-  }
-
-  @keyframes typingBounce {
-    0%, 100% { opacity: 0.4; transform: translateY(0);   }
-    50%       { opacity: 1;   transform: translateY(-4px); }
-  }
-</style>
