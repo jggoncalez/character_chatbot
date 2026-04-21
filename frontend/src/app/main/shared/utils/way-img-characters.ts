@@ -28,6 +28,8 @@ export const getWayImgCharacters = (agent: string) => {
             return "/assets/characters/shadow.webp";
         case "tux":
             return "/assets/characters/tux.webp";
+        case "user":
+            return "https://placehold.co/300";
         default:
             return "https://placehold.co/400";
     }
