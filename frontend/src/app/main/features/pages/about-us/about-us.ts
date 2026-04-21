@@ -1,14 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ITeamConfig } from './interfaces/team-config';
 import { ILinkConfig } from './interfaces/link-config';
+import { ThemeService } from '../../../shared/services/theme-service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-about-us',
-  imports: [],
+  imports: [NgClass],
   templateUrl: './about-us.html',
   styleUrl: './about-us.scss',
 })
 export class AboutUs {
+  themeService = inject(ThemeService);
+
   team : ITeamConfig[] = [
     {
       fullName : "Victor Hugo Camargo",

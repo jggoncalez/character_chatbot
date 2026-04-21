@@ -1,5 +1,5 @@
-<div [class]="themeService.getCurrentTheme() === 'dark' ? 'bg-dark text-white' : 'bg-white text-dark'" 
-     class="container-fluid min-vh-100 p-4 trasition_bg">
+<div [class]="themeService.getCurrentTheme() === 'dark' ? 'bg-dark border-secondary text-white' : 'bg-white border-light-subtle text-dark'" 
+     class="card card-main container-fluid min-vh-100 p-4 trasition_bg">
   
   <div class="d-flex justify-content-between align-items-center mb-5">
     <h1 class="fw-bold">Amigos IAs</h1>
@@ -24,7 +24,7 @@
                     
                     <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
                         <span class="badge rounded-pill bg-success" style="width: 10px; height: 10px; padding: 0;"> </span>
-                        <small class="text-muted">Online</small>
+                        <small class="text-primary">Online</small>
                     </div>
 
                     <p class="card-text px-3 mb-4 opacity-75 small">

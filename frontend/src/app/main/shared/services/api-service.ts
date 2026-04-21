@@ -105,11 +105,29 @@ export class ApiService {
     );
   }
 
-  postFeed(post_id : string, text : string) {
+  postCommentFeed(post_id : string, text : string) {
     const body = {post_id,text}
     return this.http.post(`${this.baseUrl}/feed/comment`,body).pipe(
       map(
         (_) => ({message : "Post atualizado com a resposta do personagem adicionada aos comentários."})
+      )
+    )
+  }
+
+  sendMessageAudio(character_name : string, body : any) {
+    return this.http.post(`${this.baseUrl}/voice/${character_name}/transcribe`,body);
+  }
+  
+  postFeedUser(text : string) {
+    const body = {
+      text : text
+    }
+
+    return this.http.post(`${this.baseUrl}/feed/post`,body).pipe(
+      map(
+        (value : any) => {
+          return this.mapDto(value)
+        }
       )
     )
   }

@@ -1,19 +1,41 @@
-.overflow-y-auto::-webkit-scrollbar {
-    width: 4px;
+.agent-card {
+    cursor: pointer;
+    border: 1px solid transparent;
 }
 
-.overflow-y-auto::-webkit-scrollbar-thumb {
-    background: rgba(128, 128, 128, 0.3);
-    border-radius: 10px;
+.agent-card:hover {
+    background-color: var(--bs-primary-bg-subtle) !important;
+    border-color: rgba(var(--bs-primary-rgb), 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
-@media (max-width: 768px) {
-    .border-start {
-        border-top: 1px solid var(--bs-border-color);
-    }
-    
-    div[style*="max-width: 300px"] {
-        max-width: 100% !important;
-        height: auto !important;
-    }
+.agent-card:hover .agent-avatar {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+    transition: all 0.2s;
+}
+
+.agent-card:hover .name-label {
+    color: var(--bs-primary) !important;
+}
+
+.tiny-status {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.chat-btn-hover {
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.chat-btn-hover:hover {
+    background-color: var(--bs-primary);
+    color: white !important;
+    transform: rotate(-10deg);
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--bs-primary-rgb), 0.5);
 }

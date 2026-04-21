@@ -1,13 +1,59 @@
-<div class="d-flex flex-column gap-2">
+<div #scrollRef class="d-flex flex-column gap-2" style="overflow-y: auto; max-height: 100%;">
+
+  @if(!history()?.history?.length && !loading()) {
+    <div class="d-flex flex-column align-items-center justify-content-center gap-2 text-center py-4 px-2">
+      <div class="rounded-circle d-flex align-items-center justify-content-center"
+           [class]="isDark ? 'bg-info bg-opacity-25' : 'bg-info bg-opacity-10'"
+           style="width: 44px; height: 44px;">
+        <i class="bi bi-chat-dots" [class]="isDark ? 'text-info' : 'text-info'" style="font-size: 1.2rem;"></i>
+      </div>
+      <p class="mb-0 fw-semibold" style="font-size: 0.82rem;"
+         [class]="isDark ? 'text-white' : 'text-dark'">
+        Inicie uma conversa
+      </p>
+      <p class="mb-2" style="font-size: 0.75rem;"
+         [class]="isDark ? 'text-white-50' : 'text-secondary'">
+        Envie uma mensagem de texto ou grave um áudio
+      </p>
+      <div class="d-flex justify-content-center gap-3">
+        <div class="d-flex align-items-center gap-1" style="font-size: 0.72rem;"
+             [class]="isDark ? 'text-white-50' : 'text-secondary'">
+          <i class="bi bi-keyboard"></i>
+          <span>Texto</span>
+        </div>
+        <span style="font-size: 0.72rem;" [class]="isDark ? 'text-white-50' : 'text-secondary'">ou</span>
+        <div class="d-flex align-items-center gap-1" style="font-size: 0.72rem;"
+             [class]="isDark ? 'text-white-50' : 'text-secondary'">
+          <i class="bi bi-mic-fill"></i>
+          <span>Áudio</span>
+        </div>
+      </div>
+    </div>
+  }
+
   @for(msg of history()?.history; track $index) {
-    <div [class]="msg.role === 'model' ? 'd-flex justify-content-start' : 'd-flex justify-content-end'">
+    <div [class]="(msg.role === 'model' ? 'd-flex justify-content-start' : 'd-flex justify-content-end') + ' fade-slide-in'">
       <div
         [class]="msg.role === 'model'
           ? (isDark ? 'rounded-3 px-3 py-2 bg-info bg-opacity-25 text-white' : 'rounded-3 px-3 py-2 bg-info text-bg-info')
           : (isDark ? 'rounded-3 px-3 py-2 bg-secondary bg-opacity-25 text-white text-break' : 'rounded-3 px-3 py-2 bg-primary text-bg-primary text-break')"
-        style="max-width: 80%; font-size: 0.875rem;">
+        style="max-width:80%;font-size:0.875rem;line-height:1.5;">
         {{ msg.content }}
       </div>
     </div>
   }
+
+  @if(loading()) {
+    <div class="d-flex justify-content-start fade-slide-in">
+      <div [class]="isDark ? 'rounded-3 px-3 py-2 bg-info bg-opacity-25' : 'rounded-3 px-3 py-2 bg-info text-bg-info'"
+           style="max-width:80%;">
+        <div class="d-flex align-items-center gap-1" style="height:20px;">
+          <span class="typing-dot" style="animation-delay:0s;"></span>
+          <span class="typing-dot" style="animation-delay:0.18s;"></span>
+          <span class="typing-dot" style="animation-delay:0.36s;"></span>
+        </div>
+      </div>
+    </div>
+  }
+
 </div>

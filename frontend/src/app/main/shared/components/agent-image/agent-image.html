@@ -4,7 +4,20 @@
   [style.height.px]="size()"
   [title]="characterName()"
 >
-  @if (imageSrc() !== "https://placehold.co/400") {
+
+@switch (imageSrc()) {
+  @case ("https://placehold.co/400") {
+    <i
+      class="bi bi-robot text-white"
+      [style.fontSize.rem]="fontSize()"
+    ></i>
+  }
+  @case ("https://placehold.co/300") {
+    <i class="bi bi-person-fill text-white"
+      [style.fontSize.rem]="fontSize()"
+    ></i>
+  }
+  @default {
     <img
       [src]="imageSrc()"
       [alt]="characterName()"
@@ -12,10 +25,6 @@
       style="object-fit: cover; object-position: center;"
       (error)="onImageError()"
     />
-  } @else {
-    <i
-      class="bi bi-robot text-white"
-      [style.fontSize.rem]="fontSize()"
-    ></i>
   }
+}
 </div>

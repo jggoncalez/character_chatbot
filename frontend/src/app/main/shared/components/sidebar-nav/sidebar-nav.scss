@@ -1,0 +1,21 @@
+.transition-all {
+  transition: all 0.25s ease-in-out !important;
+}
+
+.transition-transform {
+  transition: transform 0.25s ease-in-out !important;
+}
+
+.custom-hover:hover:not(.active) {
+  background-color: var(--bs-tertiary-bg);
+  padding-left: 1.5rem !important;
+  color: var(--bs-primary) !important;
+}
+
+.custom-hover:hover i {
+  transform: scale(1.2);
+}
+
+.nav-link.active {
+  box-shadow: 0 4px 10px rgba(var(--bs-primary-rgb), 0.25);
+}

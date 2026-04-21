@@ -30,6 +30,11 @@ export class SidebarNav {
       icon : "bi-person"
     },
     {
+      path : "save-posts",
+      name : "Salvos",
+      icon : "bi-bookmark-fill"
+    },
+    {
       path : "settings",
       name : "Configurações",
       icon : "bi-gear"

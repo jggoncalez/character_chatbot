@@ -16,6 +16,7 @@ import { AgentImage } from '../../../agent-image/agent-image';
 })
 export class FloatingChat {
   themeService = inject(ThemeService);
+  chatService = inject(ChatService);
   agentInput = input.required<ICharacterConfig>();
   private containerChatService = inject(ContainerChatService);
 
@@ -28,6 +29,11 @@ export class FloatingChat {
   close(): void {
     this.containerChatService.remove(this.agentInput());
   }
+
+  updateChat() {
+    this.chatService.loadHistory(this.agentInput().agent);
+  }
+
   get isDark(): boolean {
     return this.themeService.getCurrentTheme() === 'dark';
   }

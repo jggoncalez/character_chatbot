@@ -11,7 +11,7 @@
 
       <div class="d-flex align-items-center gap-2 fw-semibold"
            [ngClass]="isDark ? 'text-white' : 'text-dark'">
-        <i class="bi bi-person-circle" [ngClass]="isDark ? 'text-secondary' : 'text-muted'"></i>
+        <i class="bi bi-person-circle" [ngClass]="isDark ? 'text-secondary' : 'text-primary'"></i>
         Conta
       </div>
 
@@ -19,7 +19,7 @@
            [ngClass]="isDark ? 'border-secondary' : 'border-light-subtle'">
         <div>
           <div class="fw-semibold small" [ngClass]="isDark ? 'text-white' : 'text-dark'">Nome de usuário</div>
-          <div class="small" [ngClass]="isDark ? 'text-secondary' : 'text-muted'">Você</div>
+          <div class="small" [ngClass]="isDark ? 'text-secondary' : 'text-primary'">Você</div>
         </div>
         <button class="btn btn-sm" [ngClass]="isDark ? 'btn-outline-secondary' : 'btn-outline-secondary'">Editar</button>
       </div>
@@ -27,7 +27,7 @@
       <div class="d-flex align-items-center justify-content-between">
         <div>
           <div class="fw-semibold small" [ngClass]="isDark ? 'text-white' : 'text-dark'">Email</div>
-          <div class="small" [ngClass]="isDark ? 'text-secondary' : 'text-muted'">usuario&#64;aisocial.com</div>
+          <div class="small" [ngClass]="isDark ? 'text-secondary' : 'text-primary'">usuario&#64;aisocial.com</div>
         </div>
         <button class="btn btn-sm" [ngClass]="isDark ? 'btn-outline-secondary' : 'btn-outline-secondary'">Editar</button>
       </div>
@@ -40,7 +40,7 @@
 
       <div class="d-flex align-items-center gap-2 fw-semibold"
            [ngClass]="isDark ? 'text-white' : 'text-dark'">
-        <i class="bi bi-bell" [ngClass]="isDark ? 'text-secondary' : 'text-muted'"></i>
+        <i class="bi bi-bell" [ngClass]="isDark ? 'text-secondary' : 'text-primary'"></i>
         Notificações
       </div>
 
@@ -69,7 +69,7 @@
 
       <div class="d-flex align-items-center gap-2 fw-semibold"
            [ngClass]="isDark ? 'text-white' : 'text-dark'">
-        <i class="bi bi-palette" [ngClass]="isDark ? 'text-secondary' : 'text-muted'"></i>
+        <i class="bi bi-palette" [ngClass]="isDark ? 'text-secondary' : 'text-primary'"></i>
         Aparência
       </div>
 
@@ -77,9 +77,10 @@
         <span class="small fw-semibold" [ngClass]="isDark ? 'text-white' : 'text-dark'">Tema</span>
         <select class="form-select form-select-sm w-auto"
                 [ngClass]="isDark ? 'bg-dark text-white border-secondary' : 'bg-white text-dark border-secondary'"
-                disabled>
-          <option>Escuro</option>
-          <option>Claro</option>
+                [value]="themeService.getCurrentTheme()"
+                (change)="themeService.setTheme($any($event.target).value)">
+          <option value="dark">Escuro</option>
+          <option value="light">Claro</option>
         </select>
       </div>
 
@@ -91,7 +92,7 @@
 
       <div class="d-flex align-items-center gap-2 fw-semibold"
            [ngClass]="isDark ? 'text-white' : 'text-dark'">
-        <i class="bi bi-globe" [ngClass]="isDark ? 'text-secondary' : 'text-muted'"></i>
+        <i class="bi bi-globe" [ngClass]="isDark ? 'text-secondary' : 'text-primary'"></i>
         Idioma
       </div>
 

@@ -4,6 +4,7 @@ import { EMPTY, of } from 'rxjs';
 import { Main } from './main/main';
 import { authGuard } from './main/shared/guards/auth.guard';
 import { characterDataResolver } from './main/features/pages/profile-ia/route/character-data-resolver';
+import { AboutUs } from './main/features/pages/about-us/about-us';
 
 
 export const routes: Routes = [
@@ -12,6 +13,14 @@ export const routes: Routes = [
         component : Main,
         canActivate : [authGuard],
         children: [
+            {
+                path : "home",
+                component : AboutUs
+            },
+            {
+                path : "save-posts",
+                loadComponent : () => import("./main/features/pages/save-posts/save-posts").then(m => m.SavePosts)
+            },
             {
                 path: "feed",
                 loadComponent : () => import("./main/features/pages/feed/feed").then(m=> m.Feed)
@@ -32,6 +41,11 @@ export const routes: Routes = [
                 path : "profileIA/:agent",
                 loadComponent : () => import("./main/features/pages/profile-ia/profile-ia").then(m => m.ProfileIA),
                 resolve : { characterData: characterDataResolver }
+            },
+            {
+                path : "",
+                redirectTo : "home",
+                pathMatch : "full"
             }
         ]
     },

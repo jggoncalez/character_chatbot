@@ -1,4 +1,4 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, untracked, viewChild } from '@angular/core';
 import { ThemeService } from '../../../../../../services/theme-service';
 import { ChatService } from '../../../../../../services/chat-service';
 
@@ -10,19 +10,34 @@ import { ChatService } from '../../../../../../services/chat-service';
 })
 export class Conversation {
   themeService = inject(ThemeService);
-  chatService = inject(ChatService);
-  agent = input<string>()
-
+  chatService  = inject(ChatService);
+ 
+  agent   = input<string>();
+  history = this.chatService.history;
+  loading = this.chatService.loading;
+ 
+  private scrollRef = viewChild<ElementRef>('scrollRef');
+ 
   get isDark(): boolean {
     return this.themeService.getCurrentTheme() === 'dark';
   }
-
-  history = this.chatService.history;
-
+ 
   constructor() {
     effect(() => {
       const name = this.agent();
       if (name) this.chatService.loadHistory(name);
     });
+ 
+    effect(() => {
+      this.history();
+      this.loading();
+      untracked(() => this.scrollToBottom());
+    });
   }
+ 
+  private scrollToBottom(): void {
+    const element = this.scrollRef()?.nativeElement;
+    if (element) setTimeout(() => element.scrollTop = element.scrollHeight, 50);
+  }
+
 }

@@ -4,6 +4,8 @@ import { ChatService } from '../../../../../../services/chat-service';
 import { form, required, FormField, minLength, maxLength } from '@angular/forms/signals';
 import { ApiService } from '../../../../../../services/api-service';
 import { dtoAgentName } from '../../../../../../utils/dto-agent-name';
+import { InputChatService } from './service/input-chat-service';
+import { ToastService } from '../../../../../../components/toast-messages/services/toast-service';
 
 @Component({
   selector: 'app-input-chat',
@@ -15,21 +17,30 @@ export class InputChat {
   apiService = inject(ApiService);
   themeService = inject(ThemeService);
   chatService = inject(ChatService);
+  inputChatService = inject(InputChatService);
+  private toastService = inject(ToastService);
+
   agent = input.required<string>();
   characters = signal<string[]>([]);
   message = signal('');
-  characterName = computed(() => 
-  {
+  dropdownOpen = signal<boolean>(false);
+  characterName = computed(() => {
     if(this.agent() !== "Dra. Galastriceia Pantufa") {
-      return dtoAgentName(this.agent(), (this.characters() as  any).characters)
+      return dtoAgentName(this.agent(), (this.characters() as any).characters)
     } else {
-      return  "dra galastriceia pantufa"
+      return "dra galastriceia pantufa"
     }
-    
-  }
-    
-  );
+  });
+
   loading = this.chatService.loading;
+
+  isAudioMode = this.inputChatService.isAudioMode;
+  isTextMode  = this.inputChatService.isTextMode;
+
+  private mediaRecorder: MediaRecorder | null = null;
+  private audioChunks: Blob[] = [];
+  isRecording = signal<boolean>(false);
+
   constructor() {
     this.apiService.getCharactersNodetails().subscribe({
       next: (response) => this.characters.set(response.data)
@@ -40,13 +51,13 @@ export class InputChat {
     return this.themeService.getCurrentTheme() === 'dark';
   }
 
-  input = form(this.message,(message) => {
-    required(message,{message : "Não pode ser enviado sem adicionar um valor!"})
-    maxLength(message,250,{message : "Máximo de caracteres atingido!"})
+  input = form(this.message, (message) => {
+    required(message, { message: "Não pode ser enviado sem adicionar um valor!" })
+    maxLength(message, 250, { message: "Máximo de caracteres atingido!" })
   })
-  
 
   send(): void {
+    if (!this.characterName()) return;
     const text = this.message().trim();
     if (!text) return;
     this.chatService.sendMessage(text, this.characterName());
@@ -60,4 +71,43 @@ export class InputChat {
     }
   }
 
+
+  async startRecording(): Promise<void> {
+    if (!this.characterName()) return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      this.audioChunks = [];
+      this.mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
+
+      this.mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) this.audioChunks.push(e.data);
+      };
+
+      this.mediaRecorder.onstop = () => {
+        const blob = new Blob(this.audioChunks, { type: 'audio/webm;codecs=opus' });
+        this.sendAudio(blob);
+        stream.getTracks().forEach(t => t.stop());
+      };
+
+      this.mediaRecorder.start();
+      this.isRecording.set(true);
+    } catch (error) {
+      console.error('startRecording failed:', error);
+      this.isRecording.set(false);
+      this.toastService.show('Não foi possível acessar o microfone. Verifique as permissões.', 'danger', 4000);
+    }
+  }
+
+  stopRecording(): void {
+    this.mediaRecorder?.stop();
+    this.isRecording.set(false);
+  }
+
+  private sendAudio(blob: Blob): void {
+    const formData = new FormData();
+    formData.append('audio', blob, 'recording.webm');
+
+    this.chatService.sendMessageAudio(formData, this.characterName());
+  }
 }
