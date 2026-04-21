@@ -39,25 +39,6 @@ TOOL_DECLARATIONS: dict[str, types.FunctionDeclaration] = {
         })
     ),
 
-    "web_search": types.FunctionDeclaration(
-        name="web_search",
-        description=(
-            "Realiza busca na web por informações atuais. "
-            "Use quando a pergunta exigir fatos recentes, "
-            "notícias ou dados fora da base local."
-        ),
-        parameters=schema({
-            "type": "object",
-            "properties": {
-                "query": {
-                    "type": "string",
-                    "description": "Termo de busca. Ex: 'cotação dólar hoje', 'notícias IA Brasil'"
-                }
-            },
-            "required": ["query"]
-        })
-    ),
-
     # ── WIKIPEDIA ─────────────────────────────────────────
     "buscar_wikipedia": types.FunctionDeclaration(
         name="buscar_wikipedia",

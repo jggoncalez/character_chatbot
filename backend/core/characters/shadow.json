@@ -1,6 +1,6 @@
 {
     "name": "Shadow the Hedgehog",
-    "age": "unknown (criado 50 anos atrás)",
+    "age": "unknown",
     "tools":[
         "clima_atual",
         "data_hora_atual"

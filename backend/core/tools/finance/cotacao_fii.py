@@ -1,3 +1,4 @@
+import concurrent.futures
 import yfinance as yf
 
 
@@ -6,24 +7,26 @@ def cotacao_fii(ticker: str) -> dict:
     try:
         ticker = ticker.upper().strip()
 
-        # Define tickers a serem tentados
-        tickers_to_try = [ticker]
-        if not ticker.endswith('.SA'):
-            tickers_to_try.append(f"{ticker}.SA")
+        # Define tickers a serem tentados — .SA tem prioridade pois FIIs são sempre brasileiros
+        if ticker.endswith('.SA'):
+            tickers_to_try = [ticker]
+        else:
+            tickers_to_try = [f"{ticker}.SA", ticker]
 
-        # Tenta cada variação de ticker
         for attempt_ticker in tickers_to_try:
             try:
                 stock = yf.Ticker(attempt_ticker)
                 hist = stock.history(period="5d")
 
                 if not hist.empty:
-                    info = stock.info or {}
+                    # Isola o .info — se falhar (404), não perde o dado do history
+                    try:
+                        info = stock.info or {}
+                    except Exception:
+                        info = {}
 
-                    # Preço de fechamento do último dia
                     last_price = hist['Close'].iloc[-1]
 
-                    # Variação percentual em relação ao dia anterior
                     if len(hist) > 1:
                         prev_price = hist['Close'].iloc[-2]
                         variacao_dia = ((last_price - prev_price) / prev_price) * 100
@@ -52,15 +55,9 @@ def cotacao_fii(ticker: str) -> dict:
 
 
 def listar_fiis_populares() -> list[dict]:
-    """Lista FIIs populares brasileiros com suas cotações"""
+    """Lista FIIs populares brasileiros com suas cotações em paralelo."""
     fiis = ["HGLG11", "MXRF11", "XPML11", "BTLG11"]
-    resultados = []
-
-    for ticker in fiis:
-        resultado = cotacao_fii(ticker)
-        if "erro" not in resultado:
-            resultados.append(resultado)
-
-    return resultados if resultados else [
-        {"erro": "Nenhuma cotação disponível"}
-    ]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+        resultados = list(executor.map(cotacao_fii, fiis))
+    validos = [r for r in resultados if "erro" not in r]
+    return validos if validos else [{"erro": "Nenhuma cotação disponível"}]

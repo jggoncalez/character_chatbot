@@ -9,7 +9,8 @@
         "cotacao_fii",
         "selic_atual",
         "ipca_atual",
-        "listar_fiis_populares"
+        "listar_fiis_populares",
+        "web_search"
     ],
     "personality": {
         "traits": [
