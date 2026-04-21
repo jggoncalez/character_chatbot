@@ -236,32 +236,6 @@ make clear-data       # Delete both history and feed
 make clean            # Remove venv and node_modules
 ```
 
----
-
-## ☁️ Deployment (Railway)
-
-The project is deployed as **two independent services** on [Railway](https://railway.app):
-
-| Service | Runtime | Start command |
-|---|---|---|
-| `character_chatbot-backend` | Python (Nixpacks) | `uvicorn main:app --host 0.0.0.0 --port $PORT` |
-| `character_chatbot-frontend` | Node.js (Nixpacks) | `node dist/frontend/server/server.mjs` |
-
-### Environment variables (Railway dashboard)
-
-**Backend:**
-```
-GEMINI_API_KEY=your_key_here
-```
-
-**Frontend:**
-```
-BACKEND_URL=https://your-backend.railway.app
-PORT=3000 (or Railway default)
-```
-
----
-
 ## 🧪 Testing
 
 ```bash
