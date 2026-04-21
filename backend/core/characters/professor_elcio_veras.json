@@ -6,7 +6,8 @@
         "data_hora_atual",
         "buscar_wikipedia",
         "buscar_papers_arxiv",
-        "noticias_educacao"
+        "noticias_educacao",
+        "web_search"
     ],
     "personality": {
         "traits": [

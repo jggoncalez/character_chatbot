@@ -30,7 +30,6 @@ from core.tools.legal.noticias_juridicas import noticias_juridicas
 TOOL_REGISTRY = {
     "clima_atual": clima_atual,
     "data_hora_atual": data_hora_atual,
-    #"web_search": web_search,
     "buscar_papers_arxiv": buscar_papers_arxiv,
     "buscar_wikipedia": buscar_wikipedia,
     "noticias_educacao": noticias_educacao,

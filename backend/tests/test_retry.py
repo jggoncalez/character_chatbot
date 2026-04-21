@@ -11,7 +11,7 @@ print("=== Teste de Retry Mechanism ===\n")
 
 tests = [
     ("Tux", "Olá!"),
-    ("Tux", "Me fale sobre programação"},
+    ("Tux", "Me fale sobre programação"),
     ("Corretor Rodrigo", "Qual a Selic?"),
     ("Corretor Rodrigo", "E qual o preço do dólar?"),
 ]

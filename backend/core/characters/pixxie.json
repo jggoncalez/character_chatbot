@@ -6,7 +6,8 @@
         "data_hora_atual",
         "noticias_ia",
         "papers_ia_recente",
-        "trending_github"
+        "trending_github",
+        "web_search"
     ],
     "personality": {
         "traits": [

@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from typing import List
 from fastapi.concurrency import run_in_threadpool
 from core.chat.pipeline import generate_message, load_history, CHARACTERS_DIR, load_character, clear_history
-from core.feed.pipeline import refresh_feed, add_user_comment, load_feed, create_user_post
+from core.feed.pipeline import refresh_feed, add_user_comment, load_feed, add_user_post
 from core.audio_transcribe.pipeline import transcribe_audio
 import logging
 import asyncio
@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 class ChatRequest(BaseModel):
-    message: str
-    character_name: str
+    message: str = Field(min_length=1, max_length=2000)
+    character_name: str = Field(min_length=1, max_length=100)
 
 class ChatResponse(BaseModel):
     character: str
@@ -111,7 +111,7 @@ async def get_feed_cached():
 async def create_post(request: UserPostRequest):
     """Cria um post do usuário e gera comentários dos personagens."""
     try:
-        post = await run_in_threadpool(create_user_post, request.text)
+        post = await run_in_threadpool(add_user_post, request.text)
         return post
     except Exception:
         logger.exception("Erro ao criar post")
@@ -201,3 +201,4 @@ async def transcribe_voice(
     except Exception:
         logger.exception("Erro na transcrição")
         raise HTTPException(status_code=500, detail="Erro interno na transcrição")
+    
