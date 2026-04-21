@@ -113,4 +113,8 @@ export class ApiService {
       )
     )
   }
+
+  sendMessageAudio(character_name : string, body : any) {
+    return this.http.post(`${this.baseUrl}/voice/${character_name}/transcribe`,body)
+  }
 }

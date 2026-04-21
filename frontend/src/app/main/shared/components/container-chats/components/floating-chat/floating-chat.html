@@ -5,7 +5,7 @@
 
   <div class="d-flex align-items-center justify-content-between px-3 py-2"
       style="background: linear-gradient(135deg, #6a8ef0 0%, #a855f7 50%, #ec4899 100%); cursor: pointer;"
-      (click)="toggleMinimize()">
+      (click)="toggleMinimize(); updateChat()">
 
     <div class="d-flex align-items-center gap-2">
       <app-agent-image [agentName]="agentInput().agent"></app-agent-image>
@@ -18,7 +18,7 @@
     <div class="d-flex align-items-center gap-2">
       <button class="btn btn-sm p-0 border-0 text-white opacity-75"
               style="line-height: 1;"
-              (click)="$event.stopPropagation(); toggleMinimize()">
+              (click)="$event.stopPropagation(); toggleMinimize(); updateChat()">
         <i [class]="isMinimized ? 'bi bi-fullscreen' : 'bi bi-fullscreen-exit'"></i>
       </button>
       <button class="btn btn-sm p-0 border-0 text-white opacity-75"

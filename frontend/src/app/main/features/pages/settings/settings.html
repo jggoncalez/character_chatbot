@@ -77,9 +77,10 @@
         <span class="small fw-semibold" [ngClass]="isDark ? 'text-white' : 'text-dark'">Tema</span>
         <select class="form-select form-select-sm w-auto"
                 [ngClass]="isDark ? 'bg-dark text-white border-secondary' : 'bg-white text-dark border-secondary'"
-                disabled>
-          <option>Escuro</option>
-          <option>Claro</option>
+                [value]="themeService.getCurrentTheme()"
+                (change)="themeService.setTheme($any($event.target).value)">
+          <option value="dark">Escuro</option>
+          <option value="light">Claro</option>
         </select>
       </div>
 

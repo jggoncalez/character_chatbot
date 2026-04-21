@@ -1,13 +1,50 @@
-<div class="d-flex flex-column gap-2">
+<div #scrollRef class="d-flex flex-column gap-2" style="overflow-y: auto; max-height: 100%;">
+
   @for(msg of history()?.history; track $index) {
-    <div [class]="msg.role === 'model' ? 'd-flex justify-content-start' : 'd-flex justify-content-end'">
+    <div [class]="msg.role === 'model' ? 'd-flex justify-content-start' : 'd-flex justify-content-end'"
+         style="animation: fadeSlideIn 0.2s ease forwards;">
       <div
         [class]="msg.role === 'model'
           ? (isDark ? 'rounded-3 px-3 py-2 bg-info bg-opacity-25 text-white' : 'rounded-3 px-3 py-2 bg-info text-bg-info')
           : (isDark ? 'rounded-3 px-3 py-2 bg-secondary bg-opacity-25 text-white text-break' : 'rounded-3 px-3 py-2 bg-primary text-bg-primary text-break')"
-        style="max-width: 80%; font-size: 0.875rem;">
+        style="max-width:80%;font-size:0.875rem;line-height:1.5;">
         {{ msg.content }}
       </div>
     </div>
   }
+
+  @if(loading()) {
+    <div class="d-flex justify-content-start" style="animation:fadeSlideIn 0.2s ease forwards;">
+      <div [class]="isDark ? 'rounded-3 px-3 py-2 bg-info bg-opacity-25' : 'rounded-3 px-3 py-2 bg-info text-bg-info'"
+           style="max-width:80%;">
+        <div class="d-flex align-items-center gap-1" style="height:20px;">
+          <span class="typing-dot" style="animation-delay:0s;"></span>
+          <span class="typing-dot" style="animation-delay:0.18s;"></span>
+          <span class="typing-dot" style="animation-delay:0.36s;"></span>
+        </div>
+      </div>
+    </div>
+  }
+
 </div>
+
+<style>
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0);   }
+  }
+
+  .typing-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.4;
+    animation: typingBounce 0.8s ease-in-out infinite;
+  }
+
+  @keyframes typingBounce {
+    0%, 100% { opacity: 0.4; transform: translateY(0);   }
+    50%       { opacity: 1;   transform: translateY(-4px); }
+  }
+</style>

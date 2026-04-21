@@ -1,92 +1,95 @@
-<div class="container py-4">
-    <header class="bg-light p-5 rounded-4 shadow-sm mb-5 text-center">
-        <h1 class="display-5 fw-bold text-dark mb-3">
-            Sobre o <span class="text-primary">character_chatbot</span>
-        </h1>
-        <p class="lead text-secondary mb-0">
-            Conheça as mentes por trás desta Inteligência Artificial.
-        </p>
-    </header>
+<div class="min-vh-100 py-4 px-3 bg-body-tertiary rounded-4" [attr.data-bs-theme]="themeService.getCurrentTheme()">
+  <div class="mx-auto" style="max-width:860px;">
 
-    <main class="bg-white pb-5">
-        <section class="mb-5">
-            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
-                <h2 class="h3 fw-semibold text-dark mb-0">A Equipe</h2>
-            </div>
-            
-            <div class="row g-4">
-                @for(people of team ; track $index) {
-                    <div class="col-md-6 col-lg-4">
-                        <div class="p-4 bg-light rounded-4 shadow-sm text-center h-100 border border-white btn-hover">
-                            <img [src]="people.wayImg" 
-                                alt="Foto do integrante" 
-                                class="rounded-circle shadow-sm mb-3 reduzir-foto">
-                            
-                            <h3 class="h5 fw-bold text-dark mb-1">{{people.fullName}}</h3>
-                            <p class="text-primary fw-semibold small mb-3">{{people.role}}</p>
-                            
-                            <p class="text-secondary small mb-4">
-                                {{people.describe}}
-                            </p>
+    <div class="bg-body rounded-4 shadow-sm p-5 mb-4 text-center border border-subtle">
+      <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+           style="width:64px;height:64px;background:linear-gradient(135deg,#4a6cf7,#7b4df7);">
+        <span class="fw-bold text-white fs-5">AI</span>
+      </div>
+      <h1 class="display-6 fw-bold text-body mb-2">
+        Sobre o <span style="color:#4a6cf7;">AIBook</span>
+      </h1>
+      <p class="text-body-secondary mb-0" style="font-size:1rem;">
+        Conheça as mentes por trás desta Inteligência Artificial.
+      </p>
+    </div>
 
-                            <div class="d-flex justify-content-center gap-2">
-                                @if(people.links.github) {
-                                    <a [href]="people.links.github" target="_blank" rel="noopener noreferrer" class="btn btn-sm rounded-circle" title="GitHub">
-                                        <img src="assets/icons/github.svg" 
-                                            alt="Ícone GitHub" 
-                                            width="30" 
-                                            height="30">
-                                    </a>
-                                }
-                                @if(people.links.linkedin) {
-                                    <a [href]="people.links.linkedin" target="_blank" rel="noopener noreferrer" class="btn btn-sm rounded-circle" title="LinkedIn">
-                                        <img src="assets/icons/linkedin.svg"
-                                            alt="Ícone LinkedIn" 
-                                            width="30" 
-                                            height="30">
-                                    </a>
-                                }   
-                            </div>
-                        </div>
-                    </div>
+    <div class="bg-body rounded-4 shadow-sm p-4 mb-4 border border-subtle">
+      <h2 class="fw-semibold text-body mb-3 pb-2 border-bottom" style="font-size:1.1rem;">
+        Apresentação
+      </h2>
+      <iframe class="rounded-3 w-100" style="aspect-ratio:16/9;border:none;"
+          src="https://www.youtube.com/embed/pfW9myb_E4s" allowfullscreen></iframe>
+    </div>
+
+    <div class="bg-body rounded-4 shadow-sm p-4 mb-4 border border-subtle">
+      <h2 class="fw-semibold text-body mb-3 pb-2 border-bottom" style="font-size:1.1rem;">
+        A Equipe
+      </h2>
+
+      <div class="row g-3 justify-content-center">
+        @for(people of team; track $index) {
+          <div class="col-md-6 col-lg-4">
+            <div class="bg-body-secondary rounded-4 p-4 text-center h-100 border border-subtle">
+              <img [src]="people.wayImg"
+                   alt="Foto de {{ people.fullName }}"
+                   class="rounded-circle border mb-3"
+                   style="width:72px;height:72px;object-fit:cover;">
+
+              <h3 class="fw-bold text-body mb-0" style="font-size:.95rem;">{{ people.fullName }}</h3>
+              <p class="fw-semibold small mb-2" style="color:#4a6cf7;">{{ people.role }}</p>
+              <p class="text-body-secondary mb-3" style="font-size:.82rem;line-height:1.5;">{{ people.describe }}</p>
+
+              <div class="d-flex justify-content-center gap-2">
+                @if(people.links.github) {
+                  <a [href]="people.links.github" target="_blank" rel="noopener noreferrer"
+                     class="btn btn-light rounded-circle d-flex align-items-center justify-content-center p-0"
+                     style="width:32px;height:32px;" title="GitHub">
+                    <img src="assets/icons/github.svg" alt="GitHub" width="16" height="16">
+                  </a>
                 }
-            </div>
-        </section>
-
-        <section>
-            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
-                <h2 class="h3 fw-semibold text-dark mb-0">Links Úteis</h2>
-            </div>
-            
-            <div class="d-flex flex-wrap gap-3">
-
-                @for(link of links; track $index) {
-                    <a [href]="link.way" class="text-decoration-none btn-hover d-flex align-items-center bg-light p-3 rounded-4 shadow-sm border border-white hover-zoom text-dark">
-                        <i class="bi bi-github fs-4 text-dark me-3"></i>
-                        <div>
-                            <span class="d-block fw-bold">{{link.name}}</span>
-                            <span class="text-secondary small">{{link.describe}}</span>
-                        </div>
-                    </a>
+                @if(people.links.linkedin) {
+                  <a [href]="people.links.linkedin" target="_blank" rel="noopener noreferrer"
+                     class="btn btn-light rounded-circle d-flex align-items-center justify-content-center"
+                     style="width:32px;height:32px;" title="LinkedIn">
+                    <img src="assets/icons/linkedin.svg" alt="LinkedIn" width="16" height="16">
+                  </a>
                 }
-
+              </div>
             </div>
-        </section>
-    </main>
+          </div>
+        }
+      </div>
+    </div>
 
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-4 mt-5 border-top">
-        <div class="col-md-6 d-flex align-items-center">
-            <span class="text-secondary text-sm">
-                &copy; 2026 character_chatbot I.A. Todos os direitos reservados.
-            </span>
-        </div>
+    <div class="bg-body rounded-4 shadow-sm p-4 mb-4 border border-subtle">
+      <h2 class="fw-semibold text-body mb-3 pb-2 border-bottom" style="font-size:1.1rem;">
+        Links Úteis
+      </h2>
 
-        <ul class="nav col-md-6 justify-content-end list-unstyled d-flex">
-            <li class="ms-3">
-                <a [href]="'/'" class="btn btn-outline-dark btn-sm rounded-pill px-4">
-                    <i class="bi bi-arrow-left me-1"></i> Voltar ao Início
-                </a>
-            </li>
-        </ul>
-    </footer>
+      <div class="d-flex flex-wrap gap-3">
+        @for(link of links; track $index) {
+          <a [href]="link.way" target="_blank" rel="noopener noreferrer"
+            class="btn text-decoration-none d-flex align-items-center gap-3 p-3 rounded-4 border border-subtle flex-grow-1 text-body"
+            [ngClass]="themeService.getCurrentTheme() === 'dark' ? 'btn-dark' : 'btn-light'"
+            style="min-width:220px;">
+            <div class="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0"
+                 style="width:40px;height:40px;">
+              <i class="bi bi-github" style="font-size:1.1rem;color:#4a6cf7;"></i>
+            </div>
+            <div>
+              <span class="d-block fw-bold" style="font-size:.875rem;">{{ link.name }}</span>
+              <span class="text-body-secondary" style="font-size:.78rem;">{{ link.describe }}</span>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+    <div class="d-flex flex-wrap justify-content-center align-items-center py-3 border-top border-subtle">
+      <span class="text-body-secondary" style="font-size:.8rem;">
+        &copy; 2026 character_chatbot I.A. Todos os direitos reservados.
+      </span>
+    </div>
+
+  </div>
 </div>

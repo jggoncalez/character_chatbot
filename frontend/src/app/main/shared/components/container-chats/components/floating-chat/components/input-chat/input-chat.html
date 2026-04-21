@@ -1,28 +1,128 @@
 <div class="d-flex align-items-center gap-2">
-  <input type="text"
-    [class]="isDark ? 'form-control form-control-sm bg-secondary bg-opacity-10 border-secondary placeholder-light text-bg-dark' : 'form-control form-control-sm bg-light border-light-subtle text-bg-light'"
-    placeholder="Digite uma mensagem..."
-    [formField]="input"
-    (keydown)="onKeyDown($event)"
-  />
-  @if(input().valid()) {
-    <button (click)="send()"
-        class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
-        style="width: 34px; height: 34px;"
-        [disabled]="loading()">
-        @if(loading()) {
-            <span class="spinner-border spinner-border-sm" style="width: 0.75rem; height: 0.75rem;"></span>
-        } @else {
-            <i class="bi bi-send-fill" style="font-size: 0.75rem;"></i>
-        }
-    </button>
-  } @else {
-    <button
-        class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
-        style="width: 34px; height: 34px;"
-        disabled>
-        <i class="bi bi-send-fill" style="font-size: 0.75rem;"></i>
-    </button>
+
+  <div class="dropup position-relative">
+ 
+  <button
+    class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
+    style="width:34px;height:34px;"
+    (click)="dropdownOpen.set(!dropdownOpen())">
+    <i class="bi bi-three-dots-vertical" style="font-size:0.8rem;"></i>
+  </button>
+ 
+  @if(dropdownOpen()) {
+    <ul class="dropdown-menu dropdown-menu-start shadow-sm border border-subtle show mb-1"
+        [attr.data-bs-theme]="themeService.getCurrentTheme()"
+        style="bottom:100%;top:auto;">
+ 
+      <li><h6 class="dropdown-header" style="font-size:0.7rem;">Modo de envio</h6></li>
+ 
+      <li>
+        <button class="dropdown-item d-flex align-items-center gap-2"
+          [class.active]="isTextMode()"
+          (click)="inputChatService.setTextMode(); dropdownOpen.set(false)">
+          <i class="bi bi-keyboard" style="font-size:0.85rem;"></i>
+          <span style="font-size:0.875rem;">Texto</span>
+          @if(isTextMode()) {
+            <i class="bi bi-check2 ms-auto"></i>
+          }
+        </button>
+      </li>
+ 
+      <li>
+        <button class="dropdown-item d-flex align-items-center gap-2"
+          [class.active]="isAudioMode()"
+          (click)="inputChatService.setAudioMode(); dropdownOpen.set(false)">
+          <i class="bi bi-mic-fill" style="font-size:0.85rem;"></i>
+          <span style="font-size:0.875rem;">Áudio</span>
+          @if(isAudioMode()) {
+            <i class="bi bi-check2 ms-auto"></i>
+          }
+        </button>
+      </li>
+ 
+      <li><hr class="dropdown-divider"></li>
+ 
+      <li>
+        <button class="dropdown-item d-flex align-items-center gap-2 text-danger"
+          (click)="chatService.clearHistory(characterName()); dropdownOpen.set(false)">
+          <i class="bi bi-trash3" style="font-size:0.85rem;"></i>
+          <span style="font-size:0.875rem;">Limpar conversa</span>
+        </button>
+      </li>
+ 
+    </ul>
   }
-  
+ 
 </div>
+
+  @if(isTextMode()) {
+    <input type="text"
+      [class]="isDark ? 'form-control form-control-sm bg-secondary bg-opacity-10 border-secondary placeholder-light text-bg-dark' : 'form-control form-control-sm bg-light border-light-subtle text-bg-light'"
+      placeholder="Digite uma mensagem..."
+      [formField]="input"
+      (keydown)="onKeyDown($event)"
+    />
+
+    @if(input().valid()) {
+      <button (click)="send()"
+          class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
+          style="width:34px;height:34px;"
+          [disabled]="loading()">
+        @if(loading()) {
+          <span class="spinner-border spinner-border-sm" style="width:0.75rem;height:0.75rem;"></span>
+        } @else {
+          <i class="bi bi-send-fill" style="font-size:0.75rem;"></i>
+        }
+      </button>
+    } @else {
+      <button class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
+          style="width:34px;height:34px;" disabled>
+        <i class="bi bi-send-fill" style="font-size:0.75rem;"></i>
+      </button>
+    }
+  }
+
+  @if(isAudioMode()) {
+    <div class="flex-grow-1 d-flex align-items-center gap-2">
+
+      <div class="flex-grow-1 d-flex align-items-center gap-2 px-3 rounded-pill"
+           [class]="isDark ? 'bg-secondary bg-opacity-10 border border-secondary' : 'bg-light border border-light-subtle'"
+           style="height:34px;">
+        @if(isRecording()) {
+          <span class="rounded-circle bg-danger flex-shrink-0" style="width:8px;height:8px;animation:pulse 1s infinite;"></span>
+          <span style="font-size:0.78rem;" [class]="isDark ? 'text-white-50' : 'text-secondary'">Gravando...</span>
+        } @else {
+          <span style="font-size:0.78rem;" [class]="isDark ? 'text-white-50' : 'text-secondary'">Pressione o mic para gravar</span>
+        }
+      </div>
+
+      @if(!isRecording()) {
+        <button (click)="startRecording()"
+            class="btn btn-primary btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
+            style="width:34px;height:34px;"
+            [disabled]="loading()">
+          @if(loading()) {
+            <span class="spinner-border spinner-border-sm" style="width:0.75rem;height:0.75rem;"></span>
+          } @else {
+            <i class="bi bi-mic-fill" style="font-size:0.75rem;"></i>
+          }
+        </button>
+      } @else {
+        <button (click)="stopRecording()"
+            class="btn btn-danger btn-sm d-flex align-items-center justify-content-center flex-shrink-0"
+            style="width:34px;height:34px;">
+          <i class="bi bi-stop-fill" style="font-size:0.75rem;"></i>
+        </button>
+      }
+
+    </div>
+  }
+
+</div>
+
+<style>
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+</style>
