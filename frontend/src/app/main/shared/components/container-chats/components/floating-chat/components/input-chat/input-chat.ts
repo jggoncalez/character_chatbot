@@ -92,7 +92,8 @@ export class InputChat {
 
       this.mediaRecorder.start();
       this.isRecording.set(true);
-    } catch {
+    } catch (error) {
+      console.error('startRecording failed:', error);
       this.isRecording.set(false);
       this.toastService.show('Não foi possível acessar o microfone. Verifique as permissões.', 'danger', 4000);
     }
