@@ -282,12 +282,12 @@ Os testes utilizam `pytest` com `TestClient` do FastAPI e `httpx`.
 
 ## 👥 Equipe
 
-| Nome | Função | GitHub |
-|---|---|---|
-| **Victor Hugo Camargo** | Desenvolvedor Frontend | [@VictorHCamargo](https://github.com/VictorHCamargo) |
-| **João Gabriel Gonçalves** | Desenvolvedor Backend e API | [@jggoncalez](https://github.com/jggoncalez) |
-| **Kayque Costa** | Designer UI/UX | [@Kayque48](https://github.com/Kayque48) |
-| **Gabriel Ferreira** | Desenvolvedor Backend e API | [@escritor2](https://github.com/escritor2) |
+| Nome | GitHub |
+|---|---|
+| **Victor Hugo Camargo** | [@VictorHCamargo](https://github.com/VictorHCamargo) |
+| **João Gabriel Gonçalez** | [@jggoncalez](https://github.com/jggoncalez) |
+| **Kayque Costa** | [@Kayque48](https://github.com/Kayque48) |
+| **Gabriel Ferreira** | [@escritor2](https://github.com/escritor2) |
 
 ---
 
