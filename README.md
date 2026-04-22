@@ -133,19 +133,40 @@ npm install
 
 ### 4. Run the project
 
-```bash
-make run
-```
+#### 🪟 Windows
+1.  **Backend**:
+    ```powershell
+    cd backend
+    python -m venv venv
+    .\venv\Scripts\activate
+    pip install -r requirements.txt
+    python main.py
+    ```
+2.  **Frontend**:
+    ```powershell
+    cd frontend
+    npm install
+    npm start
+    ```
 
-Or separately:
+#### 🐧 Linux
+1.  **Backend**:
+    ```bash
+    cd backend
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    python3 main.py
+    ```
+2.  **Frontend**:
+    ```bash
+    cd frontend
+    npm install
+    npm start
+    ```
 
-```bash
-# Backend
-make run-backend   # → http://127.0.0.1:8000
-
-# Frontend
-make run-frontend  # → http://localhost:4200
-```
+> [!TIP]
+> If you have `make` installed, you can simply run `make install` then `make run` to start both services concurrently.
 
 **Interactive API docs** available at: `http://127.0.0.1:8000/docs`
 
@@ -256,6 +277,17 @@ Tests use `pytest` with `TestClient` from FastAPI and `httpx`.
 | **Backend** | Python 3.11+, FastAPI, google-genai, python-dotenv |
 | **Frontend** | Angular 21, SSR, Bootstrap 5, TypeScript |
 | **External APIs** | BRAPI, Banco Central (BCB), wttr.in, Wikipedia, ArXiv, PubMed, ANVISA, LexML, GitHub Search, crates.io, kernel.org, InfoMoney RSS |
+
+---
+
+## 👥 Team
+
+| Name | Role | GitHub |
+|---|---|---|
+| **Victor Hugo Camargo** | Frontend Developer | [@VictorHCamargo](https://github.com/VictorHCamargo) |
+| **João Gabriel Gonçalves** | Backend & API Developer | [@jggoncalez](https://github.com/jggoncalez) |
+| **Kayque Costa** | UI/UX Designer | [@Kayque48](https://github.com/Kayque48) |
+| **Gabriel Ferreira** | Backend & API Developer | [@escritor2](https://github.com/escritor2) |
 
 ---
 
